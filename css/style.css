@@ -5,7 +5,7 @@
     --grey: #eee;
     --dark-grey: #aaaaaa;
     --dark: #342e37;
-    --blue: dodgerblue;
+    --blue:  #3d5aff;
     --white: #fff;
 
 
@@ -13,7 +13,7 @@
     --gray: hsl(252, 30%, 65%);
     --white: hsl(252, 30%, 100%);
     --dark: hsl(252, 30%, 17%);
-    --blue: dodgerblue;
+    --blue:  #3d5aff;
     --primary: hsl(252, 75%, 60%);
     --secoundry: hsl(252, 100%, 90%);
     --success: hsl(120, 95%, 65%);
@@ -320,6 +320,8 @@ p,a,li{
     background: var(--white);
     position: relative;
     width: 100%;
+    overflow-x: unset;
+    overflow-y: hidden;
     z-index: 5;
 }
 .section-title span.table-filter{
@@ -350,9 +352,9 @@ p,a,li{
     width: 100%;
 }
 .title-modifications{
-    position: absolute;
+    position: fixed;
     right: 0rem;
-    top: 3rem; 
+    top: 6rem; 
     width: 250px;
     display:flex;
     flex-wrap: wrap;
@@ -646,6 +648,7 @@ table tbody tr td  label input[type='text']{
     flex-wrap: wrap;
     gap: .5rem;
     padding: .5rem .5rem .5rem 0;
+    overflow: hidden;
 }
 .dashboard-statistics .stat-box > div{
     min-width: 150px;
@@ -663,9 +666,6 @@ table tbody tr td  label input[type='text']{
     grid-template-rows: repeat(2, 1fr);
     gap: .5rem;
     /*margin-top: -.5rem;*/
-}
-.dashboard-statistics .stat-box.v1{
-    min-width: 400px;
 }
 .dashboard-statistics .stat-box.v1 > div{
     min-width: 100px;
@@ -695,7 +695,7 @@ table tbody tr td  label input[type='text']{
     overflow: hidden;
 }
 .dashboard-statistics .stat-box.v1 div.products-stat:nth-child(3){
-    grid-column: 2/5;
+    grid-column: 2/-1;
     grid-row: 1/-1;
     border: 1px solid #ccc;
     display: flex;
@@ -704,6 +704,7 @@ table tbody tr td  label input[type='text']{
     align-items: center;
     background: var(--white);
     overflow: hidden;
+    min-width: unset;
 }
 .dashboard-statistics .stat-box.v0 div:nth-child(2),
 .dashboard-statistics .stat-box.v2 div:nth-child(2){
@@ -970,6 +971,7 @@ table tbody tr td  label input[type='text']{
     background: var(--white);
     color: var(--primary);
     border-radius: var(--card-radius);
+    display: none;
 }
 .products-stat .stat span{
     position: relative;
@@ -1079,16 +1081,16 @@ table tbody tr td  label input[type='text']{
     justify-content: flex-end;
     align-items: center;
     height: 3rem;
-    padding: 0 1rem;
+    padding: 0 .5rem;
 }
 .pagination_link span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 2rem;
     height: 2rem;
     border: 1px solid var(--white);
     color: var(--dark);
-    display: flex;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
     border-radius: 50%;
     font-size: .8rem;
@@ -1430,7 +1432,7 @@ main.cover{
     left: 0;
     top: 0;
     right: 0;
-    bottom: 0;
+    bottom: 100px;
     width: 100vw;
     border-radius: 0;
     z-index: 3;
@@ -1444,7 +1446,7 @@ html,body{overflow: hidden;}
     position: relative;
     margin: 0;
     width: 100%;
-    bottom: 0;
+    bottom: 50px;
     overflow-y: auto;
 }
 .page{
@@ -1464,8 +1466,235 @@ html,body{overflow: hidden;}
     transform: scale(1);
     z-index: 1;
 }
+/* 
+------------------------------------------------------------------------------------
+------------------------------------- NOTIFICATIONS/MSG ----------------------------
+------------------------------------------------------------------------------------
+*/
+.notification_messages{
+    position: fixed;
+    top: 6rem;
+    right: -50rem;
+    z-index: 4000000;
+    background: transparent;
+    padding: .5rem 2rem .5rem .8rem;
+    cursor: pointer;
+    min-width: 25rem;
+    color: #fff;
+    visibility: hidden;
+    font-size: 1.3rem;
+    font-weight: 300;
+    text-transform: capitalize;
+    border: 1px solid var(--white);
+}
+.notification_messages span{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: .2rem;
+    font-size: 1.8rem;
+}
+.notification_messages.success{
+    animation-name: show_notification;
+    animation-duration: 8s;
+    right: -50rem;
+    animation-iteration-count: 1;
+    visibility: visible !important;
+    background: var(--success);
+}
+.notification_messages.warning{
+    animation-name: show_notification;
+    animation-duration: 8s;
+    right: -50rem;
+    animation-iteration-count: 1;
+    visibility: visible !important;
+    background: var(--warning);
+}
+.notification_messages.danger{
+    animation-name: show_notification;
+    animation-duration: 8s;
+    right: -50rem;
+    animation-iteration-count: 1;
+    visibility: visible !important;
+    background: var(--danger);
+}
+@keyframes show_notification {
+  0%   {right: -50rem;}
+  10%   {right: 5rem;}
+  90%   {right: 5rem;}
+  100% {right: -50rem ;}
+}
+
+/* 
+------------------------------------------------------------------------------------
+-------------------------------- SIGNIN & SIGNUP------------------------------------preloader
+------------------------------------------------------------------------------------
+*/
+.sign-in-container{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: var(--white);
+    position: relative;
+    overflow: hidden;
+    overflow-y: auto;
+    z-index: 30000;
+}
+.sign-in-container .logo{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    width: inherit !important;
+    height: 17rem;
+    overflow: hidden;
+}
+.sign-in-container .logo img{
+    width: 8rem;
+    aspect-ratio: 1/1;
+}
+.sign-in-container .logo img:last-child {
+    width: 15rem !important;
+    aspect-ratio: unset;
+}
+.sign-in-container::before{
+    content: "";
+    width: 1500px;
+    height: 1500px;
+    background: var(--blue);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 75%;
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.sign-in-container form{
+    position: relative;
+    width: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: .5rem;
+    z-index: 19;
+    background: transparent;
+}
+.sign-in-container form h2{
+    font-size: 1.5rem !important;
+    color: var(--white);
+    text-shadow: 1px 1px 2px black, 0 0 5px black, 0 0 5px black;
+    font-weight: 600;
+    text-align: center;
+    padding: .2rem;
+}
+.input-field{
+    position: relative;
+    background: var(--white);
+    color: var(--primary);
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    height: 55px;
+    overflow: hidden;
+    z-index: 1;
+}
+.input-field input:focus ~ label,
+.input-field input:valid ~ label{
+    transform: translate(-50px, -26px);
+    font-size: .9rem;
+    color: var(--black);
+    text-shadow: 1px 1px 2px white, 1px 1px 2px white, 1px 1px 2px white;
+}
+.input-field label{
+    position: absolute;
+    bottom: 7px;
+    left: 3.2rem;
+    pointer-events: none;
+    color: var(--gray);
+    transition: all .5s ease;
+    text-shadow: 1px 1px 2px white, 1px 1px 2px white, 1px 1px 2px white;
+
+}
+.input-field span{
+    font-size: 1.5rem;
+    padding: .5rem;
+    text-shadow: 1px 1px 2px white, 1px 1px 2px white, 1px 1px 2px white;
+}
+.input-field input,
+.input-field input::placeholder{
+    color: var(--blue);
+    font-size: 17px;
+    font-weight: lighter;
+    border: none;
+    background: transparent;
+    text-shadow: 1px 1px 2px white, 1px 1px 2px white, 1px 1px 2px white;
+} 
+.input-field small{
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+}
+.input-field small::before{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--success);
+    z-index: 2;
+    transform: scaleX(0);
+    transition: transform .5s ease;
+}
+.input-field::after{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--grey);
+    z-index: 1;
+}
+.input-field input:focus ~ small::before,
+.input-field input:valid ~ small::before{
+    transform: scaleX(1);
+}
+#signin-btn{
+    display: flex;
+    justify-content: center;
+    background: var(--success);
+    border-radius: 55px;
+    color: var(--white);
+    width: 100%;
+}
+.sign-in-container .details{
+    color: var(--blue);
+}
+.sign-in-container .details h2{
+    font-size: 1.3rem !important;
+    text-shadow: unset;
+    font-weight: 300;
+    padding-bottom: .5rem;
+    color: inherit;
+    margin-top: 1.2rem;
+    text-shadow: 1px 1px 2px white, 0 0 5px white, 0 0 5px white;
+
+}
+
+.sign-in-container .details p{
+    font-size: 1rem;
+    text-align: center;
+    color: inherit;
+    text-shadow: 1px 1px 2px white, 0 0 5px white, 0 0 5px white;
+
+}
 /* ************************************ SMALL TABLETS ************************** */
 @media screen and (min-width: 650px) {
+
+    .sign-in-container::before{
+        bottom: 60%;
+    }
     #close-side-bar{
         display: none;
     }
@@ -1582,11 +1811,69 @@ html,body{overflow: hidden;}
         min-width: 500px;
         overflow: hidden;
     }
+    .products-stat .stat{
+        display: flex;
+    }
 
 }
 /* ****************************** LARGE TABLETS & LAPTOPS ********************** */
 @media screen and (min-width: 960px) {
 
+    .sign-in-container{
+        background: var(--blue);
+        height: 100vh;
+        width: 100%;
+        left: 0;
+        transform: unset;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .sign-in-container::before{
+        background: var(--white);
+        width: 3000px;
+        height: 3000px;
+        bottom: unset;
+        top: -2%;
+        left: 10%;
+        transform: unset;
+    }
+    
+    .sign-in-container form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /*height: 250px;*/
+        width: 400px;
+        background: transparent;
+        /*position: unset;*/
+        border-radius: 1rem;
+    }
+    #signin-btn{
+        width: 300px;
+    }
+    .input-field{
+        width: 300px;
+        /*color: var(--white);*/
+        height: 60px;
+        background: transparent;
+
+    }
+    
+  /*  .sign-in-container .logo{
+        position: absolute;
+        left: 60% !important;
+        top: 25%;
+        width: 20rem !important;
+    }
+    .sign-in-container .details{
+        position: absolute;
+        left: 50%;
+        top: 55%;
+        width: 500px;
+    }*/
     aside .side-menu a.active{
         background: var(--blue);
         color: var(--txt-white);
@@ -1698,11 +1985,11 @@ html,body{overflow: hidden;}
     html,body{overflow: hidden;}
     main.cover,
     main{
-        bottom: unset;
+        bottom: 0px;
         height: auto;
         min-height: 100vh;
         border-radius: 0;
-        margin-top: 70px;
+        margin: 20px 0;
         left: 155px;
         width: calc(100vw - (315px));
         border: 0;
