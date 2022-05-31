@@ -39,250 +39,32 @@ const updateSiteData = (data) => {
     site = JSON.parse(localStorage.getItem('warehouse.pos.lifestyleoutdoorgear'));
                     
 }
-const getProducts = (requestData, reload = 'false') => {
-    if(reload == true || (!site.productList)){
-        (start) ? document.querySelector('#products_list').insertAdjacentHTML('beforeend', '<div class="preloader"></div>') : removeElement('div.preloader');
-        $.ajax({
-            url: "http://localhost/warehouse.lifestyleoutdoorgear/api/route.php",
-            type: "POST",
-            dataType  : 'json',
-            data: requestData,
-            success: function(data){
-                if(data.length > 0){
-                    if(start){
-                        // RESET PRODUCT LIST TO EMPTY ARRAY
-                        site.productList = [];
-                        start = false
-                        renderPageData(data, 0, 'product');
-                    }
-                    // ADD EVERY PRODUCT DATA GOT TO SITE DATA
-                    site.productList = site.productList.concat(data);
-                    // UPDATE SITE DATA
-                    updateSiteData(site);
-                    if((site.productList)){
-                        generatePegination(site.productList, 'product');
-                    }
-                }
-            },
-            complete:function(data){
-                data.always(all => {
-                    // console.log(all);
-                    if(all.length > 0){
-                        page++;
-                        // LOAD MORE PRODUCTS TO PRODUCT LIST
-                        setTimeout(getProducts({'limit': 15,'action':'getLimitedProducts', 'page': page}, true), 0);
-                    }else{
-                        // ADD EVERY PRODUCT DATA GOT TO SITE DATA
-                        site.productList = site.productList.concat(all);
-                        // UPDATE SITE DATA
-                        localStorage.setItem('warehouse.pos.lifestyleoutdoorgear', JSON.stringify(site));
-                        site = JSON.parse(localStorage.getItem('warehouse.pos.lifestyleoutdoorgear'));
-                        if((site.productList)){
-                            generatePegination(site.productList, 'product');
 
-                        }
-                    }
-                });
-            }
-        });
+const loadSessionData =(dataName, limit) => {
+    document.querySelector(`#${dataName}s_list`).insertAdjacentHTML('beforeend', '<div class="preloader"></div>') 
+    if(site[`${dataName}List`]){
+        generatePegination(site[`${dataName}List`], dataName);
+        removeElement('div.preloader');
+        loadPageData(site[`${dataName}List`], dataName, limit);
     }
 }
-const getWarehouseInventory = (requestData, counter, reload = 'false') => {
-    if(reload == true || (!site.warehouseInventoryList)){
-        // (start) ? document.querySelector('#products_list').insertAdjacentHTML('beforeend', '<div class="preloader"></div>') : removeElement('div.preloader');
-        $.ajax({
-            url: "http://localhost/warehouse.lifestyleoutdoorgear/api/route.php",
-            type: "POST",
-            dataType  : 'json',
-            data: requestData,
-            success: function(data){
-                console.log(data)
-                if(data.length > 0){
-                    if((!site.warehouseInventoryList)){
-                        // RESET PRODUCT LIST TO EMPTY ARRAY
-                        site.warehouseInventoryList = [];
-                        start = false
-                        renderPageData(data, 0, 'warehouseInventory');
-                    }
-                    // ADD EVERY PRODUCT DATA GOT TO SITE DATA
-                    site.warehouseInventoryList = site.warehouseInventoryList.concat(data);
-                    // UPDATE SITE DATA
-                    updateSiteData(site);
-                }
-            },
-            complete:function(data){
-                data.always(all => {
-                    // console.log(all);
-                    if(all.length > 0 && counter == 1){
-                        counter++;
-                        // LOAD MORE PRODUCTS TO PRODUCT LIST
-                        setTimeout(getWarehouseInventory({'action':'getAllWarehouseIventory'}, counter, true), 0);
-                    }else{
-                        // ADD EVERY PRODUCT DATA GOT TO SITE DATA
-                        site.warehouseInventoryList = all;
-                        // UPDATE SITE DATA
-                        updateSiteData(site);
-
-                        if((site.warehouseInventoryList)){
-                            generatePegination(site.warehouseInventoryList, 'warehouseInventory');
-                        }
-                    }
-                });
-            }
-        });
-    }
-}
-const getUsers = (requestData, counter, reload = 'false') => {
-    if(reload == true || (!site.userList)){
-        // (start) ? document.querySelector('#users_list').insertAdjacentHTML('beforeend', '<div class="preloader"></div>') : removeElement('div.preloader');
-        $.ajax({
-            url: "http://localhost/warehouse.lifestyleoutdoorgear/api/route.php",
-            type: "POST",
-            dataType  : 'json',
-            data: requestData,
-            success: function(data){
-                console.log(data)
-                if(data.length > 0){
-                    if((!site.userList)){
-                        // RESET PRODUCT LIST TO EMPTY ARRAY
-                        site.userList = [];
-                        start = false
-                        renderPageData(data, 0, 'user');
-                    }
-                    // ADD EVERY PRODUCT DATA GOT TO SITE DATA
-                    site.userList = site.userList.concat(data);
-                    // UPDATE SITE DATA
-                    updateSiteData(site);
-                }
-            },
-            complete:function(data){
-                data.always(all => {
-                    // console.log(all);
-                    if(all.length > 0 && counter == 1){
-                        counter++;
-                        // LOAD MORE PRODUCTS TO PRODUCT LIST
-                        setTimeout(getUsers({'action':'getAllusers'}, counter, true), 0);
-                    }else{
-                        // ADD EVERY PRODUCT DATA GOT TO SITE DATA
-                        site.userList = all;
-                        // UPDATE SITE DATA
-                        updateSiteData(site);
-
-                        if((site.userList)){
-                            generatePegination(site.userList, 'user');
-                        }
-                    }
-                });
-            }
-        });
-    }
-}
-const getSupplier = (requestData, counter, reload = 'false') => {
-    if(reload == true || (!site.supplierList)){
-        (start) ? document.querySelector('#suppliers_list').insertAdjacentHTML('beforeend', '<div class="preloader"></div>') : removeElement('div.preloader');
-        $.ajax({
-            url: "http://localhost/warehouse.lifestyleoutdoorgear/api/route.php",
-            type: "POST",
-            dataType  : 'json',
-            data: requestData,
-            success: function(data){
-                console.log(data)
-                if(data.length > 0){
-                    if((!site.supplierList)){
-                        // RESET PRODUCT LIST TO EMPTY ARRAY
-                        site.supplierList = [];
-                        start = false
-                        renderPageData(data, 0, 'supplier');
-                    }
-                    // ADD EVERY PRODUCT DATA GOT TO SITE DATA
-                    site.supplierList = site.supplierList.concat(data);
-                    // UPDATE SITE DATA
-                    updateSiteData(site);
-                }
-            },
-            complete:function(data){
-                data.always(all => {
-                    // console.log(all);
-                    if(all.length > 0 && counter == 1){
-                        counter++;
-                        // LOAD MORE PRODUCTS TO PRODUCT LIST
-                        setTimeout(getSupplier({'action':'getAllSuppliers'}, counter, true), 0);
-                    }else{
-                        // ADD EVERY PRODUCT DATA GOT TO SITE DATA
-                        site.supplierList = all;
-                        // UPDATE SITE DATA
-                        updateSiteData(site);
-
-                        if((site.supplierList)){
-                            generatePegination(site.supplierList, 'supplier');
-                        }
-                    }
-                });
-            }
-        });
-    }
-}
-// const getSaleInvoices = (requestData, counter, reload = 'false') => {
-//     if(reload == true || (!site.invoiceList)){
-//         (start) ? document.querySelector('#invoices_list').insertAdjacentHTML('beforeend', '<div class="preloader"></div>') : removeElement('div.preloader');
-//         $.ajax({
-//             url: "http://localhost/warehouse.lifestyleoutdoorgear/api/route.php",
-//             type: "POST",
-//             dataType  : 'json',
-//             data: requestData,
-//             success: function(data){
-//                 console.log(data)
-//                 if(data.length > 0){
-//                     if((!site.invoiceList)){
-//                         // RESET PRODUCT LIST TO EMPTY ARRAY
-//                         site.invoiceList = [];
-//                         start = false
-//                         renderPageData(data, 0, 'invoice');
-//                     }
-//                     // ADD EVERY PRODUCT DATA GOT TO SITE DATA
-//                     site.invoiceList = site.invoiceList.concat(data);
-//                     // UPDATE SITE DATA
-//                     updateSiteData(site);
-//                 }
-//             },
-//             complete:function(data){
-//                 data.always(all => {
-//                     // console.log(all);
-//                     if(all.length > 0 && counter == 1){
-//                         counter++;
-//                         // LOAD MORE PRODUCTS TO PRODUCT LIST
-//                         setTimeout(getSaleInvoices({'action':'getAllInvoices'}, counter, true), 0);
-//                     }else{
-//                         // ADD EVERY PRODUCT DATA GOT TO SITE DATA
-//                         site.invoiceList = all;
-//                         // UPDATE SITE DATA
-//                         updateSiteData(site);
-
-//                         if((site.invoiceList)){
-//                             generatePegination(site.invoiceList, 'invoice');
-//                         }
-//                     }
-//                 });
-//             }
-//         });
-//     }
-// }
 
 const dataRequest = (requestName, requestData, counter, reload = 'false') => {
     let lowerCaseRqtNm = requestName.toLowerCase(); // eg invoice NOTE:: requestName must be received with its first letter capital ang it shoudn't be in plural eg. Invoice
     let localStorageNm = `${lowerCaseRqtNm}List`; //eg invoiceList
     let action = `getAll${requestName}s`; // eg. getAllInvoice Note:: first letter of requestName must be capital
     if(reload == true || (!site[localStorageNm])){
-        (start) ? document.querySelector(`#${lowerCaseRqtNm}s_list`).insertAdjacentHTML('beforeend', '<div class="preloader"></div>') : removeElement('div.preloader');
+        (!site[localStorageNm]) ? document.querySelector(`#${lowerCaseRqtNm}s_list`).insertAdjacentHTML('beforeend', '<div class="preloader"></div>') : removeElement('div.preloader');
         $.ajax({
             url: "http://localhost/warehouse.lifestyleoutdoorgear/api/route.php",
             type: "POST",
             dataType  : 'json',
             data: requestData,
             success: function(data){
+                removeElement('div.preloader');
                 if(data.length > 0){
 
-                    // ONLY RENDER DATA TO PAGE PAGE AT THE FIRST REQUEST
+                    // ONLY RENDER DATA TO PAGE AT THE FIRST REQUEST
                     if((!site[localStorageNm])){
                         renderPageData(data, 0, lowerCaseRqtNm);
                     }
@@ -308,56 +90,6 @@ const dataRequest = (requestName, requestData, counter, reload = 'false') => {
         });
     }
 }
-// const reFetchProduct = (requestData, reload = 'false') => {
-//     if(reload == true || (!site.productInventoryList)){
-//         (start) ? document.querySelector('#products_list').insertAdjacentHTML('beforeend', '<div class="preloader"></div>') : removeElement('div.preloader');
-//         $.ajax({
-//             url: "http://localhost/warehouse.lifestyleoutdoorgear/api/route.php",
-//             type: "POST",
-//             dataType  : 'json',
-//             data: requestData,
-//             success: function(data){
-//                 if(data.length > 0){
-//                     if(start){
-//                         // RESET PRODUCT LIST TO EMPTY ARRAY
-//                         site.productInventoryList = [];
-//                         start = false
-//                         renderPageData(data);
-//                     }
-//                     // ADD EVERY PRODUCT DATA GOT TO SITE DATA
-//                     site.productInventoryList = site.productInventoryList.concat(data);
-//                     // UPDATE SITE DATA
-//                     localStorage.setItem('warehouse.pos.lifestyleoutdoorgear', JSON.stringify(site));
-//                     site = JSON.parse(localStorage.getItem('warehouse.pos.lifestyleoutdoorgear'));
-//                     if((site.productInventoryList)){
-//                         generatePegination(site.productInventoryList);
-//                     }
-
-//                 }
-//             },
-//             complete:function(data){
-//                 data.always(all => {
-//                     // console.log(all);
-//                     if(all.length > 0){
-//                         page++;
-//                         setTimeout(reFetchProduct({'branch_id': site.session.branch_id, 'limit':15,'action':'fetchAllProducts', 'page': page}, true), 0);
-//                     }else{
-//                         // ADD EVERY PRODUCT DATA GOT TO SITE DATA
-//                         site.productInventoryList = site.productInventoryList.concat(all);
-//                         // UPDATE SITE DATA
-//                         localStorage.setItem('warehouse.pos.lifestyleoutdoorgear', JSON.stringify(site));
-//                         site = JSON.parse(localStorage.getItem('warehouse.pos.lifestyleoutdoorgear'));
-//                         if((site.productInventoryList)){
-//                             generatePegination(site.productInventoryList);
-//                         }
-//                     }
-//                 });
-//             }
-//         });
-//     }
-// }
-
-// warehouseInvenrory setTimeout(reFetchProduct({'branch_id': site.session.branch_id, 'limit': 15,'action':'fetchAllProducts', 'page': page}), 0);
 
 const generatePegination = (data, item, limit = 15, displayLinkNumber = 10) => {
     let pages = 1;  
@@ -562,49 +294,18 @@ const reveal = (identifier) => {
 
 const renderPageData = (data, count = 0, identifier, revealed = 'unrevealed') => {
     let bg;
-    let itemContainer = '';
+    let itemContainer = document.getElementById(`${identifier}s_list`);
     let templateString = '';
     switch(identifier){
         case 'product':
-            itemContainer = document.getElementById('products_list');
             templateString = '';
-            data.forEach((itemDetails, index) => {
-                bg = (index%2 == 0) ? 'white' : 'ghostwhite';
-                templateString = `
-                    <tr class="item-details ${bg} ${revealed} ${identifier}revealer">
-                        <td><label class="counter">${count + 1}</label></td>
-                        <td class="product-data"><label class="fixed-width">${itemDetails.name}</label></td>
-                        <td>
-                            <label class="action">
-                                <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                            </label>
-                        </td>
-                        <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">${itemDetails.category_name}</label></td>
-                        <td class="product-data"><label class=" warning">${itemDetails.buy_price}</label></td>
-                        <td class="product-data"><label class=" success">${itemDetails.sale_price}</label></td>
-                        <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">${itemDetails.brand_name}</label></td>
-                        <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">${itemDetails.scheme_name}</label></td>
-                        <td class="product-data"><label class=" primary">${itemDetails.code_initual}</label></td>
-                        <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">${itemDetails.supplier}</label></td>
-                    </tr>
-                `;
-                itemContainer.insertAdjacentHTML('beforeend', templateString);
-                count++;
-            });
-        break;
-
-        case 'warehouseinventory':
-            itemContainer = document.getElementById('warehouseinventorys_list');
-            templateString = '';
-            data.forEach((itemDetails, index) => {
-                bg = (index%2 == 0) ? 'white' : 'ghostwhite';
-                templateString = `
-
-                        <tr class="${bg} ${revealed} ${identifier}revealer">
+            if(data.length > 0){
+                data.forEach((itemDetails, index) => {
+                    bg = (index%2 == 0) ? 'white' : 'ghostwhite';
+                    templateString = `
+                        <tr class="item-details ${bg} ${revealed} ${identifier}revealer">
                             <td><label class="counter">${count + 1}</label></td>
-                            <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">${itemDetails.name}</label></td>
+                            <td class="product-data"><label class="fixed-width">${itemDetails.name}</label></td>
                             <td>
                                 <label class="action">
                                     <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
@@ -612,132 +313,208 @@ const renderPageData = (data, count = 0, identifier, revealed = 'unrevealed') =>
                                     <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
                                 </label>
                             </td>
-                            <td class="inventory-data  "><label class="counter">${itemDetails.quantity}</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success">${(itemDetails.quantity > 0) ? 'Available': 'Out of Stork'}</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/${itemDetails.image}" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/${itemDetails.image}" class="preview-image">
-                            </td>
-                            <td class="inventory-data  "><label class="primary">${itemDetails.code}</label></td>
-                            <td class="inventory-data  "><label class="">${itemDetails.color}</label></td>
-                            <td class="inventory-data  "><label class="counter">${itemDetails.size}</label></td>
-                            <td class="inventory-data  "><label class="fixed-width">${itemDetails.desc}</label></td>
-                        </tr> 
-
-
+                            <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">${itemDetails.category_name}</label></td>
+                            <td class="product-data"><label class=" warning">${itemDetails.buy_price}</label></td>
+                            <td class="product-data"><label class=" success">${itemDetails.sale_price}</label></td>
+                            <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">${itemDetails.brand_name}</label></td>
+                            <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">${itemDetails.scheme_name}</label></td>
+                            <td class="product-data"><label class=" primary">${itemDetails.code_initual}</label></td>
+                            <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">${itemDetails.supplier}</label></td>
+                        </tr>
+                    `;
+                    itemContainer.insertAdjacentHTML('beforeend', templateString);
+                    count++;
+                });
+            }else{
+                templateString = `
+                    <tr>
+                        <td colspan='10'><label class="warning">nothing Found</label></td>
+                    </tr>
                 `;
-                itemContainer.insertAdjacentHTML('beforeend', templateString);
-                count++;
-            });
+                itemContainer.innerHTML = templateString;
+            }
+            removeElement('div.preloader');
+        break;
+
+        case 'warehouseinventory':
+            templateString = '';
+            if(data.length > 0){
+                data.forEach((itemDetails, index) => {
+                    bg = (index%2 == 0) ? 'white' : 'ghostwhite';
+                    templateString = `
+
+                            <tr class="${bg} ${revealed} ${identifier}revealer">
+                                <td><label class="counter">${count + 1}</label></td>
+                                <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">${itemDetails.name}</label></td>
+                                <td>
+                                    <label class="action">
+                                        <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
+                                        <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
+                                        <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
+                                    </label>
+                                </td>
+                                <td class="inventory-data  "><label class="counter">${itemDetails.quantity}</label></td>
+                                <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success">${(itemDetails.quantity > 0) ? 'Available': 'Out of Stork'}</label></td>
+                                <td class="inventory-data  ">
+                                    <div class="image">
+                                        <img src="./images/${itemDetails.image}" alt="">
+                                        <label for="upload-product-image" title="Click to choose new image to upload">
+                                            <span class="material-symbols-outlined">cloud_sync</span>
+                                            <input type="file" id="upload-product-image">
+                                        </label>
+                                    </div>
+                                    <img src="./images/${itemDetails.image}" class="preview-image">
+                                </td>
+                                <td class="inventory-data  "><label class="primary">${itemDetails.code}</label></td>
+                                <td class="inventory-data  "><label class="">${itemDetails.color}</label></td>
+                                <td class="inventory-data  "><label class="counter">${itemDetails.size}</label></td>
+                                <td class="inventory-data  "><label class="fixed-width">${itemDetails.desc}</label></td>
+                            </tr> 
+
+
+                    `;
+                    itemContainer.insertAdjacentHTML('beforeend', templateString);
+                    count++;
+                });
+            }else{
+                templateString = `
+                    <tr>
+                        <td colspan='10'><label class="warning">nothing Found</label></td>
+                    </tr>
+                `;
+                itemContainer.innerHTML = templateString;
+            }
+            removeElement('div.preloader');
         break;
 
         case 'user':
-            itemContainer = document.getElementById('users_list');
             templateString = '';
-            data.forEach((itemDetails, index) => {
-                bg = (index%2 == 0) ? 'white' : 'ghostwhite';
-                templateString = `
-                        
-                        <tr class="${bg} ${revealed} ${identifier}revealer">
-                            <td><label class="counter">${count + 1}</label></td>
-                            <td class="user-data"><label class="short-fixed">${itemDetails.first_name}</label></td>
-                            <td class="user-data"><label class="short-fixed">${itemDetails.username}</label></td>
-                            <td class="inventory-data "><label class="password">*******************</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data select-data" data-user-type-list='[{"name": "Attendant"},{"name": "Admin"}, {"name": "Customer"}]'><label class="primary">${itemDetails.user_type}</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">${itemDetails.status}</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/${itemDetails.image}" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
+            if(data.length > 0){
+                data.forEach((itemDetails, index) => {
+                    bg = (index%2 == 0) ? 'white' : 'ghostwhite';
+                    templateString = `
+                            
+                            <tr class="${bg} ${revealed} ${identifier}revealer">
+                                <td><label class="counter">${count + 1}</label></td>
+                                <td class="user-data"><label class="short-fixed">${itemDetails.first_name}</label></td>
+                                <td class="user-data"><label class="short-fixed">${itemDetails.username}</label></td>
+                                <td class="inventory-data "><label class="password">*******************</label></td>
+                                <td>
+                                    <label class="action">
+                                        <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
+                                        <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
+                                        <span class="material-symbols-outlined warning all-inventory-check">sync</span>
                                     </label>
-                                </div>
-                                <img src="./images/${itemDetails.image}" class="preview-image">
-                            </td>
-                            <td class="user-data"><label>${itemDetails.telephone}</label></td>
-                            <td class="user-data select-data" data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>${itemDetails.branch}</label></td>
-                            <td class="user-data"><label>${itemDetails.address}</label></td>
-                            <td class="user-data  "><label class="fixed-width">${itemDetails.email}</label></td>
-                        </tr> 
+                                </td>
+                                <td class="user-data select-data" data-user-type-list='[{"name": "Attendant"},{"name": "Admin"}, {"name": "Customer"}]'><label class="primary">${itemDetails.user_type}</label></td>
+                                <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">${itemDetails.status}</label></td>
+                                <td class="inventory-data  ">
+                                    <div class="image">
+                                        <img src="./images/${itemDetails.image}" alt="">
+                                        <label for="upload-product-image" title="Click to choose new image to upload">
+                                            <span class="material-symbols-outlined">cloud_sync</span>
+                                            <input type="file" id="upload-product-image">
+                                        </label>
+                                    </div>
+                                    <img src="./images/${itemDetails.image}" class="preview-image">
+                                </td>
+                                <td class="user-data"><label>${itemDetails.telephone}</label></td>
+                                <td class="user-data select-data" data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>${itemDetails.branch}</label></td>
+                                <td class="user-data"><label>${itemDetails.address}</label></td>
+                                <td class="user-data  "><label class="fixed-width">${itemDetails.email}</label></td>
+                            </tr> 
 
+                    `;
+                    itemContainer.insertAdjacentHTML('beforeend', templateString);
+                    count++;
+                });
+            }else{
+                templateString = `
+                    <tr>
+                        <td colspan='10'><label class="warning">nothing Found</label></td>
+                    </tr>
                 `;
-                itemContainer.insertAdjacentHTML('beforeend', templateString);
-                count++;
-            });
+                itemContainer.innerHTML = templateString;
+            }
+            removeElement('div.preloader');
         break;
 
         case 'supplier':
-            itemContainer = document.getElementById('suppliers_list');
             templateString = '';
-            data.forEach((itemDetails, index) => {
-                bg = (index%2 == 0) ? 'white' : 'ghostwhite';
+            if(data.length > 0){
+                data.forEach((itemDetails, index) => {
+                    bg = (index%2 == 0) ? 'white' : 'ghostwhite';
+                    templateString = `
+                            <tr class="${bg} ${revealed} ${identifier}revealer">
+                                <td><label class="counter">${count + 1}</label></td>
+                                <td class="user-data"><label class="short-fixed">${itemDetails.first_name}</label></td>
+                                <td class="user-data"><label class="short-fixed">${itemDetails.last_name}</label></td>
+                                <td>
+                                    <label class="action">
+                                        <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
+                                        <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
+                                        <span class="material-symbols-outlined warning all-inventory-check">sync</span>
+                                    </label>
+                                </td>
+                                <td class="user-data"><label>${itemDetails.telephone}</label></td>
+                                <td class="user-data"><label>${itemDetails.address}</label></td>
+                                <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
+                                <td class="user-data"><label class="price warning">${itemDetails.date}</label></td>
+                                <td class="user-data  "><label class="fixed-width">${itemDetails.email}</label></td>
+                            </tr>
+
+
+                    `;
+                    itemContainer.insertAdjacentHTML('beforeend', templateString);
+                    count++;
+                });
+            }else{
                 templateString = `
-                        <tr class="${bg} ${revealed} ${identifier}revealer">
-                            <td><label class="counter">${count + 1}</label></td>
-                            <td class="user-data"><label class="short-fixed">${itemDetails.first_name}</label></td>
-                            <td class="user-data"><label class="short-fixed">${itemDetails.last_name}</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>${itemDetails.telephone}</label></td>
-                            <td class="user-data"><label>${itemDetails.address}</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">${itemDetails.date}</label></td>
-                            <td class="user-data  "><label class="fixed-width">${itemDetails.email}</label></td>
-                        </tr>
-
-
+                    <tr>
+                        <td colspan='10'><label class="warning">nothing Found</label></td>
+                    </tr>
                 `;
-                itemContainer.insertAdjacentHTML('beforeend', templateString);
-                count++;
-            });
+                itemContainer.innerHTML = templateString;
+            }
+        break;
         case 'invoice':
-            itemContainer = document.getElementById('invoices_list');
             templateString = '';
-            data.forEach((itemDetails, index) => {
-                bg = (index%2 == 0) ? 'white' : 'ghostwhite';
+            if(data.length > 0){
+                data.forEach((itemDetails, index) => {
+                    bg = (index%2 == 0) ? 'white' : 'ghostwhite';
+                    templateString = `
+                            <tr class="${bg} ${revealed} ${identifier}revealer">
+                                <td><label class="counter">${count + 1}</label></td>
+                                <td class="user-data"><label>${itemDetails.branch}</label></td>
+                                <td class="user-data count"><label class="short-fixed">${itemDetails.invoice_no}</label></td>
+                                <td class="user-data count"><label class="short-fixed">${itemDetails.totalItems}</label></td>
+                                <td class="user-data"><label>${itemDetails.totalPrice}</label></td>
+                                <td>
+                                    <label class="action">
+                                        <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
+                                        <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
+                                        <span class="material-symbols-outlined success all-inventory-check">dashboard</span>
+                                    </label>
+                                </td>
+                                <td class="inventory-data select-data" ><label >${itemDetails.attendant}</label></td>
+                                <td class="user-data"><label class="price warning">${itemDetails.date}</label></td>
+                                <td class="user-data  "><label class="">${itemDetails.customer_name}</label></td>
+                            </tr>
+
+
+                    `;
+                    itemContainer.insertAdjacentHTML('beforeend', templateString);
+                    count++;
+                });
+            }else{
                 templateString = `
-                        <tr class="${bg} ${revealed} ${identifier}revealer">
-                            <td><label class="counter">${count + 1}</label></td>
-                            <td class="user-data"><label>${itemDetails.branch}</label></td>
-                            <td class="user-data count"><label class="short-fixed">${itemDetails.invoice_no}</label></td>
-                            <td class="user-data count"><label class="short-fixed">${itemDetails.totalItems}</label></td>
-                            <td class="user-data"><label>${itemDetails.totalPrice}</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined success all-inventory-check">dashboard</span>
-                                </label>
-                            </td>
-                            <td class="inventory-data select-data" ><label >${itemDetails.attendant}</label></td>
-                            <td class="user-data"><label class="price warning">${itemDetails.date}</label></td>
-                            <td class="user-data  "><label class="">${itemDetails.customer_name}</label></td>
-                        </tr>
-
-
+                    <tr>
+                        <td colspan='10'><label class="warning">nothing Found</label></td>
+                    </tr>
                 `;
-                itemContainer.insertAdjacentHTML('beforeend', templateString);
-                count++;
-            });
+                itemContainer.innerHTML = templateString;
+            }
+            removeElement('div.preloader');
         break;
 
     }
@@ -793,43 +570,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // LOAD INVOICE LIST
     setTimeout(dataRequest('Invoice', {'limit': 15,'action':'getLimitedInvoices', 'page': page}, 1), 0);
 
-
-
     // ON PAGE LOAD & RELOAD
     setTimeout(() => {
-        document.querySelector('#products_list').insertAdjacentHTML('beforeend', '<div class="preloader"></div>') 
-        if(site.productList){
-            generatePegination(site.productList, 'product');
-            removeElement('div.preloader');
-            loadPageData(site.productList, 'product', limit);
-        }
-
-        document.querySelector('#warehouseinventorys_list').insertAdjacentHTML('beforeend', '<div class="preloader"></div>') 
-        if(site.warehouseInventoryList){
-            generatePegination(site.warehouseinventoryList, 'warehouseinventory');
-            removeElement('div.preloader');
-            loadPageData(site.warehouseinventoryList, 'warehouseinventory', limit);
-        }
-
-        document.querySelector('#users_list').insertAdjacentHTML('beforeend', '<div class="preloader"></div>') 
-        if(site.userList){
-            generatePegination(site.userList, 'user');
-            removeElement('div.preloader');
-            loadPageData(site.userList, 'user', limit);
-        }
-
-        document.querySelector('#suppliers_list').insertAdjacentHTML('beforeend', '<div class="preloader"></div>') 
-        if(site.supplierList){
-            generatePegination(site.supplierList, 'supplier');
-            removeElement('div.preloader');
-            loadPageData(site.supplierList, 'supplier', limit);
-        }
-        document.querySelector('#invoices_list').insertAdjacentHTML('beforeend', '<div class="preloader"></div>') 
-        if(site.invoiceList){
-            generatePegination(site.invoiceList, 'invoice');
-            removeElement('div.preloader');
-            loadPageData(site.invoiceList, 'invoice', limit);
-        }
+        loadSessionData('product', limit);
+        loadSessionData('warehouseinventory', limit);
+        loadSessionData('user', limit);
+        loadSessionData('invoice', limit);
+        loadSessionData('supplier', limit);
     }, 0);
 
     // IMPORT CSV DATA TO DATABASE
