@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-/* ****************************** VARIABLES********************** */
+/* ****************************** VARIABLES image ********************** */
 :root{
     --grey: #eee;
     --dark-grey: #aaaaaa;
@@ -508,18 +508,19 @@ table tr td div.image{
 table tr td img.preview-image{
     height: 10rem;
     position: absolute;
-    left: 88%;
+    left: 98%;
     top: 0;
     z-index: -1;
     opacity: 0;
 }
 table tr td:hover img.preview-image{
-    z-index: 2;
+    z-index: 3;
     opacity: 1;
 }
 table tr td div.image img{
     height: 3.4rem;
     object-fit: contain;
+    border-radius: 50%;
 }
 table tr td div.image input{display: none;}
 table tr td div.image span{
@@ -557,6 +558,19 @@ table tr{
     border-bottom: 1px solid var(--white);
     z-index: 2;
     position: relative;
+    left: 0%;
+    animation-name: trReveal;
+    max-height: 3rem !imp;
+    /*animation-duration: 1s; */
+}
+@keyframes trReveal {
+  0%   {left:100%; opacity: 0; }
+  100% {left:0%; opacity: 1;}
+}
+table tr.revealed{
+    
+    /*opacity: 1;pegination*/
+    /*left: 0;*/
 }
 table tr.active{
     background: var(--primary);
@@ -577,6 +591,16 @@ table tr::before{
     background-color: var(--white);
     border-radius: .5rem;
 }
+table tbody{
+    position: relative;
+    overflow: hidden;
+    min-height: 40rem;
+    padding-bottom: 5rem;
+    /*display: flex;
+    flex-direction: column;
+    align-self: flex-start;*/
+}
+
 table tbody tr::after{
     content: "";
     position: absolute;
@@ -586,13 +610,14 @@ table tbody tr::after{
     bottom: 30%;
     background-color: var(--white);
     border-radius: .5rem;
+    background: var(--white);
 }
 table tbody tr:hover{
     background: var(--primary);
     color: var(--white);
     cursor: pointer;
     border-bottom: 1px solid var(--white);
-    z-index: 2;
+    z-index: 3;
 }
 table tr:hover td label.action span,
 table tr:hover td label,
@@ -615,6 +640,10 @@ table tbody tr td  label input[type='text']{
     border: 1px solid var(--primary);
     color: var(--primary);
     font-size: inherit;
+}
+table tr.unrevealed{
+    left: 100%;
+    transition: all 1s linear;
 }
 ::-webkit-scrollbar {
     width: .6em;
@@ -1095,6 +1124,10 @@ table tbody tr td  label input[type='text']{
     border-radius: 50%;
     font-size: .8rem;
 }
+.pagination_link span.hide{
+    display: none;
+    pointer-events: none;
+}
 .pagination_link span.active{
     background: var(--primary);
     color: var(--white);
@@ -1212,7 +1245,7 @@ table tbody tr td  label input[type='text']{
 .filtration :nth-child(1){
     /* flex: 2;
     display: flex;
-    justify-content: space-between; */
+    justify-content: space-between; preview-image*/
 }
 .filtration :nth-child(2){
     display: flex;
@@ -1482,7 +1515,7 @@ html,body{overflow: hidden;}
     min-width: 25rem;
     color: #fff;
     visibility: hidden;
-    font-size: 1.3rem;
+    font-size: 1rem;
     font-weight: 300;
     text-transform: capitalize;
     border: 1px solid var(--white);
@@ -1492,7 +1525,7 @@ html,body{overflow: hidden;}
     top: 50%;
     transform: translateY(-50%);
     right: .2rem;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
 }
 .notification_messages.success{
     animation-name: show_notification;
@@ -1660,6 +1693,12 @@ html,body{overflow: hidden;}
 .input-field input:valid ~ small::before{
     transform: scaleX(1);
 }
+.input-field #togglePass{
+    position: absolute;
+    right: .1rem;
+    bottom: 0px;
+    cursor: pointer;
+}
 #signin-btn{
     display: flex;
     justify-content: center;
@@ -1688,6 +1727,54 @@ html,body{overflow: hidden;}
     color: inherit;
     text-shadow: 1px 1px 2px white, 0 0 5px white, 0 0 5px white;
 
+}    
+/* 
+------------------------------------------------------------------------------------
+------------------------------------- PRELOADER/LOADING ----------------------------
+------------------------------------------------------------------------------------
+*/
+.preloader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200000;
+  overflow: hidden;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(2px);
+  background: rgba(225, 225, 225, .4);
+}
+
+.preloader:before {
+  content: "";
+  position: absolute;
+  top: calc(50% - 30px);
+  left: calc(50% - 30px);
+  border: 6px solid #1977cc;
+  border-top-color: #d1e6f9;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  -webkit-animation: animate-preloader 1s linear infinite;
+  animation: animate-preloader 1s linear infinite;
+}
+@-webkit-keyframes animate-preloader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes animate-preloader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 /* ************************************ SMALL TABLETS ************************** */
 @media screen and (min-width: 650px) {

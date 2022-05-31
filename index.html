@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
+    <div class="notification_messages"></div>
+    
 	<aside id="side-bar">
         <div class="logo">
             <img src="./images/box-logo.png" class="box" alt="Lifestyleoutdoorgear">
@@ -41,9 +43,9 @@
                 <span class="material-symbols-outlined">category</span>
                 <h3>Suppliers</h3>
             </a>
-            <a class="menu-item nav-link" href="#Debtors" data-pg-no="5" data-page="Debtors">
+            <a class="menu-item nav-link" href="#Sales" data-pg-no="5" data-page="Sales">
                 <span class="material-symbols-outlined">bubble_chart</span>
-                <h3>Debtors</h3>
+                <h3>Sales</h3>
             </a>
             <a class="menu-item nav-link" href="#Reports" data-pg-no="6" data-page="Reports">
                 <span class="material-symbols-outlined">monitoring</span>
@@ -141,7 +143,7 @@
         </nav>
         <section class="pages">
             <div class="products-section page active" id="Dashboard">
-            	 <div class="section-title">
+            	<div class="section-title">
             	 	<span class="material-symbols-outlined table-filter">segment</span>
 
                     <div class="title-head">
@@ -188,8 +190,13 @@
             			</div>
             			<div class="restore-btn">
                             <div class="single_stat up">
-                                <span class="material-symbols-outlined">upload_file</span>
-                                <h3>Restore </h3>
+                                <label for="import_btn">
+                                    <span class="material-symbols-outlined">upload_file</span>
+                                </label>
+                                    <h3>Restore </h3>
+                                    <form id="myForm" action="" enctype="multipart/form-data">
+                                        <input type="file" id="import_btn" style="display: none;">
+                                    </form>
                             </div>
             			</div>
             			<div class="products-stat">
@@ -278,7 +285,14 @@
                         </label>
                     </div>
                 </div>
+                <div class="section-title">
+                    <span class="material-symbols-outlined table-filter">segment</span>
 
+                    <div class="title-head">
+                        <span class="material-symbols-outlined">bubble_chart</span>
+                        <h3>Branch Inventory > <label>Victoria Mall Inventory</label></h3>
+                    </div>
+                </div>
                 <table class="designed">
                     <thead>
                         <tr>
@@ -754,295 +768,10 @@
                         </tr>
                     </thead>
                     <tbody id="products_list">
-                        
-                        <tr class="active item-details">
-                            <td><label class="counter">1</label></td>
-                            <td class="product-data"><label class="fixed-width">Non Branded Caps</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">Caps &amp; Hats</label></td>
-                            <td class="product-data"><label class=" warning">90000</label></td>
-                            <td class="product-data"><label class=" success">210000</label></td>
-                            <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">Other Brands</label></td>
-                            <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">Special Case</label></td>
-                            <td class="product-data"><label class=" primary">PTNF</label></td>
-                            <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">Hana Viet</label></td>
-                        </tr>
-                        <tr class=" item-details">
-                            <td><label class="counter">1</label></td>
-                            <td class="product-data"><label class="fixed-width">Non Branded Caps</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">Caps &amp; Hats</label></td>
-                            <td class="product-data"><label class=" warning">90000</label></td>
-                            <td class="product-data"><label class=" success">210000</label></td>
-                            <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">Other Brands</label></td>
-                            <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">Special Case</label></td>
-                            <td class="product-data"><label class=" primary">PTNF</label></td>
-                            <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">Hana Viet</label></td>
-                        </tr>
-                        <tr class=" item-details">
-                            <td><label class="counter">1</label></td>
-                            <td class="product-data"><label class="fixed-width">Non Branded Caps</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">Caps &amp; Hats</label></td>
-                            <td class="product-data"><label class=" warning">90000</label></td>
-                            <td class="product-data"><label class=" success">210000</label></td>
-                            <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">Other Brands</label></td>
-                            <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">Special Case</label></td>
-                            <td class="product-data"><label class=" primary">PTNF</label></td>
-                            <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">Hana Viet</label></td>
-                        </tr>
-                        <tr class=" item-details">
-                            <td><label class="counter">1</label></td>
-                            <td class="product-data"><label class="fixed-width">Non Branded Caps</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">Caps &amp; Hats</label></td>
-                            <td class="product-data"><label class=" warning">90000</label></td>
-                            <td class="product-data"><label class=" success">210000</label></td>
-                            <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">Other Brands</label></td>
-                            <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">Special Case</label></td>
-                            <td class="product-data"><label class=" primary">PTNF</label></td>
-                            <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">Hana Viet</label></td>
-                        </tr>
-                        <tr class=" item-details">
-                            <td><label class="counter">1</label></td>
-                            <td class="product-data"><label class="fixed-width">Non Branded Caps</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">Caps &amp; Hats</label></td>
-                            <td class="product-data"><label class=" warning">90000</label></td>
-                            <td class="product-data"><label class=" success">210000</label></td>
-                            <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">Other Brands</label></td>
-                            <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">Special Case</label></td>
-                            <td class="product-data"><label class=" primary">PTNF</label></td>
-                            <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">Hana Viet</label></td>
-                        </tr>
-                        <tr class=" item-details">
-                            <td><label class="counter">1</label></td>
-                            <td class="product-data"><label class="fixed-width">Non Branded Caps</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">Caps &amp; Hats</label></td>
-                            <td class="product-data"><label class=" warning">90000</label></td>
-                            <td class="product-data"><label class=" success">210000</label></td>
-                            <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">Other Brands</label></td>
-                            <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">Special Case</label></td>
-                            <td class="product-data"><label class=" primary">PTNF</label></td>
-                            <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">Hana Viet</label></td>
-                        </tr>
-                        <tr class=" item-details">
-                            <td><label class="counter">1</label></td>
-                            <td class="product-data"><label class="fixed-width">Non Branded Caps</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">Caps &amp; Hats</label></td>
-                            <td class="product-data"><label class=" warning">90000</label></td>
-                            <td class="product-data"><label class=" success">210000</label></td>
-                            <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">Other Brands</label></td>
-                            <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">Special Case</label></td>
-                            <td class="product-data"><label class=" primary">PTNF</label></td>
-                            <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">Hana Viet</label></td>
-                        </tr>
-                        <tr class=" item-details">
-                            <td><label class="counter">1</label></td>
-                            <td class="product-data"><label class="fixed-width">Non Branded Caps</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">Caps &amp; Hats</label></td>
-                            <td class="product-data"><label class=" warning">90000</label></td>
-                            <td class="product-data"><label class=" success">210000</label></td>
-                            <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">Other Brands</label></td>
-                            <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">Special Case</label></td>
-                            <td class="product-data"><label class=" primary">PTNF</label></td>
-                            <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">Hana Viet</label></td>
-                        </tr>
-                        <tr class=" item-details">
-                            <td><label class="counter">1</label></td>
-                            <td class="product-data"><label class="fixed-width">Non Branded Caps</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">Caps &amp; Hats</label></td>
-                            <td class="product-data"><label class=" warning">90000</label></td>
-                            <td class="product-data"><label class=" success">210000</label></td>
-                            <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">Other Brands</label></td>
-                            <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">Special Case</label></td>
-                            <td class="product-data"><label class=" primary">PTNF</label></td>
-                            <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">Hana Viet</label></td>
-                        </tr>
-                        <tr class=" item-details">
-                            <td><label class="counter">1</label></td>
-                            <td class="product-data"><label class="fixed-width">Non Branded Caps</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">Caps &amp; Hats</label></td>
-                            <td class="product-data"><label class=" warning">90000</label></td>
-                            <td class="product-data"><label class=" success">210000</label></td>
-                            <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">Other Brands</label></td>
-                            <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">Special Case</label></td>
-                            <td class="product-data"><label class=" primary">PTNF</label></td>
-                            <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">Hana Viet</label></td>
-                        </tr>
-                        <tr class=" item-details">
-                            <td><label class="counter">1</label></td>
-                            <td class="product-data"><label class="fixed-width">Non Branded Caps</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">Caps &amp; Hats</label></td>
-                            <td class="product-data"><label class=" warning">90000</label></td>
-                            <td class="product-data"><label class=" success">210000</label></td>
-                            <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">Other Brands</label></td>
-                            <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">Special Case</label></td>
-                            <td class="product-data"><label class=" primary">PTNF</label></td>
-                            <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">Hana Viet</label></td>
-                        </tr>
-                        <tr class=" item-details">
-                            <td><label class="counter">1</label></td>
-                            <td class="product-data"><label class="fixed-width">Non Branded Caps</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">Caps &amp; Hats</label></td>
-                            <td class="product-data"><label class=" warning">90000</label></td>
-                            <td class="product-data"><label class=" success">210000</label></td>
-                            <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">Other Brands</label></td>
-                            <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">Special Case</label></td>
-                            <td class="product-data"><label class=" primary">PTNF</label></td>
-                            <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">Hana Viet</label></td>
-                        </tr>
-                        <tr class=" item-details">
-                            <td><label class="counter">1</label></td>
-                            <td class="product-data"><label class="fixed-width">Non Branded Caps</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">Caps &amp; Hats</label></td>
-                            <td class="product-data"><label class=" warning">90000</label></td>
-                            <td class="product-data"><label class=" success">210000</label></td>
-                            <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">Other Brands</label></td>
-                            <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">Special Case</label></td>
-                            <td class="product-data"><label class=" primary">PTNF</label></td>
-                            <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">Hana Viet</label></td>
-                        </tr>
-                        <tr class=" item-details">
-                            <td><label class="counter">1</label></td>
-                            <td class="product-data"><label class="fixed-width">Non Branded Caps</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">Caps &amp; Hats</label></td>
-                            <td class="product-data"><label class=" warning">90000</label></td>
-                            <td class="product-data"><label class=" success">210000</label></td>
-                            <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">Other Brands</label></td>
-                            <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">Special Case</label></td>
-                            <td class="product-data"><label class=" primary">PTNF</label></td>
-                            <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">Hana Viet</label></td>
-                        </tr>
-                        <tr class=" item-details">
-                            <td><label class="counter">1</label></td>
-                            <td class="product-data"><label class="fixed-width">Non Branded Caps</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="product-data select-data" data-category-list='[{"name": "Short"},{"name": "Pant"}, {"name": "Shirt"}]'><label class="category">Caps &amp; Hats</label></td>
-                            <td class="product-data"><label class=" warning">90000</label></td>
-                            <td class="product-data"><label class=" success">210000</label></td>
-                            <td class="product-data select-data" data-brand-list='[{"name": "North Face"},{"name": "Columbia"}, {"name": "Nike"}]'><label class="brand">Other Brands</label></td>
-                            <td class="product-data select-data" data-size-list='[{"name": "Number eg. 45"},{"name": "Special Case"}, {"name": "Character eg XL"}]'><label class="sizing">Special Case</label></td>
-                            <td class="product-data"><label class=" primary">PTNF</label></td>
-                            <td class="product-data select-data" data-supplier-list='[{"name": "Hana Daniel"},{"name": "Daniel Viet"}, {"name": "Hana Viet"}]'><label class="supplier">Hana Viet</label></td>
-                        </tr>
                     </tbody>
                     
                 </table>
-                <div class="pagination_link product_pagination">
-                    <span><<</span>
-                    <span><</span>
-                    <span class="active">1</span>
-                    <span>2</span>
-                    <span>3</span>
-                    <span>4</span>
-                    <span>5</span>
-                    <span>6</span>
-                    <span>7</span>
-                    <span>8</span>
-                    <span>9</span>
-                    <span>10</span>
-                    <span>></span>
-                    <span>>></span>
+                <div class="pagination_link product-list_pagination">
                 </div>
             </div>
             
@@ -1118,12 +847,6 @@
                                     <span>image</span>
                                 </label>
                             </th>
-                            <th class="">
-                                <label>
-                                    <span>Branch</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
-                                </label>
-                            </th>
                             <th  class=" ">
                                 <label>
                                     <span>Code</span>
@@ -1150,446 +873,12 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="inventory_list">
-                        
-                        <tr class="ghostwhite inventory-details active">
-                            <td><label class="counter">1000</label></td>
-                            <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">	5.11 Roundneck Longsleeve T-Shirts</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="inventory-data  "><label class="counter">3785</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="inventory-data select-data " data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="inventory-data  "><label class="primary">PTNFSSBL</label></td>
-                            <td class="inventory-data  "><label class="">Charchoal</label></td>
-                            <td class="inventory-data  "><label class="counter">2XL</label></td>
-                            <td class="inventory-data  "><label class="fixed-width">Other Brands Supreme Caps N/A N/A</label></td>
-                        </tr>  
-                        <tr class=" inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">	5.11 Roundneck Longsleeve T-Shirts</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="inventory-data  "><label class="counter">3785</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="inventory-data select-data " data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="inventory-data  "><label class="primary">PTNFSSBL</label></td>
-                            <td class="inventory-data  "><label class="">Charchoal</label></td>
-                            <td class="inventory-data  "><label class="counter">2XL</label></td>
-                            <td class="inventory-data  "><label class="fixed-width">Other Brands Supreme Caps N/A N/A</label></td>
-                        </tr>  
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">	5.11 Roundneck Longsleeve T-Shirts</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="inventory-data  "><label class="counter">3785</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="inventory-data select-data " data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="inventory-data  "><label class="primary">PTNFSSBL</label></td>
-                            <td class="inventory-data  "><label class="">Charchoal</label></td>
-                            <td class="inventory-data  "><label class="counter">2XL</label></td>
-                            <td class="inventory-data  "><label class="fixed-width">Other Brands Supreme Caps N/A N/A</label></td>
-                        </tr>  
-                        <tr class=" inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">	5.11 Roundneck Longsleeve T-Shirts</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="inventory-data  "><label class="counter">3785</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="inventory-data select-data " data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="inventory-data  "><label class="primary">PTNFSSBL</label></td>
-                            <td class="inventory-data  "><label class="">Charchoal</label></td>
-                            <td class="inventory-data  "><label class="counter">2XL</label></td>
-                            <td class="inventory-data  "><label class="fixed-width">Other Brands Supreme Caps N/A N/A</label></td>
-                        </tr>  
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">	5.11 Roundneck Longsleeve T-Shirts</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="inventory-data  "><label class="counter">3785</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="inventory-data select-data " data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="inventory-data  "><label class="primary">PTNFSSBL</label></td>
-                            <td class="inventory-data  "><label class="">Charchoal</label></td>
-                            <td class="inventory-data  "><label class="counter">2XL</label></td>
-                            <td class="inventory-data  "><label class="fixed-width">Other Brands Supreme Caps N/A N/A</label></td>
-                        </tr>  
-                        <tr class=" inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">	5.11 Roundneck Longsleeve T-Shirts</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="inventory-data  "><label class="counter">3785</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="inventory-data select-data " data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="inventory-data  "><label class="primary">PTNFSSBL</label></td>
-                            <td class="inventory-data  "><label class="">Charchoal</label></td>
-                            <td class="inventory-data  "><label class="counter">2XL</label></td>
-                            <td class="inventory-data  "><label class="fixed-width">Other Brands Supreme Caps N/A N/A</label></td>
-                        </tr>  
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">	5.11 Roundneck Longsleeve T-Shirts</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="inventory-data  "><label class="counter">3785</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="inventory-data select-data " data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="inventory-data  "><label class="primary">PTNFSSBL</label></td>
-                            <td class="inventory-data  "><label class="">Charchoal</label></td>
-                            <td class="inventory-data  "><label class="counter">2XL</label></td>
-                            <td class="inventory-data  "><label class="fixed-width">Other Brands Supreme Caps N/A N/A</label></td>
-                        </tr>  
-                        <tr class=" inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">	5.11 Roundneck Longsleeve T-Shirts</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="inventory-data  "><label class="counter">3785</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="inventory-data select-data " data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="inventory-data  "><label class="primary">PTNFSSBL</label></td>
-                            <td class="inventory-data  "><label class="">Charchoal</label></td>
-                            <td class="inventory-data  "><label class="counter">2XL</label></td>
-                            <td class="inventory-data  "><label class="fixed-width">Other Brands Supreme Caps N/A N/A</label></td>
-                        </tr>  
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">	5.11 Roundneck Longsleeve T-Shirts</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="inventory-data  "><label class="counter">3785</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="inventory-data select-data " data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="inventory-data  "><label class="primary">PTNFSSBL</label></td>
-                            <td class="inventory-data  "><label class="">Charchoal</label></td>
-                            <td class="inventory-data  "><label class="counter">2XL</label></td>
-                            <td class="inventory-data  "><label class="fixed-width">Other Brands Supreme Caps N/A N/A</label></td>
-                        </tr>  
-                        <tr class=" inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">	5.11 Roundneck Longsleeve T-Shirts</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="inventory-data  "><label class="counter">3785</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="inventory-data select-data " data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="inventory-data  "><label class="primary">PTNFSSBL</label></td>
-                            <td class="inventory-data  "><label class="">Charchoal</label></td>
-                            <td class="inventory-data  "><label class="counter">2XL</label></td>
-                            <td class="inventory-data  "><label class="fixed-width">Other Brands Supreme Caps N/A N/A</label></td>
-                        </tr>  
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">	5.11 Roundneck Longsleeve T-Shirts</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="inventory-data  "><label class="counter">3785</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="inventory-data select-data " data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="inventory-data  "><label class="primary">PTNFSSBL</label></td>
-                            <td class="inventory-data  "><label class="">Charchoal</label></td>
-                            <td class="inventory-data  "><label class="counter">2XL</label></td>
-                            <td class="inventory-data  "><label class="fixed-width">Other Brands Supreme Caps N/A N/A</label></td>
-                        </tr>  
-                        <tr class=" inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">	5.11 Roundneck Longsleeve T-Shirts</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="inventory-data  "><label class="counter">3785</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="inventory-data select-data " data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="inventory-data  "><label class="primary">PTNFSSBL</label></td>
-                            <td class="inventory-data  "><label class="">Charchoal</label></td>
-                            <td class="inventory-data  "><label class="counter">2XL</label></td>
-                            <td class="inventory-data  "><label class="fixed-width">Other Brands Supreme Caps N/A N/A</label></td>
-                        </tr>  
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">	5.11 Roundneck Longsleeve T-Shirts</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="inventory-data  "><label class="counter">3785</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="inventory-data select-data " data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="inventory-data  "><label class="primary">PTNFSSBL</label></td>
-                            <td class="inventory-data  "><label class="">Charchoal</label></td>
-                            <td class="inventory-data  "><label class="counter">2XL</label></td>
-                            <td class="inventory-data  "><label class="fixed-width">Other Brands Supreme Caps N/A N/A</label></td>
-                        </tr>  
-                        <tr class=" inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">	5.11 Roundneck Longsleeve T-Shirts</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="inventory-data  "><label class="counter">3785</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="inventory-data select-data " data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="inventory-data  "><label class="primary">PTNFSSBL</label></td>
-                            <td class="inventory-data  "><label class="">Charchoal</label></td>
-                            <td class="inventory-data  "><label class="counter">2XL</label></td>
-                            <td class="inventory-data  "><label class="fixed-width">Other Brands Supreme Caps N/A N/A</label></td>
-                        </tr>  
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="inventory-data select-data" data-product-list='[{"name": "5.11 Roundneck Longsleeve T-Shirts"},{"name": "Under Armour Fish T-Shirt Polo"}, {"name": "Nike Sweaters"}]'><label class="fixed-width">	5.11 Roundneck Longsleeve T-Shirts</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">radio_button_unchecked</span>
-                                </label>
-                            </td>
-                            <td class="inventory-data  "><label class="counter">3785</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="inventory-data select-data " data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="inventory-data  "><label class="primary">PTNFSSBL</label></td>
-                            <td class="inventory-data  "><label class="">Charchoal</label></td>
-                            <td class="inventory-data  "><label class="counter">2XL</label></td>
-                            <td class="inventory-data  "><label class="fixed-width">Other Brands Supreme Caps N/A N/A</label></td>
-                        </tr>  
+                    <tbody id="warehouseinventorys_list">
                     </tbody>
                     
                 </table>
-                <div class="pagination_link product_pagination">
-                    <span><<</span>
-                    <span><</span>
-                    <span class="active">1</span>
-                    <span>2</span>
-                    <span>3</span>
-                    <span>4</span>
-                    <span>5</span>
-                    <span>6</span>
-                    <span>7</span>
-                    <span>8</span>
-                    <span>9</span>
-                    <span>10</span>
-                    <span>></span>
-                    <span>>></span>
+                
+                <div class="pagination_link warehouseinventory-list_pagination">
                 </div>
             </div>
             <div class="account-section page" id="Accounts">
@@ -1702,345 +991,11 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="inventory_list">
-                        
-                        <tr class="ghostwhite inventory-details active">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td class="inventory-data "><label class="password">*******************</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data select-data" data-user-type-list='[{"name": "Attendant"},{"name": "Admin"}, {"name": "Customer"}]'><label class="primary">Attendant</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data select-data" data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr> 
-                        <tr class="inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td class="inventory-data "><label class="password">*******************</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data select-data" data-user-type-list='[{"name": "Attendant"},{"name": "Admin"}, {"name": "Customer"}]'><label class="primary">Attendant</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data select-data" data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr>
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td class="inventory-data "><label class="password">*******************</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data select-data" data-user-type-list='[{"name": "Attendant"},{"name": "Admin"}, {"name": "Customer"}]'><label class="primary">Attendant</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data select-data" data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr> 
-                        <tr class="inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td class="inventory-data "><label class="password">*******************</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data select-data" data-user-type-list='[{"name": "Attendant"},{"name": "Admin"}, {"name": "Customer"}]'><label class="primary">Attendant</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data select-data" data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr>
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td class="inventory-data "><label class="password">*******************</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data select-data" data-user-type-list='[{"name": "Attendant"},{"name": "Admin"}, {"name": "Customer"}]'><label class="primary">Attendant</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data select-data" data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr> 
-                        <tr class="inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td class="inventory-data "><label class="password">*******************</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data select-data" data-user-type-list='[{"name": "Attendant"},{"name": "Admin"}, {"name": "Customer"}]'><label class="primary">Attendant</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data select-data" data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr>
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td class="inventory-data "><label class="password">*******************</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data select-data" data-user-type-list='[{"name": "Attendant"},{"name": "Admin"}, {"name": "Customer"}]'><label class="primary">Attendant</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data select-data" data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr> 
-                        <tr class="inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td class="inventory-data "><label class="password">*******************</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data select-data" data-user-type-list='[{"name": "Attendant"},{"name": "Admin"}, {"name": "Customer"}]'><label class="primary">Attendant</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data select-data" data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr>
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td class="inventory-data "><label class="password">*******************</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data select-data" data-user-type-list='[{"name": "Attendant"},{"name": "Admin"}, {"name": "Customer"}]'><label class="primary">Attendant</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data select-data" data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr> 
-                        <tr class="inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td class="inventory-data "><label class="password">*******************</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data select-data" data-user-type-list='[{"name": "Attendant"},{"name": "Admin"}, {"name": "Customer"}]'><label class="primary">Attendant</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data select-data" data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr>
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td class="inventory-data "><label class="password">*******************</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data select-data" data-user-type-list='[{"name": "Attendant"},{"name": "Admin"}, {"name": "Customer"}]'><label class="primary">Attendant</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="inventory-data  ">
-                                <div class="image">
-                                    <img src="./images/box-logo.png" alt="">
-                                    <label for="upload-product-image" title="Click to choose new image to upload">
-                                        <span class="material-symbols-outlined">cloud_sync</span>
-                                        <input type="file" id="upload-product-image">
-                                    </label>
-                                </div>
-                                <img src="./images/box-logo.png" class="preview-image">
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data select-data" data-branch-list='[{"name": "Victoria Mall"},{"name": "Purical Hotel"}, {"name": "Arena Mall"}]'><label>Victoria Mall</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr> 
+                    <tbody id="users_list">
                     </tbody>
                     
                 </table>
-                <div class="pagination_link product_pagination">
-                    <span><<</span>
-                    <span><</span>
-                    <span class="active">1</span>
-                    <span>2</span>
-                    <span>3</span>
-                    <span>4</span>
-                    <span>5</span>
-                    <span>6</span>
-                    <span>7</span>
-                    <span>8</span>
-                    <span>9</span>
-                    <span>10</span>
-                    <span>></span>
-                    <span>>></span>
+                <div class="pagination_link user-list_pagination">
                 </div>
             </div>
             <div class="supplier-section page" id="Suppliers">
@@ -2107,7 +1062,7 @@
                                 </label>
                             </th>
                             <th class="">
-                                <label class="counter">
+                                <label class="">
                                     <span>Status</span>
                                 </label>
                             </th>
@@ -2125,320 +1080,16 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="inventory_list">
-                        
-                        <tr class="ghostwhite inventory-details active">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr>
-                        <tr class=" inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr> 
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr>
-                        <tr class=" inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr> 
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr>
-                        <tr class=" inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr> 
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr>
-                        <tr class=" inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr> 
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr>
-                        <tr class=" inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr> 
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr>
-                        <tr class=" inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr> 
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr>
-                        <tr class=" inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr> 
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr>
-                        <tr class=" inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr> 
-                        <tr class="ghostwhite inventory-details">
-                            <td><label class="counter">1000</label></td>
-                            <td class="user-data"><label class="short-fixed">Sarah</label></td>
-                            <td class="user-data"><label class="short-fixed">Nabulime</label></td>
-                            <td>
-                                <label class="action">
-                                    <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                    <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                    <span class="material-symbols-outlined warning all-inventory-check">sync</span>
-                                </label>
-                            </td>
-                            <td class="user-data"><label>0705314188</label></td>
-                            <td class="user-data"><label>Entebbe</label></td>
-                            <td class="inventory-data select-data" data-status-list='[{"name": "Pending"},{"name": "Out of Stock"}, {"name": "Available"}]'><label class="success counter">active</label></td>
-                            <td class="user-data"><label class="price warning">01/01/2022</label></td>
-                            <td class="user-data  "><label class="fixed-width">attendant@lifestyle-tactical.com</label></td>
-                        </tr>
+                    <tbody id="suppliers_list">
                     </tbody>
                     
                 </table>
-                <div class="pagination_link product_pagination">
-                    <span><<</span>
-                    <span><</span>
-                    <span class="active">1</span>
-                    <span>2</span>
-                    <span>3</span>
-                    <span>4</span>
-                    <span>5</span>
-                    <span>6</span>
-                    <span>7</span>
-                    <span>8</span>
-                    <span>9</span>
-                    <span>10</span>
-                    <span>></span>
-                    <span>>></span>
+                <div class="pagination_link  supplier-list_pagination">
                 </div>
             </div>
             <div class="report-section page" id="Reports">
                 <div class="section-title">
-                	<span class="material-symbols-outlined table-filter">segment</span>
+                    <span class="material-symbols-outlined table-filter">segment</span>
 
                     <div class="title-head">
                         <span class="material-symbols-outlined">monitoring</span>
@@ -2870,6 +1521,139 @@
                     <span>10</span>
                     <span>></span>
                     <span>>></span>
+                </div>
+            </div>
+            <div class="report-section page" id="Sales">
+                <div class="section-title">
+                    <span class="material-symbols-outlined table-filter">bubble_chart </span>
+
+                    <div class="title-head">
+                        <span class="material-symbols-outlined">monitoring</span>
+                        <h3>Sales List</h3>
+                    </div>
+                    <div class="title-modifications hide">
+                        <a id="export_product">
+                            <h3>Export </h3>
+                            <span class="material-symbols-outlined">cloud_sync</span>
+                        </a>
+                        <button class="btn bg-blue" id="newInventory">
+                            <span class="material-symbols-outlined">add</span>
+                        </button>
+                        <button class="btn bg-success" id="editInventory">
+                            <span class="material-symbols-outlined">edit</span>
+                        </button>
+                        <button class="btn bg-danger" id="deleteInventory">
+                            <span class="material-symbols-outlined">delete</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="report-statistics">
+                    <div class="cards">
+                        <div class="card">
+                            <span class="material-symbols-outlined">shopping_bag</span>
+                            <div class="stat-details">
+                                <h2>233,000</h2>
+                                <label>Total Sales</label>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <span class="material-symbols-outlined">attach_money</span>
+                            <div class="stat-details">
+                                <h2>233,000,000 <small>/=</small></h2>
+                                <label>Total Income</label>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <span class="material-symbols-outlined">inventory</span>
+                            <div class="stat-details">
+                                <h2>233,000</h2>
+                                <label>Best Sale Product</label>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <span class="material-symbols-outlined">verified_user</span>
+                            <div class="stat-details">
+                                <h2>Naluyange</h2>
+                                <label>Star Attendant</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filtration">
+                         <label>
+                             <input type="date">
+                             <span>To</span>
+                             <input type="date">
+                         </label>
+                         <label>
+                             <select><option >Choose Branch</option></select>
+                             <select><option >Showing 15</option></select>
+                        </label>
+                    </div>
+                </div>
+
+                <table class="designed">
+                    <thead>
+                        <tr>
+                            <th>
+                                <label class="counter">
+                                    <span>#</span>
+                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                </label>
+                            </th>
+                            <th  class="">
+                                <label>
+                                    <span>Branch</span>
+                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                </label>
+                            </th>
+                            <th class="count">
+                                <label class="short-fixed">
+                                    <span>Invoice</span>
+                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                </label>
+                            </th>
+                            <th class="count">
+                                <label class="short-fixed">
+                                    <span>Items</span>
+                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                </label>
+                            </th>
+                            <th>
+                                <label>
+                                    <span>Total Price</span>
+                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                </label>
+                            </th>
+                            <th>
+                                <label class="action">
+                                    <span>Action</span>
+                                </label>
+                            </th>
+                            <th  class="">
+                                <label>
+                                    <span>Attendant</span>
+                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                </label>
+                            </th>
+                            <th  class=" ">
+                                <label>
+                                    <span>Date</span>
+                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                </label>
+                            </th>
+                            <th>
+                                <label >
+                                    <span>Customer</span>
+                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                </label>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoices_list">
+                    </tbody>
+                    
+                </table>
+                <div class="pagination_link invoice-list_pagination">
                 </div>
             </div>
         </section>
