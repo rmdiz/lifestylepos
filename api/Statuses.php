@@ -26,8 +26,7 @@ class Statuses{
 		else{
 			$res = 'Nothing found';
 		}
-
-		return $res;
+		echo json_encode($res);
 	}
 }
 ?>

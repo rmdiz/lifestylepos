@@ -24,6 +24,7 @@ class Supplier{
 			extract($row);
 			$dataArr[] = array(
 				'id'			=>	$supplier_id,
+				'name'			=> $fname . ' ' .$lname,
 				'first_name'	=>	$fname,
 				'last_name'		=>	$lname,
 				'telephone'		=>	$telephone,
@@ -47,6 +48,7 @@ class Supplier{
 
 			$dataArr[] = array(
 				'id'			=>	$supplier_id,
+				'name'			=> $fname . ' ' .$lname,
 				'first_name'	=>	$fname,
 				'last_name'		=>	$lname,
 				'telephone'		=>	$telephone,

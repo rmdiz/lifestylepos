@@ -33,6 +33,7 @@ class Accounts{
 			$dataArr[] = array(
 				'user_id'			=>	$user_id,
 				'username'		=>	$username,
+				'name'			=> $first_name . ' ' .$last_name,
 				'first_name'		=>	$first_name,
 				'last_name'			=>	$last_name,
 				'telephone'		=>	$telephone,
@@ -69,6 +70,7 @@ class Accounts{
 
 			$dataArr[] = array(
 				'user_id'			=>	$user_id,
+				'name'			=> $first_name . ' ' .$last_name,
 				'username'		=>	$username,
 				'first_name'		=>	$first_name,
 				'last_name'			=>	$last_name,
@@ -87,5 +89,63 @@ class Accounts{
 		// CONVERT OT JSON 
 		echo json_encode($dataArr);
 	}
+
+	public function getUserTypes(){
+		$result = $this->p_instance->fetchAll('user_type_tb');
+		$res;
+		// GET NUMBER OF ROWS
+		$num = $result->rowCount();
+		if($num > 0){
+			$dataArr = array();
+
+			while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+				extract($row);
+
+				$dataArr[] = array(
+					'id' => $user_type_id,
+					'name' => $user_type,
+					'permissions' => $permissions,
+					'created_at' => $created_at, 
+					'modified_at' => $modified_at
+				);
+			}
+			$res = $dataArr;
+		}
+		else{
+			$res = 'Nothing found';
+		}
+		echo json_encode($res);
+	}
+
+
+	public function getClients(){
+		$result = $this->p_instance->fetchAll('customer_tb');
+		$res;
+		// GET NUMBER OF ROWS
+		$num = $result->rowCount();
+		if($num > 0){
+			$dataArr = array();
+
+			while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+				extract($row);
+
+				$dataArr[] = array(
+					'id' => $customer_id,
+					'name' => $fname . ' ' . $lname,
+					'fname' => $fname,
+					'lname' => $lname,
+					'email' => $email,
+					'telephone' => $telephone,
+					'date' => $date,
+				);
+			}
+			$res = $dataArr;
+		}
+		else{
+			$res = 'Nothing found';
+		}
+		echo json_encode($res);
+	}
+	
 }
 ?>

@@ -559,8 +559,10 @@ table tr{
     z-index: 2;
     position: relative;
     left: 0%;
+    top: 0;
     animation-name: trReveal;
-    max-height: 3rem !imp;
+    height: 3rem !important;
+    transition: all .5s var(--transition-cubic);
     /*animation-duration: 1s; */
 }
 @keyframes trReveal {
@@ -569,15 +571,19 @@ table tr{
 }
 table tr.revealed{
     
-    /*opacity: 1;pegination*/
+    /*opacity: 1;select*/
     /*left: 0;*/
 }
 table tr.active{
+    position: relative;
+    left: 0;
+    right: 0;
+    /*top: -3rem;*/
     background: var(--primary);
-    filter: brightness(120%);
     color: var(--white);
-    z-index: 2;
+    z-index: 3;
 }
+
 table tr.active td label{
     color: var(--white) !important;
 }
@@ -644,6 +650,368 @@ table tbody tr td  label input[type='text']{
 table tr.unrevealed{
     left: 100%;
     transition: all 1s linear;
+}
+
+table tr td.det{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 3rem;
+    height: 0 !important;
+    overflow: hidden;
+    transition: height .5s linear;
+}
+table tr.active td.det{
+    transition: height .5s linear;
+    height: 38rem !important;
+}
+table tr td.det .moreinvoicedetails{
+    border: 2px solid var(--primary);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 37rem !important;
+    background: var(--white);
+    z-index: 3;
+    cursor: default;
+    overflow: hidden;
+    overflow-x: auto;
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+}
+table tr td.det .moreinvoicedetails .invoice_header{
+    padding: .3rem;
+    display: flex;
+    align-items: flex-start;
+    color: var(--dark);
+    position: relative;
+    padding-top: 1.5rem;
+    height: 6.5rem;
+    min-width: 100%;
+    border-radius: .5rem;
+}
+table tr td.det .moreinvoicedetails .invoice_header .attendant_info{
+    width: 12rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+table tr td.det .moreinvoicedetails .invoice_header .head{
+    position: relative;
+}
+table tr td.det .moreinvoicedetails .invoice_header .attendant_info .small-imag{
+    display: flex;
+    width: 3rem;
+    height: 3rem;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 2px solid var(--warning);
+}
+table tr td.det .moreinvoicedetails .invoice_header .attendant_info .small-imag img{
+    height: inherit;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+}
+table tr td.det .moreinvoicedetails .invoice_header .det-edit-box{
+    display: flex;
+    flex-direction: column;
+    height: 4rem;
+    color: var(--dark);
+}
+table tr td.det .moreinvoicedetails .invoice_header .det-edit-box *{
+    display: block;
+    font-size: .9rem;
+    font-weight: 400;
+    color: var(--dark) !important;
+}
+table tr td.det .moreinvoicedetails .invoice_header .det-edit-box label{
+    font-weight: 500;
+}
+table tr td.det .moreinvoicedetails .invoice_header .invoice_pricing{
+    display: flex;
+    align-items: center;
+    height: 4rem;
+    position: relative;
+}
+table tr td.det .moreinvoicedetails .invoice_header .customer,
+table tr td.det .moreinvoicedetails .invoice_header .price-and-currency{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+table tr td.det .moreinvoicedetails .invoice_header h3{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -1.3rem;
+    font-weight: 600;
+    color: var(--blue);
+    font-size: 1rem;
+}
+table tr td.det .moreinvoicedetails .invoice_header .det-edit-box input[type='date'],
+table tr td.det .moreinvoicedetails .invoice_header .det-edit-box select{
+    border: 1px solid transparent;
+    padding: .5rem 0 !important;
+    border-radius: 55px;
+    background: transparent !important;
+    width: 7rem !important;
+    margin-left: .0rem !important;
+}
+table tr td.det .moreinvoicedetails .invoice_header .det-edit-box input[type="text"]{
+    border: 1px solid var(--gray);
+    padding: .5rem;
+    width: 10rem;
+    margin-left: .4rem;
+    border-radius: 55px;
+}
+table tr td.det .moreinvoicedetails .invoice_header .price-and-currency select{
+    width: 3rem !important;
+}
+.invoice_items{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    padding-top: 2rem;
+}
+.invoice_items h4{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: -4rem;
+    color: var(--white);
+    text-align: center;
+    /*background: var(--main-color-blue);*/
+    background: transparent;
+    z-index: 2;
+    font-size: 1.5rem;
+    padding: .1rem;
+}
+.invoice_size_list,
+.invoice_color_list{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.invoice_item::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: -3rem;
+    top: -2.5rem;
+    padding: 1.1rem;
+    background: var(--main-color-blue);
+    z-index: 1;
+}
+.invoice_items :nth-child(2)::before{
+    min-width: calc(100vw - 20rem);
+}
+.invoice_item{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    /*grid-template-columns: 25% 40% 30%; notification*/
+    margin: .5rem;
+    padding: .5rem;
+    border: 1px solid var(--gray);
+    border-radius: .5rem;
+    width: 40rem;
+    min-width: 40rem;
+    position: relative;
+}
+.invoice_item .besic_det{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    column-gap: .2rem;
+    align-self: flex-start;
+    padding: .2rem;
+}
+.invoice_item label.desc,
+.invoice_item .besic_det label{
+    display: flex;
+    flex-direction: column;
+    margin: 0 .5rem;
+    overflow: hidden;
+    padding: 0 .2rem;
+    padding: 0;
+    color: var(--dark);
+    width: 100%;
+    font-size: .9rem;
+}
+.invoice_item .besic_det :nth-child(1),
+.invoice_item .besic_det :nth-child(2){
+    grid-column: 1/-1;
+}
+.invoice_item .besic_det :last-child{
+    grid-column: 1/-1;
+}
+.invoice_item label.desc b,
+.invoice_item .besic_det label b{
+    color: var(--dark);
+    font-weight: 400;
+    margin: 0;
+    padding: 0 .2rem;
+    font-size: .9rem;
+}
+.invoice_item .besic_det label span{
+    color: var(--dark);
+    padding: 0 .2rem;
+}
+.invoice_item .besic_det label select,
+.invoice_item .besic_det label input{
+    margin: 0;
+    padding: .5rem .25rem;
+    border-radius: 55px;
+    border: 1px solid var(--gray);
+    font-size: .9rem;
+}
+.invoice_item label.desc textarea{
+    margin: 0;
+    padding: .5rem .25rem;
+    border-radius: .5rem;
+    border: 1px solid var(--gray);
+    font-size: .9rem;
+    max-height: 6rem;
+    min-height: 6rem;
+}
+
+.invoice_item .invoice_item_image{
+    height: 12rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: .5rem;
+}
+.invoice_item .invoice_item_image img{
+    aspect-ratio: 1/1;
+    height: 12rem;
+    object-fit: contain;
+}
+.color-n-sizes{
+    display: flex;
+    flex-direction: column;
+    padding: .5rem;
+}
+.invoice_size_list i{
+    border-radius: 50%;
+    margin: .1rem;
+    margin-right: 1rem;
+    margin-top: .5rem;
+    border: 1px solid var(--gray);
+    cursor: pointer;
+    position: relative;
+    height: 2.5rem;
+    width: 2.5rem;
+    min-height: 2.5rem;
+    min-width: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--dark);
+    font-size: .8rem !important;
+    width: auto;
+    font-style: normal;
+    overflow: unset;
+    font-weight: 400;
+}
+.color-n-sizes h3{
+    font-size: 1rem;
+    padding: .5rem 0;
+
+    position: relative;
+    color: var(--dark);
+}
+.invoice_color_list i{
+    padding: .2rem .4rem;
+    border-radius: .5rem;
+    margin: .1rem;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    border: 1px solid var(--gray);
+    cursor: pointer;
+    position: relative;
+    color: var(--dark);
+    font-size: .8rem !important;
+    width: auto;
+    font-style: normal;
+    overflow: unset;
+    font-weight: 400;
+}
+.invoice_size_list i small,
+.invoice_color_list i small{
+    position: absolute;
+    right: -1rem;
+    top: -.8rem;
+    padding: .3rem;
+    border: 1px solid var(--primary);
+    border-radius: 50%;
+    width: 1.8rem;
+    height: 1.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--white);
+    font-weight: 500;
+    font-size: .7rem !important;
+}
+.invoice_size_list i.active,
+.invoice_color_list i.active{
+    border: 1px solid var(--white);
+    background: var(--success);
+    color: var(--white);
+}
+.invoice_size_list i.active small,
+.invoice_color_list i.active small{
+    background: var(--success);
+    border: 1px solid var(--white);
+    color: var(--white);
+}
+.cart_quantity_adjuster {
+    padding: .4rem;
+    display: flex;
+    flex-direction: row;
+    grid-column: 1/-1;
+    color: var(--dark);
+    align-items: center;
+}
+.cart_quantity_adjuster b{
+    font-weight: 300;
+}
+.cart_quantity_adjuster label.adjust{
+    display: flex;
+    flex-direction: row !important;
+    margin: 0 .3rem;
+    width: 10rem !important;
+    background: var(--gray);
+    border-radius: 50%;
+}
+.cart_quantity_adjuster label.adjust span {
+    height: 3rem !important;
+    width: 3rem !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white) !important;
+    background: var(--warning);
+    border: 1px solid var(--light);
+    cursor: pointer;
+    border-radius: 50%;
+}
+.cart_quantity_adjuster label.adjust span:last-child{
+    background: var(--success);
+}
+.cart_quantity_adjuster label.adjust input {
+    max-width: 2.65rem;
+    outline: none;
+    border: none !important;
+    background: transparent !important;
+    color: var(--white) !important;
+    text-align: center;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    pointer-events: none;
 }
 ::-webkit-scrollbar {
     width: .6em;
@@ -1442,7 +1810,10 @@ nav .account b{
 nav .account b i{
     font-style: normal;
 }
-/* MAIN */
+.hidden{
+    display: none;
+}
+/* MAIN page*/
 main{
     height: calc(100vh - (100px * 2));
     border: 1px solid #ccc;
@@ -1504,6 +1875,65 @@ html,body{overflow: hidden;}
 ------------------------------------- NOTIFICATIONS/MSG ----------------------------
 ------------------------------------------------------------------------------------
 */
+.warning-notification{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 40000000;
+    background: var(--blue);
+    padding: .5rem 2rem .5rem .8rem;
+    min-width: 25rem;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 300;
+    text-transform: capitalize;
+    border: 1px solid var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    min-height: 150px;
+    border: 2px double var(--white);
+    outline: 2px double var(--blue);
+}
+.warning-notification > span{
+    text-transform: capitalize;
+    display: flex;
+    width: inherit;
+    text-align: center;
+    padding: .5rem;
+}
+.warning-notification label{
+    display: flex;
+}
+.warning-notification label button{
+    padding: .3rem .5rem;
+    border-radius: .5rem;
+    border: 1px solid var(--white);
+    background: var(--success);
+    color: var(--white);
+    margin-left: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+}
+
+.warning-notification label button b{
+    display: flex;
+    pointer-events: none;
+}
+.warning-notification label button span{
+    display: flex;
+    font-size: 1.5rem;
+    pointer-events: none;
+}
+.warning-notification label button:first-child{
+    background-color: var(--danger);
+}
 .notification_messages{
     position: fixed;
     top: 6rem;
@@ -1949,7 +2379,7 @@ html,body{overflow: hidden;}
 
     }
     
-  /*  .sign-in-container .logo{
+  /*  .sign-in-container .logo{ main
         position: absolute;
         left: 60% !important;
         top: 25%;
@@ -2054,6 +2484,7 @@ html,body{overflow: hidden;}
     .title-modifications select{
         width: 8.6rem !important;
         height: 2.53rem;
+        margin: 0 .3rem;
     }
 
     .section-title span.table-filter{
@@ -2096,7 +2527,7 @@ html,body{overflow: hidden;}
         width: 100%;
     }
     .page{
-        margin: 5rem 0 2rem 0;
+        margin: 6.5rem 0 2rem 0;
     }
     .dashboard-statistics .stat-box.v0{
         width: auto;

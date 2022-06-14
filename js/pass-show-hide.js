@@ -59,6 +59,7 @@ document.getElementById('sign-in-form').addEventListener('submit', (e) => {
                 }
 
             }else{
+                
                 deliverNotification(data, 'danger');
                 removeElement('div.preloader');
 
@@ -127,5 +128,4 @@ const removeElement =(element) => {
 	if(document.querySelector(element) != null){
 	    document.querySelector(element).remove();
 	}
-
 }

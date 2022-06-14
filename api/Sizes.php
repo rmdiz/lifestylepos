@@ -28,8 +28,33 @@ class Sizes{
 		else{
 			$res = 'Nothing found';
 		}
+		echo json_encode($res);
 
-		return $res;
+	}
+	public function getSizeSchemes(){
+		$result = $this->p_instance->fetchAll('size_Scheme_tb');
+		$res;
+		// GET NUMBER OF ROWS
+		$num = $result->rowCount();
+		if($num > 0){
+			$dataArr = array();
+
+			while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+				extract($row);
+
+				$dataArr[] = array(
+					'id' => $scheme_id,
+					'name' => $scheme_name, 
+					'date' => $date, 
+				);
+			}
+			$res = $dataArr;
+		}
+		else{
+			$res = 'Nothing found';
+		}
+		echo json_encode($res);
+
 	}
 }
 ?>

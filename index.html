@@ -31,7 +31,7 @@
                 <span class="material-symbols-outlined">inventory_2</span>
                 <h3>Products</h3>
             </a>
-            <a class="menu-item nav-link" href="#Inventory" data-pg-no="2" data-page="Inventory">
+            <a class="menu-item nav-link" href="#WarehouseInventorys" data-pg-no="2" data-page="WarehouseInventorys">
                 <span class="material-symbols-outlined">inventory</span>
                 <h3>Inventory</h3>
             </a>
@@ -299,19 +299,19 @@
                             <th>
                                 <label class="counter">
                                     <span>#</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
                                 <label class="short-fixed">
                                     <span>F.Name</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th class="">
                                 <label class="short-fixed">
                                     <span>L.Name</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
@@ -322,13 +322,13 @@
                             <th  class="">
                                 <label>
                                     <span>Telephone</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th  class="">
                                 <label>
                                     <span>Address</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th class="">
@@ -339,13 +339,13 @@
                             <th  class=" ">
                                 <label>
                                     <span>Date</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
                                 <label class="fixed-width">
                                     <span>Email</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                         </tr>
@@ -662,10 +662,10 @@
                 </div>
             </div>
             <div class="products-section page" id="Products">
-            	 <div class="section-title">
+            	<div class="section-title">
                     <div class="title-head">
                         <span class="material-symbols-outlined">dashboard</span>
-                        <h3>Dashboard > Products</h3>
+                        <h3>Warehouse > Products</h3>
                     </div>
                 </div>
                 <div class="section-title">
@@ -676,7 +676,7 @@
                         <h3>Products </h3>
                     </div>
                     <div class="title-modifications hide">
-                        <select id="product_pegination_limit_number">
+                        <select id="product_pegination_limit_number" class="showlimit">
                             <option value="15" selected="">Showing 15  </option>
                             <option value="30">Showing 30  </option>
                             <option value="60">Showing 60  </option>
@@ -684,21 +684,12 @@
                             <option value="120">Showing 120  </option>
                             <option value="All">Showing all </option>
                         </select>
-                        <select id="sort_by_product_category">
-                            <option selected="">Show By Branch</option>
-                        </select>
-                        <a id="export_product">
+                        <a class="export">
                             <h3>Export </h3>
                             <span class="material-symbols-outlined">cloud_sync</span>
                         </a>
-                        <button class="btn bg-blue" id="newInventory">
+                        <button class="btn bg-blue new" title="add new">
                             <span class="material-symbols-outlined">add</span>
-                        </button>
-                        <button class="btn bg-success" id="editInventory">
-                            <span class="material-symbols-outlined">edit</span>
-                        </button>
-                        <button class="btn bg-danger" id="deleteInventory">
-                            <span class="material-symbols-outlined">delete</span>
                         </button>
                     </div>
                 </div>
@@ -709,13 +700,13 @@
                             <th>
                                 <label class="counter">
                                     <span>#</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
                                 <label class="fixed-width">
                                     <span>Name</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
@@ -726,43 +717,43 @@
                             <th>
                                 <label class="category">
                                     <span>Category</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
                                 <label class="price">
                                     <span>Buy</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
                                 <label class="price">
                                     <span>Sale</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th >
                                 <label>
                                     <span>Brand</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
                                 <label class="center ">
                                     <span>S.Scheme</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th >
                                 <label class="code">
                                     <span>Code</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
                                 <label>
                                     <span>Supplier</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                         </tr>
@@ -771,20 +762,22 @@
                     </tbody>
                     
                 </table>
+
                 <div class="pagination_link product-list_pagination">
                 </div>
+                <table id="Products_export_tb" class="hidden"></table>
             </div>
             
-            <div class="inventory-section page" id="Inventory">
+            <div class="inventory-section page" id="WarehouseInventorys">
                 <div class="section-title">
                 	<span class="material-symbols-outlined table-filter">segment</span>
 
                     <div class="title-head">
                         <span class="material-symbols-outlined">inventory</span>
-                        <h3>Warehouse Inventory </h3>
+                        <h3>Warehouse > Inventory </h3>
                     </div>
                     <div class="title-modifications hide">
-                        <select id="product_pegination_limit_number">
+                        <select id="product_pegination_limit_number" class="showlimit">
                             <option value="15" selected="">Showing 15  </option>
                             <option value="30">Showing 30  </option>
                             <option value="60">Showing 60  </option>
@@ -792,21 +785,12 @@
                             <option value="120">Showing 120  </option>
                             <option value="All">Showing all </option>
                         </select>
-                        <select id="sort_by_product_category">
-                            <option selected="">Show By Branch</option>
-                        </select>
-                        <a id="export_product">
+                        <a class="export">
                             <h3>Export </h3>
                             <span class="material-symbols-outlined">cloud_sync</span>
                         </a>
-                        <button class="btn bg-blue" id="newInventory">
+                        <button class="btn bg-blue new" title="add new">
                             <span class="material-symbols-outlined">add</span>
-                        </button>
-                        <button class="btn bg-success" id="editInventory">
-                            <span class="material-symbols-outlined">edit</span>
-                        </button>
-                        <button class="btn bg-danger" id="deleteInventory">
-                            <span class="material-symbols-outlined">delete</span>
                         </button>
                     </div>
                 </div>
@@ -817,13 +801,13 @@
                             <th>
                                 <label class="counter">
                                     <span>#</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
                                 <label class="fixed-width">
                                     <span>Name</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
@@ -832,13 +816,13 @@
                                 </label>
                             </th>
                             <th class=" ">
-                                <label class="center counter">
+                                <label class="center ">
                                     <span>Qty</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th class="">
-                                <label class="counter">
+                                <label class="">
                                     <span>Status</span>
                                 </label>
                             </th>
@@ -850,25 +834,25 @@
                             <th  class=" ">
                                 <label>
                                     <span>Code</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th  class="">
                                 <label>
                                     <span>Colour</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
-                                <label  class="counter">
+                                <label  class="">
                                     <span>Size</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
                                 <label  class="fixed-width">
                                     <span>Description</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                         </tr>
@@ -880,6 +864,7 @@
                 
                 <div class="pagination_link warehouseinventory-list_pagination">
                 </div>
+                <table id="WarehouseInventorys_export_tb" class="hidden"></table>
             </div>
             <div class="account-section page" id="Accounts">
                 <div class="section-title">
@@ -923,25 +908,25 @@
                             <th>
                                 <label class="counter">
                                     <span>#</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
                                 <label class="short-fixed">
                                     <span>Name</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th class="">
                                 <label class="short-fixed">
                                     <span>username</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th  class="">
                                 <label class="password">
                                     <span>password</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
@@ -952,7 +937,7 @@
                             <th class=" ">
                                 <label class="center">
                                     <span>Type</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th class="">
@@ -968,25 +953,25 @@
                             <th  class=" ">
                                 <label>
                                     <span>Telephone</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th  class="">
                                 <label>
                                     <span>Branch</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th  class="">
                                 <label>
                                     <span>Address</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
                                 <label class="fixed-width">
                                     <span>Email</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                         </tr>
@@ -1029,19 +1014,19 @@
                             <th>
                                 <label class="counter">
                                     <span>#</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
                                 <label class="short-fixed">
                                     <span>F.Name</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th class="">
                                 <label class="short-fixed">
                                     <span>L.Name</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
@@ -1052,13 +1037,13 @@
                             <th  class="">
                                 <label>
                                     <span>Telephone</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th  class="">
                                 <label>
                                     <span>Address</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th class="">
@@ -1069,13 +1054,13 @@
                             <th  class=" ">
                                 <label>
                                     <span>Date</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
                                 <label class="fixed-width">
                                     <span>Email</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                         </tr>
@@ -1161,19 +1146,19 @@
                             <th>
                                 <label class="counter">
                                     <span>#</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
                                 <label class="short-fixed">
                                     <span>F.Name</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th class="">
                                 <label class="short-fixed">
                                     <span>L.Name</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
@@ -1184,13 +1169,13 @@
                             <th  class="">
                                 <label>
                                     <span>Telephone</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th  class="">
                                 <label>
                                     <span>Address</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th class="">
@@ -1201,13 +1186,13 @@
                             <th  class=" ">
                                 <label>
                                     <span>Date</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
                                 <label class="fixed-width">
                                     <span>Email</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                         </tr>
@@ -1597,31 +1582,13 @@
                             <th>
                                 <label class="counter">
                                     <span>#</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th  class="">
                                 <label>
                                     <span>Branch</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
-                                </label>
-                            </th>
-                            <th class="count">
-                                <label class="short-fixed">
-                                    <span>Invoice</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
-                                </label>
-                            </th>
-                            <th class="count">
-                                <label class="short-fixed">
-                                    <span>Items</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
-                                </label>
-                            </th>
-                            <th>
-                                <label>
-                                    <span>Total Price</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
@@ -1629,22 +1596,40 @@
                                     <span>Action</span>
                                 </label>
                             </th>
+                            <th class="count">
+                                <label class="short-fixed">
+                                    <span>Invoice</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
+                                </label>
+                            </th>
+                            <th class="count">
+                                <label class="short-fixed">
+                                    <span>Items</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
+                                </label>
+                            </th>
+                            <th>
+                                <label>
+                                    <span>Total Price</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
+                                </label>
+                            </th>
                             <th  class="">
                                 <label>
                                     <span>Attendant</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th  class=" ">
                                 <label>
                                     <span>Date</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                             <th>
                                 <label >
                                     <span>Customer</span>
-                                    <span class="material-symbols-outlined">sort_by_alpha</span>
+                                    <span class="material-symbols-outlined">unfold_more</span>
                                 </label>
                             </th>
                         </tr>

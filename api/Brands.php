@@ -29,8 +29,7 @@ class Brands{
 		else{
 			$res = 'Nothing found';
 		}
-
-		return $res;
+		echo json_encode($res);
 	}
 }
 ?>

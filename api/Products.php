@@ -4,6 +4,149 @@ class Products{
 	function __construct($_p_instance){
 		$this->p_instance = $_p_instance;
 	}
+	public function updateWarehouseinventory($post){
+		$inventory_id = (int) $post['id'];
+		$updateData = array(
+			'product_id' =>  (int)  $post['data']['product_id'],
+			'colour_id' =>   (int) $post['data']['colour_id'],
+			'code' => $post['data']['code'],
+			'size_id' =>  (int) $post['data']['size_id'],
+			'quantity' => (int) $post['data']['quantity'],
+			'description' => $post['data']['description'],
+		);
+		$res =  $this->p_instance->updateDetails('warehouseInventory_tb', 'inventory_id', $inventory_id, $updateData);
+		if($inventory_id){
+			$inventoryDetails = $this->getOneWarehouseInventoryProduct($inventory_id);
+			echo json_encode(array('response'=> "success", 'message' => 'Inventory  Details updated successfully', 'info' => $inventoryDetails));
+		}else{
+			echo json_encode(array('response'=> "danger", 'message' => 'Operation failed'));
+		}
+		// echo json_encode($updateData);
+	}
+	public function updateProduct($post){
+		$product_id = (int) $post['id'];
+		$updateData = array(
+			'product_name' => $post['data']['product_name'],
+			'code_initual' => $post['data']['code_initual'],
+			'category_id' => (int) $post['data']['category_id'],
+			'sale_price' => $post['data']['sale_price'],
+			'buy_price' => $post['data']['buy_price'],
+			'brand_id' => (int) $post['data']['brand_id'],
+			'size_scheme_id' => (int) $post['data']['size_scheme_id'],
+			'supplier_id' => (int) $post['data']['supplier_id'],
+		);
+		$res =  $this->p_instance->updateDetails('product_detail_tb', 'product_id', $product_id, $updateData);
+		if($product_id){
+			$productDetails = $this->getSingleProduct($product_id);
+			echo json_encode(array('response'=> "success", 'message' => 'Product Details updated successfully', 'info' => $productDetails));
+		}else{
+			echo json_encode(array('response'=> "danger", 'message' => 'Operation failed'));
+		}
+		// echo json_encode($res);
+	}
+	public function saveProduct($post){
+		$sql = "SELECT * FROM `product_detail_tb` WHERE product_name = ? ";
+		$doesProductExist = $this->p_instance->getDetails($sql, array('product_name' => $post['data']['product_name']));
+        $num = $doesProductExist->rowCount();
+		if($num > 0){ 
+			echo json_encode(array('response'=> "warning", 'message' => 'Product already Exist'));
+		}else{
+			$product_details = array(
+				'product_name' => $post['data']['product_name'],
+				'code_initual' => strtoupper($post['data']['code_initual']),
+				'category_id' => (int) $post['data']['category_id'],
+				'sale_price' => $post['data']['sale_price'],
+				'buy_price' => $post['data']['buy_price'],
+				'brand_id' => (int) $post['data']['brand_id'],
+				'size_scheme_id' => (int) $post['data']['size_scheme_id'],
+				'supplier_id' => (int) $post['data']['supplier_id'],
+			);
+
+			$product_id = $this->p_instance->Save("product_detail_tb", $product_details);
+
+			if($product_id){
+				$productDetails = $this->getSingleProduct($product_id);
+				echo json_encode(array('response'=> "success", 'message' => 'Product added successfully', 'info' => $productDetails));
+			}else{
+				echo json_encode(array('response'=> "danger", 'message' => 'Operation failed'));
+			}
+		}
+	}
+	public function getSingleProduct($product_id){
+		$dataArr = array();
+		$sql = "SELECT pt.*, cy.category_name, bd.brand_name, sc.scheme_name, CONCAT(sr.fname, ' ', sr.lname)AS supplier FROM product_detail_tb pt LEFT OUTER JOIN category_tb cy ON pt.category_id = cy.category_id LEFT OUTER JOIN brand_tb bd ON pt.brand_id = bd.brand_id LEFT OUTER JOIN size_Scheme_tb sc ON sc.scheme_id = pt.size_scheme_id LEFT OUTER JOIN supplier_tb sr ON pt.supplier_id = sr.supplier_id WHERE pt.product_id = ?";
+
+		$result = $this->p_instance->getDetails($sql, array('pt.product_id' => $product_id));
+
+		while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+			extract($row);
+
+			$dataArr[] = array(
+				'id' => $product_id,
+				'name' => $product_name,
+				'code_initual' => $code_initual,
+				'category_id' => $category_id, 
+				'sale_price' => $sale_price, 
+				'buy_price' => $buy_price, 
+				'brand_id' => $brand_id, 
+				'brand_name' => $brand_name, 
+				'category_name' => $category_name, 
+				'supplier' => $supplier, 
+				'supplier_id' => $supplier_id, 
+				'scheme_name' => $scheme_name
+			);
+
+		}
+		return $dataArr[0];
+	}
+	public function getOneWarehouseInventoryProduct($inventory_id){
+		$dataArr = array();
+		$sql = "SELECT 
+			iv.*, cl.colour_name, sz.size_label, im.image_name, pt.*, cy.category_name, bd.brand_name, sc.scheme_name, CONCAT(sr.fname, ' ', sr.lname)AS supplier FROM warehouseInventory_tb iv 
+			LEFT OUTER JOIN product_detail_tb pt ON pt.product_id = iv.product_id 
+		    LEFT OUTER JOIN category_tb cy ON pt.category_id = cy.category_id 
+		    LEFT OUTER JOIN brand_tb bd ON pt.brand_id = bd.brand_id 
+		    LEFT OUTER JOIN size_Scheme_tb sc ON sc.scheme_id = pt.size_scheme_id 
+		    LEFT OUTER JOIN supplier_tb sr ON pt.supplier_id = sr.supplier_id 
+		    LEFT OUTER JOIN colour_tb cl ON iv.colour_id = cl.colour_id 
+		    LEFT OUTER JOIN size_tb sz ON iv.size_id = sz.size_id 
+		    LEFT OUTER JOIN inventory_product_images_tb im ON iv.inventory_id = im.inventory_id 
+		    WHERE iv.inventory_id = ? 
+		    ORDER BY iv.inventory_id  DESC";
+
+		$result = $this->p_instance->getDetails($sql, array('iv.inventory_id' => $inventory_id));
+
+		
+		while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+			extract($row);
+
+			$dataArr[] = array(
+				'id' => $inventory_id,
+				'product_id' => $product_id,
+				'name' => $product_name,
+				'category_id' => $category_id, 
+				'sale_price' => $sale_price, 
+				'buy_price' => $buy_price, 
+				'brand_id' => $brand_id, 
+				'brand_name' => $brand_name, 
+				'category_name' => $category_name, 
+				'color' => $colour_name, 
+				'desc' => $description, 
+				'code' => $code, 
+				'size' => $size_label, 
+				'quantity' => $quantity, 
+				'supplier' => $supplier, 
+				'supplier_id' => $supplier_id, 
+				'scheme_name' => $scheme_name, 
+				'image' => ($image_name == null) ? 'default.png' : $image_name,
+			);
+
+		}
+		// CONVERT OT JSON 
+		return $dataArr[0];
+	}
+
+
 	// public function search_products($branch_id, $data){
 	// 	$dataArr = array();
 	// 	// aLLL DATA
@@ -319,7 +462,7 @@ class Products{
 		{
 			$start = 0;
 		}
-		$sql = "SELECT pt.*, cy.category_name, bd.brand_name, sc.scheme_name, CONCAT(sr.fname, ' ', sr.lname)AS supplier FROM product_detail_tb pt LEFT OUTER JOIN category_tb cy ON pt.category_id = cy.category_id LEFT OUTER JOIN brand_tb bd ON pt.brand_id = bd.brand_id LEFT OUTER JOIN size_Scheme_tb sc ON sc.scheme_id = pt.size_scheme_id LEFT OUTER JOIN supplier_tb sr ON pt.supplier_id = sr.supplier_id";
+		$sql = "SELECT pt.*, cy.category_name, bd.brand_name, sc.scheme_name, CONCAT(sr.fname, ' ', sr.lname)AS supplier FROM product_detail_tb pt LEFT OUTER JOIN category_tb cy ON pt.category_id = cy.category_id LEFT OUTER JOIN brand_tb bd ON pt.brand_id = bd.brand_id LEFT OUTER JOIN size_Scheme_tb sc ON sc.scheme_id = pt.size_scheme_id LEFT OUTER JOIN supplier_tb sr ON pt.supplier_id = sr.supplier_id ORDER BY product_id DESC";
 
 		$filter_query = $sql . ' LIMIT ' . $start . ', ' . $limit;
 		$result = $this->p_instance->getDetails($filter_query, array());
@@ -348,7 +491,7 @@ class Products{
 	}
 	public function getAllProducts(){
 		$dataArr = array();
-		$sql = "SELECT pt.*, cy.category_name, bd.brand_name, sc.scheme_name, CONCAT(sr.fname, ' ', sr.lname)AS supplier FROM product_detail_tb pt LEFT OUTER JOIN category_tb cy ON pt.category_id = cy.category_id LEFT OUTER JOIN brand_tb bd ON pt.brand_id = bd.brand_id LEFT OUTER JOIN size_Scheme_tb sc ON sc.scheme_id = pt.size_scheme_id LEFT OUTER JOIN supplier_tb sr ON pt.supplier_id = sr.supplier_id";
+		$sql = "SELECT pt.*, cy.category_name, bd.brand_name, sc.scheme_name, CONCAT(sr.fname, ' ', sr.lname)AS supplier FROM product_detail_tb pt LEFT OUTER JOIN category_tb cy ON pt.category_id = cy.category_id LEFT OUTER JOIN brand_tb bd ON pt.brand_id = bd.brand_id LEFT OUTER JOIN size_Scheme_tb sc ON sc.scheme_id = pt.size_scheme_id LEFT OUTER JOIN supplier_tb sr ON pt.supplier_id = sr.supplier_id  ORDER BY product_id DESC";
 
 		$result = $this->p_instance->getDetails($sql, array());
 
@@ -374,6 +517,7 @@ class Products{
 		// CONVERT OT JSON 
 		echo json_encode($dataArr);
 	}
+
 	public function get_inventory_product_color($branch_id, $product_id)
 	{
 		if((int)$branch_id == 0){
@@ -425,7 +569,7 @@ class Products{
 		    LEFT OUTER JOIN colour_tb cl ON iv.colour_id = cl.colour_id 
 		    LEFT OUTER JOIN size_tb sz ON iv.size_id = sz.size_id 
 		    LEFT OUTER JOIN inventory_product_images_tb im ON iv.inventory_id = im.inventory_id 
-		    ORDER BY pt.product_name DESC";
+		    ORDER BY iv.inventory_id DESC";
 
 		$filter_query = $sql . ' LIMIT ' . $start . ', ' . $limit;
 		$result = $this->p_instance->getDetails($filter_query, array());
@@ -434,7 +578,8 @@ class Products{
 			extract($row);
 
 			$dataArr[] = array(
-				'id' => $product_id,
+				'id' => $inventory_id,
+				'product_id' => $product_id,
 				'name' => $product_name,
 				'category_id' => $category_id, 
 				'sale_price' => $sale_price, 
@@ -457,7 +602,7 @@ class Products{
 		// CONVERT OT JSON home_sea
 		echo json_encode($dataArr);
 	}
-	public function getAllWarehouseInventory(){
+	public function getAllWarehouseInventorys(){
 		$dataArr = array();
 		$sql = "SELECT 
 			iv.*, cl.colour_name, sz.size_label, im.image_name, pt.*, cy.category_name, bd.brand_name, sc.scheme_name, CONCAT(sr.fname, ' ', sr.lname)AS supplier FROM warehouseInventory_tb iv 
@@ -469,7 +614,7 @@ class Products{
 		    LEFT OUTER JOIN colour_tb cl ON iv.colour_id = cl.colour_id 
 		    LEFT OUTER JOIN size_tb sz ON iv.size_id = sz.size_id 
 		    LEFT OUTER JOIN inventory_product_images_tb im ON iv.inventory_id = im.inventory_id 
-		    ORDER BY pt.product_name DESC";
+		    ORDER BY iv.inventory_id  DESC";
 
 		$result = $this->p_instance->getDetails($sql, array());
 
@@ -478,7 +623,8 @@ class Products{
 			extract($row);
 
 			$dataArr[] = array(
-				'id' => $product_id,
+				'id' => $inventory_id,
+				'product_id' => $product_id,
 				'name' => $product_name,
 				'category_id' => $category_id, 
 				'sale_price' => $sale_price, 
