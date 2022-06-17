@@ -4,7 +4,7 @@ let site = {};
 let limit = 15;
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');
-var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0! navigation searchable
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0! navigation rende
 var yyyy = today.getFullYear();
 
 today = mm + '/' + dd + '/' + yyyy;
@@ -19,7 +19,6 @@ site = JSON.parse(localStorage.getItem('warehouse.pos.lifestyleoutdoorgear'));
 
 let page = 1;
 let start = true;
-
 
 const preloader = () => {
 
@@ -44,13 +43,15 @@ const loadSessionData =(dataName, limit) => {
     document.querySelector(`#${dataName}s_list`).insertAdjacentHTML('beforeend', '<div class="preloader"></div>') 
     if(site[`${dataName}List`]){
         generatePegination(site[`${dataName}List`], dataName);
-        removeElement('div.preloader');
         loadPageData(site[`${dataName}List`], dataName, limit);
     }
 }
 
-const dataRequest = (requestName, requestData, counter, reload = 'false') => {
+const dataRequest = (requestName, requestData, counter, reload = 'false', infoUpdate = false) => {
+
+    // console.log(document.querySelector(`#${lowerCaseRqtNm}s_list`).parentElement.parentElement);
     let lowerCaseRqtNm = requestName.toLowerCase(); // eg invoice NOTE:: requestName must be received with its first letter capital ang it shoudn't be in plural eg. Invoice
+    document.querySelector(`#${lowerCaseRqtNm}s_list`).parentElement.parentElement.insertAdjacentHTML('beforeend', '<div class="preloader"></div>') 
     let localStorageNm = `${lowerCaseRqtNm}List`; //eg invoiceList
     let action = `getAll${requestName}s`; // eg. getAllInvoice Note:: first letter of requestName must be capital
     if(reload == true || (!site[localStorageNm])){
@@ -77,12 +78,15 @@ const dataRequest = (requestName, requestData, counter, reload = 'false') => {
                 }
             },
             complete:function(data){
-                data.always(all => {;
+                data.always(all => {
                     counter++;
                     if(all.length > 0 && counter == 2){
                         // GET ALL THE DATA
                         setTimeout(dataRequest(requestName, {'action': action}, counter, true), 0);
                     }else if((site[localStorageNm])){
+                        if((infoUpdate == true)){
+                            renderPageData(alldata.slice(0, (0 + limit)), 0, lowerCaseRqtNm);
+                        }
                         generatePegination(site[localStorageNm], lowerCaseRqtNm);
                     }
                 });
@@ -129,7 +133,7 @@ const generatePegination = (data, item, limit = 15, displayLinkNumber = 10) => {
 }
 const paginationManipulation = (displayLinkNumber, range, data, item, limit) => {
     let itemLinks = document.querySelectorAll(`.pagination_link.${item}-list_pagination span`);
-    console.log(limit)
+    // console.log(limit)
     itemLinks.forEach(paginationLink => paginationLink.addEventListener('click', () => {
         itemLinks.forEach(itemLink => {itemLink.classList.remove('active')});
 
@@ -224,6 +228,7 @@ const getTotals = (requestData) => {
             dataType  : 'json',
             data: requestData,
             success: function(data){
+                console.log(data)
                 if(data.length > 0 ){
                     data.forEach(res => {
                         let requestName = Object.keys(res)[0];
@@ -244,7 +249,7 @@ const getTotals = (requestData) => {
 
 // AUTO REFRESH SITE AFTER 5 Secounds IF THEIR ARE CHANGES IN DATA
 setInterval( () => {
-    let requestData = {'action':'getTotal', 'tbs': "WarehouseInventory|warehouseInventory_tb|Invoice|invoice_tb|Product|product_detail_tb|User|user_tb"};
+    let requestData = {'action':'getTotal', 'tbs': "WarehouseInventory|warehouseInventory_tb|Invoice|invoice_tb|Product|product_detail_tb|User|user_tb|branchinventory|branch_inventory_tb"};
     getTotals(requestData);
 }, 5000); //600000
 
@@ -260,7 +265,7 @@ const reveal = (identifier) => {
 }
 
 const renderPageData = (data, count = 0, identifier, revealed = 'unrevealed') => {
-    let bg;
+    let bg;    
     let itemContainer = document.getElementById(`${identifier}s_list`);
     let templateString = '';
     let modifiedTemplateString = ``;
@@ -329,9 +334,7 @@ const renderPageData = (data, count = 0, identifier, revealed = 'unrevealed') =>
                 `;
                 itemContainer.innerHTML = templateString;
             }
-            removeElement('div.preloader');
-            generateTblTitleFilter('Product', 'category_id', 'filter_by_category', 'category');
-            filterByLimit('Product', 'category_id', 'filter_by_category', 'category');
+            generateTblTitleFilter('Product', 'category_id', 'filter_by_category', 'category');            filterByLimit('Product', 'category_id', 'filter_by_category', 'category');
         break;
 
         case 'warehouseinventory':
@@ -352,7 +355,7 @@ const renderPageData = (data, count = 0, identifier, revealed = 'unrevealed') =>
                     bg = (index%2 == 0) ? 'white' : 'ghostwhite';
                     templateString = `
 
-                            <tr class="${bg} ${revealed} ${identifier}revealer">
+                            <tr class="${bg} ${revealed} ${identifier}revealer" data-identifier="warehouseinventorys_list">
                                 <td><label class="counter">${count + 1}</label></td>
                                 <td data-d-type="text" class="editable-data select-data productList"  name="autoBased" data-auto-based="${itemDetails.name}" data-action="negative" data-name="product_id"><label class="fixed-width">${itemDetails.name}</label></td>
                                 <td data-d-type="text">
@@ -362,7 +365,7 @@ const renderPageData = (data, count = 0, identifier, revealed = 'unrevealed') =>
                                     </label>
                                 </td>
                                 <td data-d-type="text" class="editable-data" data-name="quantity"><label>${itemDetails.quantity}</label></td>
-                                <td data-d-type="text"><label class="success">${(itemDetails.quantity > 0) ? 'Available': 'Out of Stork'}</label></td>
+                                <td data-d-type="text">${(itemDetails.quantity > 0) ? '<label class="success">Available</label>': '<label class="warning">Out of Stork</label>'}</td>
                                 <td data-d-type="text" >
                                     <div class="image">
                                         <img src="./images/${itemDetails.image}" alt="">
@@ -398,7 +401,7 @@ const renderPageData = (data, count = 0, identifier, revealed = 'unrevealed') =>
                 });
 
                 // ADD EVENT LISNER FOR EDITING TABLE DATA
-                inlineTableClickActions('WarehouseInventorys', 7, 'updateWarehouseinventory');
+                inlineTableClickActions('WarehouseInventorys', 6, 'updateWarehouseinventory');
                 itemContainer.parentElement.parentElement.lastElementChild.innerHTML = ('beforeend', modifiedTemplateString);
 
             }else{
@@ -409,12 +412,93 @@ const renderPageData = (data, count = 0, identifier, revealed = 'unrevealed') =>
                 `;
                 itemContainer.innerHTML = templateString;
             }
-            removeElement('div.preloader');
-
             generateTblTitleFilter('WarehouseInventory', 'brand_id', 'filter_by_brand', 'brand');
             filterByLimit('WarehouseInventory', 'brand_id', 'filter_by_brand', 'brand');
         
         break;
+        case 'branchinventory':
+            templateString = '';
+            modifiedTemplateString = `
+                        <tr>
+                            <th><span>Name</span></th>
+                            <th><span>Qty</span></th>
+                            <th><span>Status</span></th>
+                            <th><span>Branch</span></th>
+                            <th><span>Code</span></th>
+                            <th><span>Colour</span></th>
+                            <th><span>Size</span></th>
+                            <th><span>Description</span></th>
+                        </tr>
+                        `;
+            if(data.length > 0){
+                let corespondingWarehouseInfo = {};
+                data.forEach((itemDetails, index) => {
+                    site.warehouseinventoryList.forEach(info => {
+                        if(Number(info.id) == itemDetails.warehouse_inventory_id){
+                            corespondingWarehouseInfo = info;
+                            // console.log(info)
+                            // console.log(itemDetails)
+                            // console.log('_________________New_________________');
+                        }
+                    })
+                    templateString = `
+
+                            <tr class="${revealed} ${identifier}revealer" data-identifier="branchinventorys_list" data-name="branchinventoryList" >
+                                <td><label class="counter">${count + 1}</label></td>
+                                <td data-d-type="text" class="editable-data select-data warehouseinventoryList" data.data-piece='main' name="autoBased" data-auto-based="${itemDetails.name}" data-action="negative" data-name="warehouse_inventory_id"><label class="fixed-width">${itemDetails.name}</label></td>
+
+                                <td data-d-type="text" data-info='${JSON.stringify(corespondingWarehouseInfo)}'>
+                                    <label class="action">
+                                        <span class="material-symbols-outlined primary inline-edit"  data-info='${JSON.stringify(itemDetails)}' data-id="${itemDetails.id}" data-tb="branchinventory" data-index="${index}">edit</span>
+                                        <span title="return to warehouse" class="material-symbols-outlined warning inline-return" data-info='${JSON.stringify(itemDetails)}' data-id="${itemDetails.id}" data-tb="branchinventory" data-tbl="branch_inventory_tb" data-field='inventory_id' data-index="${index}">sync</span>
+                                    </label>
+                                </td>
+                                <td data-d-type="text" class="editable-data select-data branchList"  name="autoBased" data-auto-based="${itemDetails.name}" data-action="negative" data-name="branch_id"><label>${itemDetails.branch_name}</label></td>
+                                <td data-d-type="text" class="editable-data select-data colorList" name="autoBased" data-auto-based="${itemDetails.color}"   data-action="negative" data-name="colour_id"><label class="">${itemDetails.color}</label></td>
+                                <td data-d-type="text" class="editable-data select-data sizeList" name="autoBased" data-auto-based="${itemDetails.size}"   data-action="negative" data-name="size_id"><label>${itemDetails.size}</label></td>
+                                <td data-d-type="text" class="directInput"  data-action="negative" data-name="code"><label class="primary">${itemDetails.code}</label></td>
+                                <td data-d-type="text" class="editable-data editable-data" data-name="quantity"><label>${itemDetails.quantity}</label></td>
+                                <td data-d-type="text" data-name="availableQuantity"><label>${itemDetails.availableQuantity}</label></td>
+                                <td data-d-type="text">${(itemDetails.quantity > 0) ? '<label class="success">Available</label>': '<label class="warning">Out of Stork</label>'}</td>
+                                <td data-d-type="text" class="autogenerated"  data-action="negative" data-name="description"><label class="fixed-width">${itemDetails.desc}</label></td>
+                            </tr> 
+
+
+                    `;
+                    itemContainer.insertAdjacentHTML('beforeend', templateString);
+                    count++;
+                    // MODIFIED FOR EXPORT
+                    modifiedTemplateString += `
+                        <tr class="${bg} ${revealed} ${identifier}revealer">
+                            <td class="inventory-data select-data"><label class="fixed-width">${itemDetails.name}</label></td>
+                            <td class="inventory-data  "><label class="counter">${itemDetails.quantity}</label></td>
+                            <td class="inventory-data select-data"><label class="success">${(itemDetails.quantity > 0) ? 'Available': 'Out of Stork'}</label></td>
+                            <td data-d-type="text" class="editable-data select-data "><label>${itemDetails.branch_name}</label></td>
+                            <td class="inventory-data  "><label class="primary">${itemDetails.code}</label></td>
+                            <td class="inventory-data  "><label class="">${itemDetails.color}</label></td>
+                            <td class="inventory-data  "><label class="counter">${itemDetails.size}</label></td>
+                            <td class="inventory-data  "><label class="fixed-width">${itemDetails.desc}</label></td>
+                        </tr> 
+                    `;
+                });
+
+                // ADD EVENT LISNER FOR EDITING TABLE DATA
+                inlineTableClickActions('BranchInventorys', 5, 'updateBranchinventory');
+                itemContainer.parentElement.parentElement.lastElementChild.innerHTML = ('beforeend', modifiedTemplateString);
+
+            }else{
+                templateString = `
+                    <tr>
+                        <td colspan='10'><label class="warning">nothing Found</label></td>
+                    </tr>
+                `;
+                itemContainer.innerHTML = templateString;
+            }
+            generateTblTitleFilter('BranchInventory', 'branch_id', 'filter_by_branch', 'branch');
+            filterByLimit('BranchInventory', 'branch_id', 'filter_by_branch', 'branch');
+        
+        break;
+
 
         case 'user':
             templateString = '';
@@ -465,9 +549,7 @@ const renderPageData = (data, count = 0, identifier, revealed = 'unrevealed') =>
                 `;
                 itemContainer.innerHTML = templateString;
             }
-            removeElement('div.preloader');
         break;
-
         case 'supplier':
             templateString = '';
             if(data.length > 0){
@@ -548,10 +630,9 @@ const renderPageData = (data, count = 0, identifier, revealed = 'unrevealed') =>
                 `;
                 itemContainer.innerHTML = templateString;
             }
-            removeElement('div.preloader');
         break;
-
     }
+    removeElement('div.preloader');
     reveal(identifier);
 }
       
@@ -577,23 +658,444 @@ function export_table_to_csv (table, csv_name, download_link) {
     download_link.download = csv_name + '.csv';
 } 
 // ADD NEW ROW TO THE TABLE 
-const addTableRow = (btn, identifier, itemSpecification, epectedTblFields) => {
+const addTableRow = (btn, identifier, itemSpecification, expectedTblFields, requestAction) => {
     btn.addEventListener('click', (e) => {
         if(btn.childNodes[1].textContent == 'add'){
             let tr = document.createElement('tr');
             tr.classList.add(`${itemSpecification}`);
             tr.classList.add(`${itemSpecification}-add`);
+            /* 
+                IF THERE'S ANY NEW INLINE TABLE DATA 
+                ENTRY ROWS REMOVE THEM BEFORE ADD ANEW ONE
+            */
+            document.querySelectorAll(`.${itemSpecification}-add`).forEach(newTr => {
+                newTr.remove();
+            });
+            // ADD TABLE DATA ENTRY ROW
             document.getElementById(identifier).prepend(tr);
             let activeTr = document.querySelector(`.${itemSpecification}-add`);
-            activeTr.innerHTML = (identifier == 'products_list') ? generateProductTR () : generateInventoryTR();
+            switch(identifier){
+                case 'products_list':
+                    activeTr.innerHTML = generateProductTR();
+                    activeTr.dataset.name = "productListList";
+                    activeTr.dataset.secondary = "warehouseinventoryList";
+                    activeTr.dataset.taxiary = "branchinventoryList";
+
+                break;
+                case 'warehouseinventorys_list':
+                    activeTr.innerHTML = generateInventoryTR();
+                    activeTr.dataset.name = "warehouseinventoryList";
+                    activeTr.dataset.secondary = "branchinventoryList";
+                    activeTr.dataset.taxiary = "empty";
+
+                break;
+                case 'branchinventorys_list':
+                    activeTr.innerHTML = generateBranchInventoryTR();
+                    activeTr.dataset.name = "branchinventoryList";
+                    activeTr.dataset.secondary = "warehouseinventoryList";
+                    activeTr.dataset.taxiary = "empty";
+
+                    // CANCEL NEW DATA ENTRY ROW
+                    let removeBtn = activeTr.children[2].children[0].children[1];
+                    removeBtn.addEventListener('click', () => {
+                        if(!document.getElementById('warningBox')){
+                            document.querySelector(`#branchinventorys_list`).before(warningNotification(`Cancel adding new inventory product to branch`));
+                            let warningBoxBtns = document.querySelectorAll('#warningBox button');
+                            warningBoxBtns.forEach(actionBtn => actionBtn.addEventListener('click', () => {
+                                if(actionBtn.childNodes[1].textContent == 'Continue'){
+                                    document.getElementById('warningBox').remove();
+                                    activeTr.remove();
+                                }else{
+                                    document.getElementById('warningBox').remove();
+                                }
+                            }));
+                        }
+                    });
+                break;
+
+            }
+            // activeTr.innerHTML = (identifier == 'products_list') ? generateProductTR () : generateInventoryTR();
             // btn.childNodes[1].textContent = (btn.childNodes[1].textContent == 'add') ? 'save' : 'add';
-            validateInputs(btn);
+            validateNewRowInputs(activeTr, `add${identifier}`);
+            // validateInputs(btn);
             // SAVE ACTION BTN
-            saveNewRow(itemSpecification, epectedTblFields);
+            saveNewRow(itemSpecification, expectedTblFields, requestAction);
+            // console.log(requestAction) 
         }
     });
 }
-const saveNewRow = (itemSpecification, epectedTblFields) => {
+const validateNewRowInputs = (tr, identifier) => {
+    let temp = [];
+    let td = '', inputValue, productName;
+    let piece = '', data = "", main = '',children = '';
+    console.log(identifier)
+    switch(identifier){
+        case 'addbranchinventorys_list':
+            let addinventoryProductColors = [];
+            let addinventoryProductSizes = [];
+            children = tr.children;
+            // GET INPUT FIELDS AND DATALIST
+            let addproductNameInput = children[1].children[0].children[0];
+            let addproductNameDataList = children[1].children[0].children[1];
+            let addbranchInput = children[3].children[0].children[0];
+            let addbranchDataList = children[3].children[0].children[1];
+            let addcolorInput = children[4].children[0].children[0];
+            let addcolorDataList = children[4].children[0].children[1];
+            let addsizeInput = children[5].children[0].children[0];
+            let addsizeDataList = children[5].children[0].children[1];
+            let addquantityInput = children[7].children[0].children[0];
+
+            // MAKE SAVE BTN UNCLICKABLE
+            let addSaveBtn = children[2].children[0].children[0];
+            addSaveBtn.style.pointerEvents = 'none';
+
+            // DISABLE ALL INPUTS IF PRODUCT NAME IS ASSIGNED
+            disableOrEnable([addcolorInput, addsizeInput, addquantityInput], 'disabled');
+
+
+            // ADD EVENT LISNER TO INPUT FILEDS
+            // tbInputEvent(input, elementsToEnableArray, dependantInputsArray, dependantDataListArray, dataArray, temp, dataReceiver, children) => {
+            tbInputEvent(addproductNameInput, [addbranchInput, addcolorInput], [addcolorInput, addsizeInput], [addcolorDataList, addsizeDataList], [addinventoryProductColors], temp, addcolorDataList, children, 'productName');
+            tbInputEvent(addcolorInput, [addsizeInput], [addsizeInput], [addsizeDataList], [addinventoryProductSizes], temp, addsizeDataList, children, 'color');
+            tbInputEvent(addsizeInput, [addquantityInput], [addquantityInput], [], [], temp, '', children, 'size');
+            // tbInputEvent(addquantityInput, [], [], [], [], temp, '', children, 'quantity');
+            // checkInput('keyup', addquantityInput, ['numberExpected', 'muchAvailableQuantity', 'required'], 'branchInventoryQuantity', children);
+            checkInput('keyup', addquantityInput, ['updateQuantity'], 'branchInventoryQuantity', children);
+            checkInput('keyup', addbranchInput, ['required'], 'branchInventoryQuantity', children);
+
+        break;
+        case 'updatebranchinventorys_list':
+            let updateinventoryProductColors = [];
+            let updateinventoryProductSizes = [];
+            children = tr.children;
+            // GET INPUT FIELDS AND DATALIST
+            let productNameInput = children[1].children[0].children[0];
+            let productNameDataList = children[1].children[0].children[1];
+            let branchInput = children[3].children[0].children[0];
+            let branchDataList = children[3].children[0].children[1];
+            let colorInput = children[4].children[0].children[0];
+            let colorDataList = children[4].children[0].children[1];
+            let sizeInput = children[5].children[0].children[0];
+            let sizeDataList = children[5].children[0].children[1];
+            let quantityInput = children[7].children[0].children[0];
+            // DISABLE ALL INPUTS IF PRODUCT NAME IS ASSIGNED
+            // disableOrEnable([productNameInput], 'enable');
+            productNameInput.setAttribute('readonly', true);
+            // productNameInput.style.pointerEvents = 'none';
+            // ADD EVENT LISNER TO INPUT FILEDS
+            // tbInputEvent(input, elementsToEnableArray, dependantInputsArray, dependantDataListArray, dataArray, temp, dataReceiver, children) => {
+            // tbInputEvent(productNameInput, [branchInput, colorInput], [colorInput, sizeInput], [colorDataList, sizeDataList], [updateinventoryProductColors], temp, colorDataList, children, 'productName');
+            tbInputEvent(colorInput, [sizeInput], [sizeInput], [sizeDataList], [updateinventoryProductSizes], temp, sizeDataList, children, 'color');
+            tbInputEvent(sizeInput, [], [], [], [], temp, '', children, 'size');
+            // checkInput('keyup', addquantityInput, ['numberExpected', 'muchAvailableQuantity', 'required'], 'branchInventoryQuantity', children);
+            checkInput('keyup', quantityInput, ['updateQuantity'], 'branchInventoryQuantity', children);
+            checkInput('keyup', branchInput, ['required'], 'branchInventoryQuantity', children);
+        break;
+
+    }
+}
+const tbInputEvent = (input, elementsToEnableArray, dependantInputsArray, dependantDataListArray, dataArray, temp, dataReceiver, children, identifier) => {
+    input.addEventListener('change', () => {
+        // ENABLE DEPENDANT INPUT
+        disableOrEnable(elementsToEnableArray, 'enable');
+
+        // RESET ALL DEPENDAT INPUTS
+        clearInput(dependantInputsArray, dependantDataListArray);
+
+        // RESET PRODUCT COLOR ARRAY
+        dataArray = [];
+        // RESET TEMP ARRAY
+        temp = [];
+        // GET PRODUCT INPUT VALUE
+        inputValue = input.value.toLowerCase();
+        // GET INPUT TABLE DATA
+        td = children[1];
+        switch(identifier){
+            case 'quantity':
+                // console.log(children[8].children[0].textContent)
+                // let error = checkInput(inputValue, ['numberExpected']);
+                // if(!error){
+                //     console.log(error)
+                //     input.style.borderColor ='lime';
+
+                // }else{
+                //     input.style.borderColor ='#f00';
+                // }
+
+            break;
+            default:
+                let res = [];
+                // GET AVAILABLE PRODUCT COLORS/SIZES/DETAILS IN WAREHOUSE INVENTORY
+                site[td.classList[2]].forEach((info, index) => {
+                    if(identifier == 'color'){
+                        temp = getInventorySizeList(info,  input, children, temp, elementsToEnableArray);
+                    }else if(identifier == 'productName'){
+                        temp = getInventoryColorList(info, index, input, children, temp, elementsToEnableArray);
+
+                        // RESET WARE HOURE INVENTORY QUANTITY BACK TO NORMAL
+                        setTimeout(()=>{
+                            if(Object.keys(children[2].dataset).length > 1){
+                                let dataRow = JSON.parse(children[2].dataset.info);
+                                if(Number(dataRow.id) == Number(info.id)){
+                                    site.warehouseinventoryList[index].quantity = dataRow.quantity;
+                                }
+                            // console.log(site.branchinventoryList);
+                                site.branchinventoryList.forEach((data, index) => {
+                                    if(Number(dataRow.id) == Number(data.warehouse_inventory_id)){
+                                        site.warehouseinventoryList[index].availableQuantity = dataRow.quantity;
+                                        console.log(site.warehouseinventoryList[index])
+                                    }
+                                });
+                            }
+                        });
+                    }else{
+                        temp = getInventoryProductDetails(info, input, children, temp, elementsToEnableArray, res);
+                        let quantityInput = children[7].children[0].children[0];
+                        // console.log(temp)
+                        if(temp.includes(true)){
+                            disableOrEnable([quantityInput], 'enable');
+                        }else{
+                            disableOrEnable([quantityInput], 'disabled');
+                        }
+                    }
+                });
+                if(identifier !== 'size'){
+                    temp.filter(details => {dataArray.push(JSON.parse(details))});
+                    // ASSIGN COLOR LIST TO THE COLOR DATALIST
+                    dataReceiver.innerHTML = generateOptions(dataArray);
+                }
+
+        }
+    });
+}
+const checkInput = (eventType, input, checks, identifier, children = null) => {
+    let saveBtn, action, error = false;
+    saveBtn = children[2].children[0].children[0];
+    input.addEventListener(eventType , () => {
+        checks.forEach(check => {
+            switch(check){
+                case 'required':
+                // if(error == false){
+                    error = validationCheck((input.value != ''), children, input, []);
+                // }
+                break
+                case 'numberExpected':
+                    // if(error == false){
+                        if(Number(input.value)){
+                            input.style.borderColor ='lime';
+                            // saveBtn.style.pointerEvents = 'All';
+                            // removeNotification(1);
+                            error = false;
+                        }else{
+                            // saveBtn.style.pointerEvents = 'none';
+                            input.style.borderColor ='#f00';
+                            // deliverNotification('Number expected eg 4', 'danger');
+                            error = true;
+                        }
+                    // }
+                break
+                case 'muchAvailableQuantity':
+                    // if(error == false){
+                        action = (Number(input.value) && Number(children[8].children[0].textContent) >= Number(input.value));
+                        error = checkAction(action, input, saveBtn, 'Branch product quantity can\'t be greater than available product quantity in inventory')
+                    // }
+                break
+                case 'updateQuantity':
+                    if(identifier == 'branchInventoryQuantity'){
+                        // DETAILS FETCHED BASED ON WAREHOUSE INVENTORY TABLE
+                        let productInfo = JSON.parse(children[2].dataset.info);
+                        // DETAILS FETCHED BASED ON BRANCH INVENTORY TABLE
+                        let branchInventoryInfo = JSON.parse(saveBtn.dataset.info);
+                        // MATH DATA
+                        let availableQuantity = Number(productInfo.quantity);
+                        let oldQuantity = Number(branchInventoryInfo.quantity);
+                        let maxQuantity = oldQuantity + availableQuantity;
+                        let warehouse_inventory_id = productInfo.id;
+                        let quantity = Number(input.value);
+                        let tbAvailableQty = children[8].children[0];
+                        let tbNewAvailableQty = Number(tbAvailableQty.textContent) ;
+                        let newAvailableQauntity = (availableQuantity >= tbNewAvailableQty) ? availableQuantity : tbNewAvailableQty; 
+
+                        if(oldQuantity > quantity){
+                            tbNewAvailableQty = (availableQuantity >= tbNewAvailableQty) ? availableQuantity : Number(tbAvailableQty.textContent) ;
+                            newAvailableQauntity = (((oldQuantity - quantity) + availableQuantity) >= 0) ? ((oldQuantity - quantity) + availableQuantity) : availableQuantity;
+                        }else if(oldQuantity < quantity){
+                            tbNewAvailableQty = (availableQuantity >= tbNewAvailableQty) ? availableQuantity : Number(tbAvailableQty.textContent) ;
+                            newAvailableQauntity = (((tbNewAvailableQty) - quantity) >= 0) ? (tbNewAvailableQty - quantity) : 0;
+                        }
+                        tbAvailableQty.textContent = (newAvailableQauntity <= maxQuantity) ? newAvailableQauntity : maxQuantity;
+
+                        // console.log(newAvailableQauntity)
+                        // console.log(productInfo);
+                        // console.log(branchInventoryInfo)
+                        // console.log(children[8].children[0]);
+
+                        // input.value = ((Number(input.value) >= 0) && (Number(input.value) <= (maxQuantity)) )? Number(input.value) : 0; afterE
+
+                        if((input.value !='') && (Number(input.value) >= 0) && (Number(input.value) <= maxQuantity)){
+                            input.style.borderColor ='lime';
+                            saveBtn.style.pointerEvents = 'All';
+
+                            // UPDATE QUANTITYY IN THE WAREHOUSE INVENTORY LIST
+                            site.warehouseinventoryList.forEach((data, index) => {
+                                if(Number(data.id) == Number(warehouse_inventory_id)){
+                                    console.log(data)
+                                    site.warehouseinventoryList[index].quantity = newAvailableQauntity;
+                                }
+                            });
+                            // UPDATE QUANTITYY IN THE BRANCH INVENTORY LIST
+                            site.branchinventoryList.forEach((data, index) => {
+                                if(Number(data.warehouse_inventory_id) == Number(warehouse_inventory_id)){
+                                    site.branchinventoryList[index].availableQuantity = newAvailableQauntity;
+                                    site.branchinventoryList[index].quantity = quantity;
+                                }
+                            })
+
+                        }else{
+                            saveBtn.style.pointerEvents = 'none';
+                            input.style.borderColor ='#f00';
+                            error = true;
+                        }
+                    }
+                break
+            }
+
+        })
+
+    })
+
+    // return error;
+}
+const checkAction = (action, input, saveBtn, message) => {
+    let error = false;
+    if(action){
+        // removeNotification(1);
+        input.style.borderColor = 'limit';
+        input.setAttribute('title', 'valid value');
+        // saveBtn.style.pointerEvents = 'All';
+        error = false;
+    }else{
+        input.style.borderColor = '#f00';
+        input.setAttribute('title', 'Invalid value');
+        // saveBtn.style.pointerEvents = 'none';
+        // deliverNotification(message, 'danger');
+        error =true;
+    }
+    return error;
+}
+const getInventorySizeList = (info, input, children, temp, elementsToEnableArray) => {
+    let inputValue = input.value.toLowerCase();
+    let productName = children[1].children[0].children[0].value.toLowerCase();
+    if((info.color.toLowerCase() == inputValue) && (info.name.toLowerCase() == productName) && (Number(info.quantity) > 0)){
+        if(!temp.includes(JSON.stringify({'name': info.size}))){
+            temp.push(JSON.stringify({'name': info.size}));
+        }
+    }
+    validationCheck((temp.length > 0), children, input, elementsToEnableArray);
+    return temp;
+}
+const getInventoryProductDetails = (info, input, children, temp, elementsToEnableArray, res) => {
+    let inputValue = input.value.toLowerCase();
+    let productName = children[1].children[0].children[0].value.toLowerCase();
+    let color = children[4].children[0].children[0].value.toLowerCase();
+    temp = false;
+
+    if((info.size.toLowerCase() == inputValue) && (info.color.toLowerCase() == color) && (info.name.toLowerCase() == productName) && (Number(info.quantity) > 0)){
+        console.log(children)
+        console.log(children[2].children[0])
+        console.log(info)
+        console.log(children[2].children[0].children[0].dataset.info);
+        let inlineBtns = children[2].children[0].children;
+        console.log(inlineBtns.children);
+        children[7].children[0].children[0].value = 0;
+        // UPDATE INFORMATION ON INLINE BUTTIONS INSIDE THE ACTION th
+        site.branchinventoryList.forEach(updateDataCheck => {
+            if(
+                (Number(info.id) == Number(updateDataCheck.warehouse_inventory_id)) && 
+                (info.size.toLowerCase() == updateDataCheck.size.toLowerCase()) && 
+                (info.color.toLowerCase() == updateDataCheck.color.toLowerCase()) && 
+                (info.name.toLowerCase() == updateDataCheck.name.toLowerCase())
+            ){
+                console.log(updateDataCheck, info)
+                inlineBtns[0].dataset.info = JSON.stringify(updateDataCheck);
+                inlineBtns[1].dataset.info = JSON.stringify(updateDataCheck);
+                inlineBtns[1].parentElement.dataset.info = JSON.stringify(updateDataCheck);
+                inlineBtns[0].dataset.id = updateDataCheck.id;
+                inlineBtns[1].dataset.id = updateDataCheck.id;
+                inlineBtns[1].dataset.id = updateDataCheck.id;
+                // BRANCH INVENTORY QUANTITY
+                children[7].children[0].children[0].value = updateDataCheck.quantity;
+
+            }
+        })
+        // SET WAREHOUSE INVENTORY INFO FOR THE PRODCUT TO ACTION th IN THE TABLE TO BE USED FOR (UPDATE/RETURN)
+        children[2].dataset.info = JSON.stringify(info); //valida
+        // PRODUCT CODE
+        children[6].children[0].textContent = info.code;
+        // AVAILABLE QUANTITY
+        children[8].children[0].textContent = info.quantity;
+        // AVAILABLE QUANTITY
+        children[9].innerHTML = Number(info.quantity) > 0 ? '<label class="success">Available</label>' : '<label class="danger">Out of stork</label>';
+        // DESCRIPTION
+        children[10].children[0].textContent = info.desc;
+
+        temp = true;
+    }
+    if(temp == true){
+        validationCheck(((info.size.toLowerCase() == inputValue) && (info.color.toLowerCase() == color) && (info.name.toLowerCase() == productName) && (Number(info.quantity) > 0)), children, input, elementsToEnableArray);
+    }
+    res.push(temp)
+    return res;
+}
+const getInventoryColorList = (info, index, input, children, temp, elementsToEnableArray) => {
+    let inputValue = input.value.toLowerCase();
+    if((info.name.toLowerCase() == inputValue) && (Number(info.quantity) > 0)){
+        if(!temp.includes(JSON.stringify({'name': info.color}))){
+            temp.push(JSON.stringify({'name': info.color}));
+        }
+    }
+    validationCheck((temp.length > 0), children, input, elementsToEnableArray);
+
+    return temp;
+}
+const validationCheck = (action, children, input, elementsToEnableArray) => {
+    let saveBtn = children[2].children[0].children[0];
+    let error = false;
+     if(action){
+        input.style.borderColor ='lime';
+        disableOrEnable(elementsToEnableArray, 'enable');
+        error = false;
+
+    }else{
+        input.style.borderColor ='#f00';
+        disableOrEnable(elementsToEnableArray, 'disabled');
+        error = true;
+    }
+    return error;
+}
+const disableOrEnable = (elementList, action) => {
+    elementList.forEach(element => {
+        if(action === 'disabled'){
+            element.setAttribute('disabled', 'disabled');
+        }else{
+            element.removeAttribute('disabled');
+        }
+
+    });
+
+}
+const clearInput = (inputList, dataLists) => {
+    inputList.forEach(input => {
+        input.value = '';
+    });
+
+    if(dataLists.length > 0){
+        dataLists.forEach(dataList => {
+            dataList.innerHTML = '';
+        });
+    }
+}
+const saveNewRow = (itemSpecification, expectedTblFields, requestAction) => {
     let tr = document.querySelector(`.${itemSpecification}-add`);
     // GET THE INLINE EDIT BTN
     let inlineEdit = (tr.childNodes[5].childNodes[1].childNodes[1]);
@@ -601,23 +1103,61 @@ const saveNewRow = (itemSpecification, epectedTblFields) => {
     inlineEdit.addEventListener('click', () => {
         tr.parentElement.after(preloader());
         let dataToSave = {};
-        tr.childNodes.forEach((td, index) => {
-            if((index != 0) && (index % 2 != 0) && td.classList.contains('editable-data')){  
-                let data = (td.childNodes[1].childNodes[1].value);
+        let children = tr.children;
+        let td = '';
+        for (var index= 0; index< children.length; index++) {
+            td = children[index];
+            if((index != 0) && td.classList.contains('editable-data')){  
+                let data = (td.children[0].children[0].value);
                 if(data != ''){
                     // COLLECT DATA TO UPDATE  
                     if(td.classList.length === 3){
-                        let filteredItemDetails = site[td.classList[2]].filter(info => info.name == data);
-                        dataToSave[td.dataset.name] = filteredItemDetails[0].id;
+                        let filteredItemDetails = [];
+                        if((td.dataset.name == 'warehouse_inventory_id') && (tr.parentElement.id == 'branchinventorys_list')){
+                            filteredItemDetails[0] = JSON.parse(tr.children[2].dataset.info);
+                            console.log(filteredItemDetails[0])
+                            dataToSave.availableQuantity = filteredItemDetails[0].quantity;
+                        }else{
+                            filteredItemDetails = site[td.classList[2]].filter(info => info.name.toLowerCase() == data.toLowerCase());
+                        }
+                        if(Object.keys(filteredItemDetails).length > 0){
+                            dataToSave[td.dataset.name] = filteredItemDetails[0].id;
+                        }
                     }else{
                         dataToSave[td.dataset.name] = data;
                     }
                 }
             }
-        });
-        if(Object.keys(dataToSave).length == epectedTblFields){
-            // UPDATE DATA
-            requestDataChange(dataToSave, inlineEdit, 'saveProduct' , 'save', inlineEdit);
+        }
+        // CHECK IF PRODUCT ALREADY EXITS IN THE BRANCH INVENTORY
+        if(Object.keys(dataToSave).length >= expectedTblFields){
+            let result = [];
+            site[tr.dataset.name].forEach(info => {
+                if(
+                    (Number(info.warehouse_inventory_id) == Number(dataToSave.warehouse_inventory_id)) 
+                    &&  (Number(info.branch_id) == Number(dataToSave.branch_id))
+                    &&  (Number(info.size_id) == Number(dataToSave.size_id)) 
+                    &&  (Number(info.colour_id) == Number(dataToSave.colour_id))
+                    ){
+                //console.log(Number(info.warehouse_inventory_id) , Number(dataToSave.warehouse_inventory_id) ,  Number(info.branch_id) , Number(dataToSave.branch_id),  Number(info.size_id) , Number(dataToSave.size_id),  Number(info.colour_id) , Number(dataToSave.colour_id))
+
+                    console.log(info)
+                    result.push(info);
+                }
+            });
+            if(result.length > 0){
+                console.log(result);
+                console.log(dataToSave);
+                removeElement('div.preloader');
+                deliverNotification('Product already exits in branch inventory', 'warning');
+            }else{
+                // REMOVE THE TR USED TO ENTER DATA
+                tr.remove();
+                dataToSave.remainingQuantity = Number(dataToSave.availableQuantity) - Number(dataToSave.quantity);
+                console.log(dataToSave)
+                // SAVE DATA
+                requestDataChange(dataToSave, inlineEdit, requestAction , 'save', inlineEdit);
+            }
         }else if(Object.keys(dataToSave).length == 0){
             deliverNotification('All fields were empty! Operation canceled', 'danger');
             tr.remove();
@@ -631,6 +1171,120 @@ const saveNewRow = (itemSpecification, epectedTblFields) => {
     })
 }
 
+const generateBranchInventoryTR = () => {
+    let addRow = `
+        <tr>
+            <td><label class="counter">0</label></td>
+            <td data-d-type="text" class="editable-data select-data warehouseinventoryList" data-piece="main" name="autoBased" data-name="warehouse_inventory_id">
+                <label class="fixed-width">
+                    <input list="sels0" name="sel0" placeholder="Enter Product Name" id="sel0">
+                    <datalist id="sels0">
+                        ${dataList = []}
+                        ${temp = []}
+                        ${site.warehouseinventoryList.forEach(details => {if(!temp.includes(JSON.stringify({'name': details.name}))){temp.push(JSON.stringify({'name': details.name}))}})};
+                        ${temp.filter(details => {dataList.push(JSON.parse(details))})}
+                        ${generateOptions(dataList)}
+                    </datalist>
+                </label>
+            </td>
+            <td data-d-type="text">
+                <label class="action">
+                    <span class="material-symbols-outlined primary inline-edit" data-tb="branchinventory">save_as</span>
+                    <span class="material-symbols-outlined danger inline-remove" data-tb="branchinventory">close</span>
+                </label>
+            </td>
+            <td data-d-type="text" class="editable-data select-data branchList"  name="autoBased" data-action="negative" data-name="branch_id">
+                <label>
+                    <input list="sels00" name="sel00" placeholder="Branch" id="sel00">
+                    <datalist id="sels00">
+                        ${dataList = []}
+                        ${site.branchList.forEach(details => {dataList.push({'name': details.name})})}
+                        ${generateOptions(dataList)}
+                    </datalist>
+                </label>
+            </td>
+            <td data-d-type="text" class="editable-data select-data colorList" data-piece="color"  data-action="negative" data-name="colour_id">
+                <label>
+                    <input list="sels000" name="sel000" placeholder="Colour" id="sel000">
+                    <datalist id="sels000">
+                    </datalist>
+                </label>
+            </td>
+            <td data-d-type="text" class="editable-data select-data sizeList" data-piece="size" data-action="negative" data-name="size_id">
+                <label>
+                    <input list="sels0000" name="sel0000" placeholder="Size" id="sel0000">
+                    <datalist id="sels0000">
+                    </datalist>
+                </label>
+            </td>
+            <td data-d-type="text" data-action="negative" data-name="code"><label class="primary">Code</label></td>
+            <td data-d-type="text" class="editable-data" data-name="quantity"><label><input class="allInputs" type="text" value="10"></label></td>
+            <td data-d-type="text" data-name="quantity"><label>1</label></td>
+            <td data-d-type="text"><label class="success">Available</label></td>
+            <td data-d-type="text" data-action="negative" data-name="code"><label class="primary">Description</label></td>
+        </tr> 
+        `;
+    return addRow;
+}
+const generateInventoryTR = (productList, categoryList,  branchList, statusList, brandList) => {
+    let addRow = `
+        <tr>
+            <td><label class="counter">0</label></td>
+            <td data-d-type="text" class="editable-data select-data productList"  name="autoBased" data-name="product_id">
+                <label class="fixed-width">
+                    <input list="sels0" name="sel0" placeholder="Enter Product Name" id="sel0">
+                    <datalist id="sels0">
+                        ${dataList = []}
+                        ${site.productList.forEach(details => {dataList.push({'name': details.name})})}
+                        ${generateOptions(dataList)}
+                    </datalist>
+                </label>
+            </td>
+            <td data-d-type="text">
+                <label class="action">
+                    <span class="material-symbols-outlined primary inline-edit" data-tb="warehouseinventory">save_as</span>
+                    <span class="material-symbols-outlined danger inline-delete" data-tb="warehouseinventory">close</span>
+                </label>
+            </td>
+            <td data-d-type="text" class="editable-data" data-name="quantity"><label><input class="allInputs" type="text" value="10"></label></td>
+            <td data-d-type="text"><label class="success">Available</label></td>
+            <td data-d-type="text" >
+                <div class="image">
+                    <img src="./images/default.png" alt="">
+                    <label for="upload-product-image" title="Click to choose new image to upload">
+                        <span class="material-symbols-outlined">cloud_sync</span>
+                        <input type="file" id="upload-product-image">
+                    </label>
+                </div>
+                <img src="./images/default.png" class="preview-image">
+            </td>
+            <td data-d-type="text" class="editable-data  directInput" data-action="negative" data-name="code"><label class="primary"><input class="allInputs" type="text" placeholder="Code"></label></td>
+
+            <td data-d-type="text" class="editable-data select-data colorList"  name="autoBased" data-action="negative" data-name="colour_id">
+                <label>
+                    <input list="sels00" name="sel00" placeholder="Colour" id="sel00">
+                    <datalist id="sels00">
+                        ${dataList = []}
+                        ${site.colorList.forEach(details => {dataList.push({'name': details.name})})}
+                        ${generateOptions(dataList)}
+                    </datalist>
+                </label>
+            </td>
+            <td data-d-type="text" class="editable-data select-data sizeList"  name="autoBased" data-action="negative" data-name="size_id">
+                <label>
+                    <input list="sels000" name="sel000" placeholder="Size" id="sel000">
+                    <datalist id="sels000">
+                        ${dataList = []}
+                        ${site.sizeList.forEach(details => {dataList.push({'name': details.name})})}
+                        ${generateOptions(dataList)}
+                    </datalist>
+                </label>
+            </td>
+            <td data-d-type="text" class="editable-data autogenerated" data-action="negative" data-name="description"><label class="fixed-width"><input class="allInputs" type="text" placeholder="Product description"></label></td>
+        </tr> 
+        `;
+    return addRow;
+}
 const generateProductTR = (categoryList, sizeList, supplierList, brandList) => {
     let dataList = [];
     let addRow = `
@@ -707,7 +1361,7 @@ const generateProductTR = (categoryList, sizeList, supplierList, brandList) => {
 
     return addRow;
 }
-const inlineTableClickActions = (identifier, epectedTblFields, requestAction) => {
+const inlineTableClickActions = (identifier, expectedTblFields, requestAction) => {
     if(document.querySelector(`#${identifier} .title-modifications`)){
         let newItem = document.querySelector(`#${identifier} .title-modifications .new`);            
         let editItem = document.querySelector(`#${identifier} .title-modifications .edit`);            
@@ -719,13 +1373,16 @@ const inlineTableClickActions = (identifier, epectedTblFields, requestAction) =>
         // TABLE DATA
         const inlineEditBtns = document.querySelectorAll(`#${identifier} .inline-edit`);
         const inlineDeleteBtns = document.querySelectorAll(`#${identifier} .inline-delete`);
+        const inlinereturn = document.querySelectorAll(`#${identifier} .inline-return`);
         // SINGLE ITEM INLINE EDIT
         tableRowModification(inlineEditBtns, 'editable-data', requestAction);
         // SINGLE ITEM INLINE DELETE
         tableRowModification(inlineDeleteBtns, 'editable-data', requestAction);
+        // SINGLE ITEM INLINE RETURN
+        tableRowModification(inlinereturn, 'editable-data', requestAction);
 
         // ADD NEW PRODUCT IN THE TABLE
-        addTableRow(newItem, `${identifier.toLowerCase()}_list`, 'item-details', epectedTblFields);
+        addTableRow(newItem, `${identifier.toLowerCase()}_list`, 'item-details', expectedTblFields, `save${requestAction.split('update')[1]}`);
         // EXPORT TABLE DATA
         if(site.session.user_type_id == 1){
             exportItem.addEventListener('click', () => {
@@ -774,8 +1431,7 @@ const generateInvoiceItems = (data) => {
                         <div class="det-edit-box">
                             <label>Total Price</label>
                             <div class="price-and-currency">
-                                <b>${getTotalPrice(data)}
-                                </b> 
+                                <b>${getTotalPrice(data)}</b> 
                                 <select>
                                     <option>$</option>
                                     <option selected>/=</option>
@@ -1022,6 +1678,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // LOAD WAREHOUSE INVENTORY PRODUCT LIST
     setTimeout(dataRequest('WarehouseInventory', {'limit': 15,'action':'getLimitedWarehouseInventory', 'page': page}, 1), 0);
 
+    // LOAD BRANCH INVENTORY LIST
+    setTimeout(dataRequest('BranchInventory', {'limit': 15,'action':'getLimitedBranchInventory', 'page': page}, 1), 0);
+
     // LOAD USER LIST
     setTimeout(dataRequest('User', {'limit': 15,'action':'getLimitedUsers', 'page': page}, 1), 0);
 
@@ -1047,6 +1706,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         loadSessionData('product', limit);
         loadSessionData('warehouseinventory', limit);
+        loadSessionData('branchinventory', limit);
         loadSessionData('user', limit);
         loadSessionData('invoice', limit);
         loadSessionData('supplier', limit);
@@ -1116,6 +1776,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const pages = document.querySelectorAll('.page');
 
     sideNavLinks.forEach(navLink => {
+        // DISPLAY LAST PAGE
+        if(Number(site.page.pageIndex) == Number(navLink.dataset.pgNo)) {
+            navLink.classList.add('active');// : sideNavLinks[0].classList.add('active');
+            document.querySelector(`#${navLink.dataset.page}`).classList.add('active');// : document.querySelector(`#${sideNavLinks[0].dataset.page}`).classList.add('active');
+        }
     	navLink.addEventListener('click', (e) =>  {
     		e.preventDefault();
 
@@ -1125,9 +1790,8 @@ document.addEventListener('DOMContentLoaded', () => {
     		let nxtPage = document.getElementById(navLink.dataset.page);
     		// let prvPage = document.querySelector('.page .active');
     		pages.forEach(page => page.classList.remove('active'));
+            nxtPage.classList.add('active') 
 
-    		// prvPage.classList.remove('active');
-    		nxtPage.classList.add('active');
     		if(Number(document.querySelector('aside').clientWidth) > 300){
 
 	    		document.querySelector('main').classList.add('cover');
@@ -1140,6 +1804,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		        document.querySelector('.search-field').classList.add('hide');
     		}
 
+
+            // UPDATE SITE PAGE(SAVE CURRENT PAGE)
+            site.page.pg = navLink.dataset.page;
+            site.page.pageIndex = Number(navLink.dataset.pgNo);
+            updateSiteData(site);
     	});
     })
     // TOP NAVIGATION SEARCH
@@ -1205,8 +1874,52 @@ const tableRowModification = (buttonArray, identifier, requestAction) => {
                         }
                     }));
                 }
+            }else if(inlineBtn.textContent == "remove"){  
+                let sect =inlineBtn.parentElement.parentElement.parentElement.parentElement.id;
+                if(!document.getElementById('warningBox')){
+                    document.querySelector(`#${sect}`).before(warningNotification(`Cancel Operation and discard any changes`));
+                    let warningBoxBtns = document.querySelectorAll('#warningBox button');
+                    warningBoxBtns.forEach(actionBtn => actionBtn.addEventListener('click', () => {
+                        if(actionBtn.childNodes[1].textContent == 'Continue'){
+                            document.getElementById('warningBox').remove();
+                            tr.children[2].children[0].children[0].classList.remove('inProgress');
+                            tr.children[2].children[0].children[0].textContent = 'edit';
+                            for (var i = tr.parentElement.children.length - 1; i >= 0; i--) {
+                                if(tr.parentElement.children[i] != tr){
+                                    inlineBtn.textContent = tr.parentElement.children[i].children[2].children[0].children[1].textContent
+                                }
+                            }
+                            let children = tr.children;
+                            let td = '';
+                            for (var index= 0; index < children.length; index++) {
+                                td = children[index];
+                                if((index != 0) && td.classList.contains(identifier)){  
+                                    let data = (td.children[0].children[0].value);
+                                    tr.children[index].children[0].innerHTML = data; 
+                                }
+                            }
 
-            }    
+                        }else{
+                            document.getElementById('warningBox').remove();
+                        }
+                    }));
+                }
+            }else{
+                let sect =inlineBtn.parentElement.parentElement.parentElement.parentElement.id;
+                if(!document.getElementById('warningBox')){
+                    document.querySelector(`#${sect}`).before(warningNotification(`Are you sure about returning all product quantity to warehouse inventory?`));
+                    let warningBoxBtns = document.querySelectorAll('#warningBox button');
+                    warningBoxBtns.forEach(actionBtn => actionBtn.addEventListener('click', () => {
+                        if(actionBtn.childNodes[1].textContent == 'Continue'){
+                            document.getElementById('warningBox').remove();
+                            returnData(tr, inlineBtn, requestAction); 
+
+                        }else{
+                            document.getElementById('warningBox').remove();
+                        }
+                    }));
+                }
+            }  
         })
     }); 
 }
@@ -1240,8 +1953,19 @@ const asignDataForEdit = (tr, inlineEdit, identifier) => {
     inlineEdit.classList.add('inProgress');
     inlineEdit.textContent = 'save_as';
 
+    let secondInlineBtn = tr.children[2].children[0].children[1];
+    secondInlineBtn.textContent = 'remove';
+    console.log(secondInlineBtn)
+    // console.log((tr.dataset.identifier ))
+    // if(tr.dataset.identifier == 'branchinventorys_list'){
+    // }
+
     // VALIDATE DATA TYPE
-    validateInputs(inlineEdit);
+    setTimeout(() => {validateInputs(inlineEdit)}, 0);
+    if(tr.children[1].classList.length >= 3){
+        setTimeout(() => {validateNewRowInputs(tr, `update${tr.dataset.identifier.toLowerCase()}`)}, 0);
+    }
+
 }
 const validateInputs = (btn) => {
     const allInputs = document.querySelectorAll('.allInputs');
@@ -1251,13 +1975,13 @@ const validateInputs = (btn) => {
             if(!Number(allInput.value)){
                 allInput.style.borderColor = '#f00';
                 allInput.setAttribute('title', 'Invalid value, number expected not text');
-                btn.style.pointerEvents = 'none';
+                // btn.style.pointerEvents = 'none';
                 deliverNotification('Invalid value, number expected not text', 'danger');
             }else{
                 allInput.style.borderColor = 'gray';
                 allInput.setAttribute('title', 'valid value');
                 removeNotification(1);
-                btn.style.pointerEvents = 'All';
+                // btn.style.pointerEvents = 'All';
             }
         }
         if(parent.classList.length == 3){
@@ -1270,30 +1994,35 @@ const validateInputs = (btn) => {
                 allInput.style.borderColor = 'gray';
                 allInput.setAttribute('title', 'valid value');
                 removeNotification(1);
-                btn.style.pointerEvents = 'All';
+                // btn.style.pointerEvents = 'All';
             }else{
                 allInput.style.borderColor = '#f00';
                 allInput.setAttribute('title', 'Invalid value');
                 deliverNotification('Invalid value, value shoud much with one of the suggestions', 'danger');
-                btn.style.pointerEvents = 'none';
+                // btn.style.pointerEvents = 'none';
             }
         }
-        // let dependent = document.getElementsByName('autoBased')
-        // console.log(dependent)
-        // if(parent.classList.contains('autogenerated')){
-        //     console.log(parent.children[0].textContent)
-
-        // }
+        console.log(allInput)
     }));
 }
 // GENERATE DROPDOWN OPTION FOR TABLE INLINE EDIT validat
 const optionDataIsolation = (td) => {
     let data = td.dataset;
     let dataList = [];
+    // if(td.inve)
     if(td.classList.length == 3){
-        site[td.classList[2]].forEach(details => {
-            dataList.push({'name': details.name});
-        });
+        if(td.classList[2] == 'warehouseinventoryList'){
+           temp = [];
+           site.warehouseinventoryList.forEach(details => {if(!temp.includes(JSON.stringify({'name': details.name}))){temp.push(JSON.stringify({'name': details.name}))}});
+           temp.filter(details => {dataList.push(JSON.parse(details))});
+           generateOptions(dataList);
+
+        }else{
+            site[td.classList[2]].forEach(details => {
+                dataList.push({'name': details.name});
+            });
+
+        }
     }
     
     return generateOptions(dataList);
@@ -1368,46 +2097,188 @@ const searchLocalData = (searchBy, filterValue, identifier, showLimit, basedOn) 
     }
     return filterList;
 };
+const returnData = (tr, inlineBtn, identifier, requestAction) => {
+    let dataToUpdate = {};
+    // tr.parentElement.after(preloader());
+    let children = tr.children;
+    let td = '';
+    for (var index= 0; index< children.length; index++) {
+        td = children[index];
+        if((index != 0) && td.classList.contains('editable-data')){  
+            console.log(td.children[0].textContent)
+            let data = td.children[0].textContent;
+            if(data != ''){
+                // COLLECT DATA TO UPDATE  rend
+                if(td.classList.length === 3){
+                    let filteredItemDetails = [];
+                    if((td.dataset.name == 'warehouse_inventory_id') && (tr.parentElement.id == 'branchinventorys_list')){
+                        filteredItemDetails[0] = JSON.parse(inlineBtn.dataset.info);
+                        dataToUpdate.availableQuantity = children[8].textContent;
+                        console.log(filteredItemDetails[0])
+                        dataToUpdate[td.dataset.name] = filteredItemDetails[0].warehouse_inventory_id;
+                    }else{
+                        filteredItemDetails = site[td.classList[2]].filter(info => info.name.toLowerCase() == data.toLowerCase());
+                        dataToUpdate[td.dataset.name] = filteredItemDetails[0].id;
+                    }
+                    console.log(filteredItemDetails)
+                }else{
+                    dataToUpdate[td.dataset.name] = data;
+                }
+            }
+        }
+    }
+    // console.log(requestAction)
+    // if(requestAction == 'updateBranchinventory'){
+        // UPDATE SITE DATA
+        // setTimeout(() => {        
+            site.warehouseinventoryList.forEach((data, index) => {
+                if(Number(data.id) == Number(dataToUpdate.warehouse_inventory_id)){
+                    site.warehouseinventoryList[index].quantity = Number(dataToUpdate.quantity) + Number(dataToUpdate.availableQuantity);
+                    // console.log(site.warehouseinventoryList[index]);
+                }
+            });
+        // }, 0);
+        dataToUpdate[children[2].children[0].children[1].dataset.field] = children[2].children[0].children[1].dataset.id;
+        // setTimeout(() => {            
+            site.branchinventoryList.forEach((data, index) => {
+                // console.log(dataToUpdate)
+                // console.log(Number(data.warehouse_inventory_id) == Number(dataToUpdate.warehouse_inventory_id))
+                if(Number(data.warehouse_inventory_id) == Number(dataToUpdate.warehouse_inventory_id)){
+                    site.branchinventoryList[index].availableQuantity = Number(dataToUpdate.quantity) + Number(dataToUpdate.availableQuantity);
+                    if(Number(data.id) == Number(dataToUpdate.inventory_id)){
+                        site.branchinventoryList[index].quantity = 0;
+                    }
+                    console.log(site.branchinventoryList[index]);
+                }
+            })
+        // }, 0);            
 
+    // }
+    // RETURN PRODUCTS
+    requestDataChange(dataToUpdate, inlineBtn, 'returnToWareHouse', 'return');
+
+}
 // GET TABLE DATA (td) IN THE INPUT FIELD AND ASIGN IT TO THE (td) ELEMENT AS TEXTCONTENT AFTER EDIT
 const asignDataAfterEdit = (tr, inlineBtn, identifier, requestAction) => {
     let dataToUpdate = {};
     tr.parentElement.after(preloader());
-    tr.childNodes.forEach((td, index) => {
-        if((index != 0) && (index % 2 != 0) && td.classList.contains(identifier)){  
-            let data = (td.childNodes[0].childNodes[0].value);
-            tr.childNodes[index].childNodes[0].innerHTML = data; 
+    let children = tr.children;
+    let td = '';
+    for (var index= 0; index< children.length; index++) {
+        td = children[index];
+        if(td.classList.contains('editable-data')){  
+            let data = (td.children[0].children[0].value);
+            console.log(data)
+            tr.children[index].children[0].innerHTML = data; 
+            if(data != ''){
+                // COLLECT DATA TO UPDATE  
+                if(td.classList.length === 3){
+                    let filteredItemDetails = [];
+                    if((td.dataset.name == 'warehouse_inventory_id') && (tr.parentElement.id == 'branchinventorys_list')){
+                        filteredItemDetails[0] = JSON.parse(inlineBtn.dataset.info);
 
-            // COLLECT DATA TO UPDATE  
-            if(td.classList.length === 3){
-                let filteredItemDetails = site[td.classList[2]].filter(info => info.name == data);
-                dataToUpdate[td.dataset.name] = filteredItemDetails[0].id;
-            }else{
-                dataToUpdate[td.dataset.name] = data;
+                        site.branchinventoryList.forEach(updatedInfo => {
+                            if(Number(updatedInfo.id) == Number(filteredItemDetails[0].id)){
+                                // console.log(filteredItemDetails[0])
+                                // console.log(updatedInfo)
+                                dataToUpdate.availableQuantity = Number(updatedInfo.availableQuantity);
+                                dataToUpdate.oldQuantity = Number(filteredItemDetails[0].quantity);
+                                dataToUpdate.branch_inventory_id = Number(updatedInfo.id);
+                                dataToUpdate[td.dataset.name] = Number(updatedInfo.warehouse_inventory_id);
+
+                            }
+                        });
+                    }else{
+                        filteredItemDetails = site[td.classList[2]].filter(info => info.name.toLowerCase() == data.toLowerCase());
+                        dataToUpdate[td.dataset.name] = filteredItemDetails[0].id;
+                    }
+                }else{
+                    dataToUpdate[td.dataset.name] = data;
+                }
             }
         }
-    });
+    }
     inlineBtn.classList.remove('inProgress');
     inlineBtn.textContent = 'edit';
 
-    // UPDATE DATA
-    requestDataChange(dataToUpdate, inlineBtn, requestAction, 'update');
+    // CHECK IF PRODUCT ALREADY EXITS IN THE BRANCH INVENTORY
+    // if(Object.keys(dataToUpdate).length >= expectedTblFields){
+        let result = [];
+        site.branchinventoryList.forEach(info => {
+            if(
+                (Number(info.warehouse_inventory_id) == Number(dataToUpdate.warehouse_inventory_id)) 
+                &&  (Number(info.branch_id) == Number(dataToUpdate.branch_id))
+                &&  (Number(info.size_id) == Number(dataToUpdate.size_id)) 
+                &&  (Number(info.colour_id) == Number(dataToUpdate.colour_id))
+                &&  (Number(info.availableQuantity) == Number(dataToUpdate.availableQuantity))
+                &&  (Number(info.quantity) == Number(dataToUpdate.oldQuantity))
+                ){
+
+                console.log(info)
+                result.push(info);
+            }
+        });
+        console.log(result);
+        if(result.length > 0){
+            console.log(dataToUpdate);
+            console.log(site[tr.dataset.name])
+            removeElement('div.preloader');
+            deliverNotification('Changes Made already exits in branch inventory', 'warning');
+            // renderPageData(site[tr.dataset.name].slice(0, (0 + 15)), 0, 'branchinventory') check;
+
+        }else{
+            console.log(dataToUpdate);
+            // UPDATE DATA
+            requestDataChange(dataToUpdate, inlineBtn, requestAction, 'update');
+        }
+    // }
 }
 const requestDataChange = (data, btn, requestAction, reqType, otherActionableElement=null) => {
     let identifier = btn.dataset.tb;
-    console.log(identifier, btn.dataset.id, requestAction)
     let res = '';
-
+    data.date = today;
     if(reqType == 'update'){
         res = generalRequest({'data': data, 'id': btn.dataset.id, 'action': requestAction});
         updateOperation(res, identifier, btn);
     }else if(reqType == 'save'){
+        console.log(identifier, btn.dataset.id, requestAction)
         res = generalRequest({'data': data, 'action': requestAction});
         saveOperation(res, identifier, otherActionableElement);
     }else if(reqType == 'delete'){
         res = generalRequest({'data': data, 'action': requestAction});
         deleteOperaton(res, identifier, otherActionableElement, Number(btn.dataset.index));
+    }else if(reqType == 'return'){
+        console.log(requestAction)
+        res = generalRequest({'data': data, 'action': requestAction});
+        returnOperaton(res, identifier, otherActionableElement, Number(btn.dataset.index));
     }
+}
+const returnOperaton = (res, identifier, otherActionableElement, index) => {
+    res.always((details) => {
+        // console.log(details)
+        // removeElement('div.preloader');
+        let name = `${identifier}List`;
+        // console.log(name)
+        // // ADD NEW DETAILS TO LOCAL STORAGE LIST 
+        // site[name].unshift(details.info);
+        site[name][index] = details.info;
+        updateSiteData(site);
+
+        document.getElementById(`${identifier}s_list`).innerHTML = '';
+        renderPageData(site[name].slice(0, (0 + limit)), 0, identifier);
+        generatePegination(site[name], identifier);
+
+        deliverNotification(details.message , details.response);
+        // if(details.response == 'success'){
+        //     // REMOVE ROW FROM THE TABLE
+        //     otherActionableElement.parentElement.parentElement.remove();
+        //     // DELETE ROW DATA FROM LOACAL STORAGE LIST
+        //     let name = `${identifier}List`;
+        //     site[name].splice(index, 1);
+        //     // UPDAT LOCAL STORAGE DATA
+        //     updateSiteData(site);
+        // }
+    });
 }
 const deleteOperaton = (res, identifier, otherActionableElement, index) => {
     res.always((details) => {
@@ -1426,6 +2297,7 @@ const deleteOperaton = (res, identifier, otherActionableElement, index) => {
 }
 const saveOperation = (res, identifier, inlineBtn = null) => {
     res.always((details) => {
+        console.log(details)
         removeElement('div.preloader');
         if(details.response == 'warning'){
             deliverNotification(details.message, details.response);
@@ -1437,9 +2309,9 @@ const saveOperation = (res, identifier, inlineBtn = null) => {
             // ADD NEW DETAILS TO LOCAL STORAGE LIST 
             site[name].unshift(details.info);
             updateSiteData(site);
-            // RENDER DATA
+
             document.getElementById(`${identifier}s_list`).innerHTML = '';
-            renderPageData(site.productList.slice(0, (0 + limit)), 0, identifier);
+            renderPageData(site[name].slice(0, (0 + limit)), 0, identifier);
             deliverNotification(details.message , details.response);
         }
         else{
@@ -1450,21 +2322,63 @@ const saveOperation = (res, identifier, inlineBtn = null) => {
 }
 const updateOperation = (res, identifier, btn) => {
     res.always((details) => {
-        // console.log(details)
+        console.log(details)
         removeElement('div.preloader');
         if(details.response == 'danger'){
             deliverNotification(details.message , details.response);
         }else if(details.response == 'success'){
             // UPDATE DETAILS IN LOCAL STORAGE LIST 
             let name = `${identifier}List`;
-            site[name][btn.dataset.index] = details.info;
+            // site[name][btn.dataset.index] = details.info;
             updateSiteData(site);
+            document.getElementById(`${identifier}s_list`).innerHTML = '';
+            renderPageData(site[name].slice(0, (0 + limit)), 0, identifier);
             deliverNotification(details.message , details.response);
         }
         else{
             deliverNotification('Something went wrong', 'warning');
         }
     });
+}
+const asignHoldersUpdatedData = (inlineBtn, details, identifier) => {
+    // let identifierArray = Object.keys(details).length;
+    let tr = inlineBtn.parentElement.parentElement.parentElement;
+    console.log(details);
+    if(Object.keys(details).length == 6){
+        switch(details.secondary){
+            case 'warehouseinventoryList':
+                updateLocalHolder(site[tr.dataset.secondary], details, identifier)
+                // site[tr.dataset.secondary].forEach((data, index) => {
+                //     if(Number(details.id) == Number(data.id)){
+                //         site[tr.dataset.secondary][index].quantity = details.change;
+                //         // console.log(details.id + ':' + data.id + ':' + data.name + '--->' + data.quantity + '|' + details.change);
+                //     }
+                // });
+
+            break;
+        }
+        console.log(details.secondary)
+    }else if(Object.keys(details).length > 6){
+        site[tr.dataset.secondary] = details.secondary;
+        site[tr.dataset.taxiary] = details.taxiary;
+    }
+    return [site, tr.dataset.name];
+}
+const updateLocalHolder = (localHolder, details, identifier) =>{
+    if(details.change != ''){
+        localHolder.forEach((data, index) => {
+            if(Number(details.id) == Number(data.id)){
+                localHolder[index].availableQuantity = details.change;
+            }
+        });
+    }
+
+    updateSiteData(site);
+    // RENDER DATA
+    document.getElementById(`${identifier}s_list`).innerHTML = '';
+    renderPageData(localHolder.slice(0, (0 + limit)), 0, identifier);
+    deliverNotification(details.message , details.response);
+    return localHolder;
 }
 // const activePage = document.querySelector('.page.active');
 const pageTbModifications = () => {
@@ -1506,7 +2420,6 @@ const run = (data) => {
                 updateSiteData(site)
             }
         });
-        return ajaxRequest;
     }
 }
 

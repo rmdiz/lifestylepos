@@ -423,6 +423,9 @@ p,a,li{
     background: #f00;
     margin-right: .5rem;
 }
+.branchInventory-section{
+    position: relative;
+}
 /* ************************************* TABLE ****************************************** */
 table{
     width: 100%;
@@ -432,9 +435,11 @@ table{
     overflow-x: auto;
     white-space: nowrap;
     z-index: 1;
+    background: var(--white);
 }
 table thead, 
-table tbody {
+table tbody{
+    position: relative;
     display: table;
     width: 100%;
 }
@@ -571,7 +576,7 @@ table tr{
 }
 table tr.revealed{
     
-    /*opacity: 1;select*/
+    /*opacity: 1;report-statistics*/
     /*left: 0;*/
 }
 table tr.active{
@@ -768,6 +773,9 @@ table tr td.det .moreinvoicedetails .invoice_header .det-edit-box input[type="te
 table tr td.det .moreinvoicedetails .invoice_header .price-and-currency select{
     width: 3rem !important;
 }
+table tr:nth-child(even){
+    background: ghostwhite;
+}
 .invoice_items{
     display: flex;
     flex-direction: row;
@@ -781,7 +789,7 @@ table tr td.det .moreinvoicedetails .invoice_header .price-and-currency select{
     right: -4rem;
     color: var(--white);
     text-align: center;
-    /*background: var(--main-color-blue);*/
+    /*background: var(--main-color-blue); :nth-child(even)*/
     background: transparent;
     z-index: 2;
     font-size: 1.5rem;
@@ -1472,6 +1480,7 @@ table tr td.det .moreinvoicedetails .invoice_header .price-and-currency select{
 }
 /* ************************************ PAGINATION ************************** */
 .pagination_link{
+    background: var(--white);
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -1510,8 +1519,10 @@ table tr td.det .moreinvoicedetails .invoice_header .price-and-currency select{
     flex-direction: row;
     flex-wrap: wrap;
     gap: .5rem;
+    background: var(--white);
+    padding: 3% 2% 0 1%;
 }
-/* ************************************ CARDS ************************** */
+/* ************************************ CARDS  ************************** */
 .cards{
     display: flex;
     flex-direction: row;
@@ -2521,13 +2532,18 @@ html,body{overflow: hidden;}
         margin: 0;
         /*margin-top: 15rem;*/
         bottom: 0;
+        overflow: hidden;
         overflow-y: auto;
         min-height: unset;
         height: 100vh !important;
         width: 100%;
+        background: var(--light);
+        /*max-width: 1500px;*/
     }
     .page{
         margin: 6.5rem 0 2rem 0;
+        padding-right: 5%;
+        background: var(--light);
     }
     .dashboard-statistics .stat-box.v0{
         width: auto;
@@ -2546,3 +2562,4 @@ html,body{overflow: hidden;}
 @media screen and (min-width: 1200px) {
 
 }
+report-statistics

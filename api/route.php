@@ -65,6 +65,12 @@
 		case 'getLimitedWarehouseInventory':
 			$productList = $productController->getLimitedWarehouseInventory((int) $_POST["limit"], (int) $_POST["page"]);
         break;
+		case 'getAllBranchInventorys':
+			$BranchInventoryList = $productController->getAllBranchInventorys();
+        break;
+		case 'getLimitedBranchInventory':
+			$BranchInventoryList = $productController->getLimitedBranchInventory((int) $_POST["limit"], (int) $_POST["page"]);
+        break;
 		case 'getAllUsers':
 			$accountList = $accountController->getAllUsers();
         break;
@@ -89,9 +95,21 @@
 		case 'updateProduct':
 			$productList = $productController->updateProduct($_POST);
 			break;
+		case 'saveBranchinventory':
+			$branchinventoryList = $productController->saveBranchinventory($_POST);
+		break;
+		case 'returnToWareHouse':
+			$branchinventoryList = $productController->returnToWareHouse($_POST);
+			break;
+		case 'updateBranchinventory':
+			$branchinventoryList = $productController->updateBranchinventory($_POST);
+			break;
 		case 'updateWarehouseinventory':
 			$warehouseinventoryList = $productController->updateWarehouseinventory($_POST);
 			break;
+		case 'saveWarehouseinventory':
+			$warehouseinventoryList = $productController->saveWarehouseinventory($_POST);
+        break;
 		case 'delete_info':
 			if($Model->delete($_POST['data']['tb'], $_POST['data']['field'] , (int)$_POST['data']['id'])){
 				echo json_encode(array('response' => 'success', 'message' => "Deleted successfully"));
