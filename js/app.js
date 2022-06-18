@@ -9,6 +9,12 @@ var yyyy = today.getFullYear();
 
 today = mm + '/' + dd + '/' + yyyy;
 
+setInterval( () => {
+    if(!localStorage.getItem('warehouse.pos.lifestyleoutdoorgear')){
+        window.location.href = './signin.html';
+    }
+}, 5000); 
+
 if(!localStorage.getItem('warehouse.pos.lifestyleoutdoorgear')){
     window.location.href = './signin.html';
 }else if(!JSON.parse(localStorage.getItem('warehouse.pos.lifestyleoutdoorgear')).session){
@@ -126,6 +132,31 @@ const generatePegination = (data, item, limit = 15, displayLinkNumber = 10) => {
         peginationLink.innerHTML = itemLink;
 
         paginationManipulation(displayLinkNumber, range, data, item, limit);
+        if(item == 'invoice'){
+            let totalSum = 0;
+            // USE BRANCH IDS AS KEYS
+            let branchTotal = {'1' : 0,'2' : 0,'3':0}
+            setTimeout(() => {
+                console.log(data);
+                t = [];
+                data.forEach(sale => {
+                    console.log(sale)
+                    console.log(sale.invoiceDetails[0])
+                    console.log(sale.invoiceDetails[0].sale_price)
+                    console.log(sale.invoiceDetails[0].purchase_quantity)
+                    console.log(sale.invoiceDetails[0].branch_id);
+                    totalSum += (Number(sale.invoiceDetails[0].sale_price) * Number(sale.invoiceDetails[0].purchase_quantity));
+
+                    branchTotal[sale.invoiceDetails[0].branch_id] = Number(branchTotal[sale.invoiceDetails[0].branch_id]) + ((Number(sale.invoiceDetails[0].sale_price) * Number(sale.invoiceDetails[0].purchase_quantity)));
+                })
+                console.log(document.querySelectorAll('.branch_income')[0].children[0]);
+                console.log(branchTotal);
+                document.querySelectorAll('.branch_income')[0].children[0].innerHTML =`${addComma(branchTotal[1].toString())} <small>/=</small>`;
+                document.querySelectorAll('.branch_income')[1].children[0].innerHTML =`${addComma(branchTotal[2].toString())} <small>/=</small>`;
+                document.querySelectorAll('.branch_income')[2].children[0].innerHTML =`${addComma(branchTotal[3].toString())} <small>/=</small>`;
+                document.getElementById('totalIncome').innerHTML= `${addComma(totalSum.toString()) } <small>/=</small>`;
+            }, 1);
+        }
     }else{
         peginationLink.innerHTML = '';
     }
@@ -228,7 +259,6 @@ const getTotals = (requestData) => {
             dataType  : 'json',
             data: requestData,
             success: function(data){
-                console.log(data)
                 if(data.length > 0 ){
                     data.forEach(res => {
                         let requestName = Object.keys(res)[0];
@@ -514,9 +544,9 @@ const renderPageData = (data, count = 0, identifier, revealed = 'unrevealed') =>
                                 <td class="inventory-data "><label class="password">*******************</label></td>
                                 <td>
                                     <label class="action">
-                                        <span class="material-symbols-outlined primary all-inventory-edit">edit</span>
-                                        <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                        <span class="material-symbols-outlined warning all-inventory-check">sync</span>
+                                        <span class="material-symbols-outlined primary inline-edit">edit</span>
+                                        <span class="material-symbols-outlined danger  inline-delete">close</span>
+                                        <span class="material-symbols-outlined warning inline-check">sync</span>
                                     </label>
                                 </td>
                                 <td class="user-data select-data" data-user-type-list='[{"name": "Attendant"},{"name": "Admin"}, {"name": "Customer"}]'><label class="primary">${itemDetails.user_type}</label></td>
@@ -592,23 +622,25 @@ const renderPageData = (data, count = 0, identifier, revealed = 'unrevealed') =>
             templateString = '';
             if(data.length > 0){
                 data.forEach((itemDetails, index) => {
-                    bg = (index%2 == 0) ? 'white' : 'ghostwhite';
+                    // console.log(itemDetails)
                     templateString = `
-                            <tr class="${bg} ${revealed} ${identifier}revealer">
+                            <tr class="${revealed} ${identifier}revealer">
                                 <td><label class="counter">${count + 1}</label></td>
                                 <td class="user-data"><label>${itemDetails.branch}</label></td>
                                 <td>
                                     <label class="action">
-                                        <span class="material-symbols-outlined primary all-inventory-edit">sync</span>
-                                        <span class="material-symbols-outlined danger all-inventoy-delete">close</span>
-                                        <span class="material-symbols-outlined success showinvoicedetails-btn">add</span>
+                                        <span class="material-symbols-outlined primary inline-edit"  data-id="${itemDetails.invoice_no}" data-tb="invoice" data-index="${index}">edit</span>
+                                        <span class="material-symbols-outlined warning inline-return"  data-id="${itemDetails.invoice_no}" data-tb="invoice" data-index="${index}">sync</span>
+                                        <span class="material-symbols-outlined success showinvoicedetails-btn"  data-id="${itemDetails.invoice_no}" data-tb="invoice" data-index="${index}">add</span>
                                     </label>
                                 </td>
+
                                 <td class="user-data count"><label class="short-fixed">${itemDetails.invoice_no}</label></td>
                                 <td class="user-data count"><label class="short-fixed">${itemDetails.totalItems}</label></td>
                                 <td class="user-data"><label>${itemDetails.totalPrice}</label></td>
                                 <td class="inventory-data select-data" ><label >${itemDetails.attendant}</label></td>
                                 <td class="user-data"><label class="price warning">${itemDetails.date}</label></td>
+                                <td class="user-data"><label class="">${itemDetails.payment_type_name}</label></td>
                                 <td class="user-data  "><label class="">${itemDetails.customer_name}</label></td>
                                 <td class="det">
                                     ${generateInvoiceItems(itemDetails.invoiceDetails)}
@@ -621,7 +653,6 @@ const renderPageData = (data, count = 0, identifier, revealed = 'unrevealed') =>
                     count++;
                 });
 
-                revealDetails();
             }else{
                 templateString = `
                     <tr>
@@ -630,12 +661,218 @@ const renderPageData = (data, count = 0, identifier, revealed = 'unrevealed') =>
                 `;
                 itemContainer.innerHTML = templateString;
             }
+            inlineSaleActions();
         break;
     }
     removeElement('div.preloader');
     reveal(identifier);
 }
-      
+const inlineSaleActions =() =>{
+    let invoiceTrs = document.getElementById('invoices_list').children;
+    let tr = '';
+    let inlineBtns = [];
+    let trBtns = [];
+    for (var i = invoiceTrs.length - 1; i >= 0; i--) {
+        tr = invoiceTrs[i];
+        let oldData = JSON.parse(tr.children[10].children[0].dataset.info);
+
+        trBtns = (tr.children[2].children[0].children);
+        for (var x = trBtns.length - 1; x >= 0; x--) {
+            let inlineBtn = trBtns[x];
+            inlineBtn.addEventListener('click', (e) => {
+                let editBox = (inlineBtn.parentElement.parentElement.parentElement.children[10].children[0].children)
+                let invoiceHeader = editBox[0];
+                // console.log(invoiceHeader.children[0].children[0])
+                let purchaseDateInput = invoiceHeader.children[3].children[1];
+                let branchSelectInput = invoiceHeader.children[2].children[1];
+                let attendantSelectInput = invoiceHeader.children[1].children[1].children[1];
+
+                let pricing = invoiceHeader.children[4].children;
+                let totalInvoicePrice = (pricing[1].children[1].children[0])
+                let currencySelectInput = (pricing[1].children[1].children[1])
+                let discountSelectInput = (pricing[2].children[1])
+                let paymentTyepSelectInput =  (pricing[3].children[1]);
+
+                let customerDetails = invoiceHeader.children[5].children;
+                let fnameInput = (customerDetails[1].children[1])
+                let lnameInput = (customerDetails[2].children[1])
+                let emailInput = (customerDetails[3].children[1])
+                let phoneNumberInput = (customerDetails[4].children[1])
+
+                // console.log(purchaseDateInput, branchSelectInput, attendantSelectInput, totalInvoicePrice, curency, discountSelectInput, paymentTyepSelectInput, fnameInput, lnameInput, emailInput, phoneNumberInput);
+
+                let invoiceItemsBox = editBox[1].children;
+                let invoiceNoHeader = invoiceItemsBox[0];
+
+                let invoiceItems = invoiceItemsBox[1].children;
+
+                // console.log(invoiceItems)
+                let besicData = invoiceItems[0];
+                let otherData = invoiceItems[1];
+                // console.log(invoiceNoHeader, besicData, otherData);
+
+                let priceInput = besicData.children[5].children[1].children[0];
+                let codeHolder = besicData.children[4].children[1];
+
+                // console.log(priceInput, increaseQuantity, decreaseQuantity, quantityInput)
+                // console.log(quantityInput, purchaseDateInput, branchSelectInput, attendantSelectInput, totalInvoicePrice, curency, discountSelectInput, paymentTyepSelectInput, fnameInput, lnameInput, emailInput, phoneNumberInput);
+
+                let descTexarea = otherData.children[0].children[1];
+                // console.log(descTexarea)
+
+                let colorListBox = otherData.children[2];
+                let colorList = colorListBox.children;
+                let sizeListBox= otherData.children[4];
+                let sizeList = sizeListBox.children;
+
+                let quantityAdjuster = besicData.children[6].children[1].children;
+                let quantityInput = quantityAdjuster[1];
+
+                let newData = colorClickAction(colorList, sizeListBox, [codeHolder, descTexarea, inlineBtn, quantityInput, totalInvoicePrice, priceInput, codeHolder]);
+                newData = sizeClickAction(sizeList, [codeHolder, descTexarea, inlineBtn, quantityInput, totalInvoicePrice, priceInput]);
+
+                let branchAvailableQuantity = newData.availableQuantity;
+                let increaseQuantity = quantityAdjuster[2];
+                let decreaseQuantity = quantityAdjuster[0];
+                increaseQuantity.addEventListener('click', () => {
+                    quantityInput.value = (Number(quantityInput.value) < Number(branchAvailableQuantity)) ? Number(quantityInput.value) + 1 : Number(quantityInput.value)
+                    if(Number(priceInput.value)){
+                        totalInvoicePrice.textContent = addComma((Number(quantityInput.value) * Number(priceInput.value)).toString());
+                    }
+                });
+                decreaseQuantity.addEventListener('click', () => {
+                    quantityInput.value = (Number(quantityInput.value) > 0) ? Number(quantityInput.value) - 1 : Number(quantityInput.value)
+                    if(Number(priceInput.value)){
+                        totalInvoicePrice.textContent = addComma((Number(quantityInput.value) * Number(priceInput.value)).toString());
+                    }
+                });
+
+                priceInput.addEventListener('input', ()=> {
+                    // console.log(Number(priceInput.value))
+                    if(Number(priceInput.value)){
+                        totalInvoicePrice.textContent = addComma((Number(quantityInput.value) * Number(priceInput.value)).toString());
+                    }
+                })
+
+                if(inlineBtn.textContent == 'edit'){
+                    inlineBtn.textContent = 'save_as';
+                    revealDetails(inlineBtn.parentElement.children[2], i);
+                }
+                else if(inlineBtn.textContent == 'save_as'){
+                    inlineBtn.textContent = 'edit';
+                    revealDetails(inlineBtn.parentElement.children[2], i);
+                    let payment_type = (site.paymentTypeList.filter(type => type.name == paymentTyepSelectInput.value)[0])
+                    let discount = (site.discountList.filter(discount => discount.name == discountSelectInput.value)[0])
+                    let currency = (site.currencyList.filter(currency => currency.symbol == currencySelectInput.value)[0])
+                    updateData = {
+                        'remarks': descTexarea.value,
+                        'purchase_date': purchaseDateInput.value,
+                        'branch': branchSelectInput.value,
+                        'attendant': attendantSelectInput.value,
+                        'price':  priceInput.value,
+                        'discount_id': discount.id,
+                        'payment_type_id': payment_type.id,
+                        'currency': currency.symbol,
+                        'rate': currency.rate,
+                        'fnameInput': fnameInput.value,
+                        'lnameInput': lnameInput.value,
+                        'emailInput': emailInput.value,
+                        'phoneNumberInput': phoneNumberInput.value,
+                        'newQuantity': Number(besicData.children[6].children[1].children[1].value), 
+                        'oldQuantity': oldData.purchase_quantity, 
+                        'oldInventory_id': oldData.inventory_id, 
+                        'newInventory_id': newData.inventory_id, 
+                        'purchase_id': oldData.purchase_id, 
+                        'purchase_id': oldData.purchase_id, 
+                    }
+                    console.log(updateData);
+                    requestDataChange(updateData, inlineBtn, 'updateSale', 'update');
+                    // console.log(newData)
+                }
+                else if(inlineBtn.textContent == 'sync'){
+
+                }
+                else{
+                    inlineBtn.parentElement.children[0].textContent = 'edit';
+                    revealDetails(inlineBtn.parentElement.children[2], i);
+                    // console.log(inlineBtn.parentElement.children[2]) itemDetails.product_colors, itemDetails.colour_name 
+                }
+            })
+            
+        }
+    }
+}   
+const sizeClickAction= (list, changeLing) => {
+    let res = [];
+    for (var i = list.length - 1; i >= 0; i--) {
+        let item = list[i];
+        item.addEventListener('click', () => {
+            for (var j = list.length - 1; j >= 0; j--) {
+                list[j].classList.remove('active');
+                item.classList.add('active');
+                if(item.classList.contains('active')){
+                    let info = JSON.parse(item.dataset.sizeInfo);
+                    changeLing[0].textContent = info.code;
+                    changeLing[1].value = info.remarks;
+                    changeLing[3].value = 1;
+                    changeLing[4].textContent = info.sale_price;
+                    changeLing[5].value = info.sale_price;
+                    res = info;
+                    console.log(changeLing[0])
+                    console.log(JSON.parse(item.dataset.sizeInfo))
+                }
+            }
+        });
+        if(item.classList.contains('active')){
+            let info = JSON.parse(item.dataset.sizeInfo);
+            changeLing[0].textContent = info.code;
+            changeLing[1].value = info.remarks;
+            changeLing[3].value = 1;
+            changeLing[4].textContent = info.sale_price;
+            changeLing[5].value = info.sale_price;
+            res = info;
+            // console.log(changeLing[0])
+            // console.log(JSON.parse(item.dataset.sizeInfo))
+        }
+    }
+    return res;
+
+}
+const colorClickAction = (list, sizeListBox, changeLing) => {
+    let res = [];
+    for (var i = list.length - 1; i >= 0; i--) {
+        let listItem = list[i];
+        listItem.addEventListener('click', () => {
+            for (var j = list.length - 1; j >= 0; j--) {
+                list[j].classList.remove('active');
+                listItem.classList.add('active');
+            }
+            if( listItem.classList.contains('active')){
+                console.log(JSON.parse(listItem.dataset.colorSizes))
+                let color_products_sizes = JSON.parse(listItem.dataset.colorSizes);
+                let availableSize = listItem.children[0];
+                availableSize.textContent = color_products_sizes.length;
+                // listItem
+                let colour_name = listItem.innerHTML.split('<small>')[0];
+                let size_innitual = color_products_sizes[0].size_innitual;
+                console.log(size_innitual, colour_name)
+
+                let templateString = '';
+                color_products_sizes.forEach(itemDetails => {
+                    console.log(itemDetails)
+                    templateString += `
+                        <i onclick=""  data-size-info='${JSON.stringify(itemDetails)}' class="${(itemDetails.size_innitual == size_innitual) ? 'update_sale_size active' : 'update_sale_size'}">${itemDetails.size_innitual}<small>${itemDetails.availableQuantity}</small></i>
+                    `;
+                })
+                sizeListBox.innerHTML = templateString;
+                sizeList = sizeListBox.children;
+                res = sizeClickAction(sizeList, changeLing);
+
+            }
+        });
+    }
+    return res;
+}
 function export_table_to_csv (table, csv_name, download_link) {
     var csv = [];
     var rows = table.querySelectorAll("tr");
@@ -657,7 +894,7 @@ function export_table_to_csv (table, csv_name, download_link) {
     download_link.href = csv_href;
     download_link.download = csv_name + '.csv';
 } 
-// ADD NEW ROW TO THE TABLE 
+// ADD NEW ROW TO THE TABLE run
 const addTableRow = (btn, identifier, itemSpecification, expectedTblFields, requestAction) => {
     btn.addEventListener('click', (e) => {
         if(btn.childNodes[1].textContent == 'add'){
@@ -977,7 +1214,7 @@ const checkAction = (action, input, saveBtn, message) => {
     }else{
         input.style.borderColor = '#f00';
         input.setAttribute('title', 'Invalid value');
-        // saveBtn.style.pointerEvents = 'none';
+        // saveBtn.style.pointerEvents = 'none'; 
         // deliverNotification(message, 'danger');
         error =true;
     }
@@ -1395,12 +1632,14 @@ const inlineTableClickActions = (identifier, expectedTblFields, requestAction) =
     }
 }
 const generateInvoiceItems = (data) => {
-    console.log(data); //active
+    // console.log(data); //active
     let totalPrice = 0;
     let templateString;
+    let itemDetails = data[0];
+    // console.log(itemDetails);
     if(data.length > 0){
         templateString = `
-            <div class="moreinvoicedetails">
+            <div class="moreinvoicedetails" data-info='${JSON.stringify(itemDetails)}' >
                 <div class="invoice_header">
                     <div class="head">
                         <h3>Sale Information</h3>
@@ -1420,6 +1659,7 @@ const generateInvoiceItems = (data) => {
                         <label>branch</label>
                         <select>
                             <option>${data[0]['branch_location']}</option>
+                            ${generateOptions(site.branchList)}
                         </select>
                     </div>
                     <div class="det-edit-box">
@@ -1439,15 +1679,17 @@ const generateInvoiceItems = (data) => {
                             </div>
                         </div>
                         <div class="det-edit-box">
-                            <label>Discount</label>
+                            <label>Discount name</label>
                             <select>
-                                <option>Discount</option>
+                                <option>${data[0]['discount']}</option>
+                                ${generateOptions(site.discountList)}
                             </select>
                         </div>
                         <div class="det-edit-box">
                             <label>Payment Type</label>
                             <select>
-                                <option>Payment Type</option>
+                                <option>${data[0]['payment_type_name']}</option>
+                                ${generateOptions(site.paymentTypeList)}
                             </select>
                         </div>
                     </div>
@@ -1484,11 +1726,7 @@ const generateInvoiceItems = (data) => {
                             </div>
                             <label>
                                 <b>Name: </b> 
-                                <span>
-                                    <select>
-                                        <option>${itemDetails.product_name}</option>
-                                    </select>
-                                </span>
+                                <span>${itemDetails.product_name}</span>
                             </label>
                             <label>
                                 <b>category: </b> 
@@ -1500,11 +1738,7 @@ const generateInvoiceItems = (data) => {
                             </label>
                             <label>
                                 <b>Code: </b> 
-                                <span>
-                                    <select>
-                                        <option>${itemDetails.product_code}</option>
-                                    </select>
-                                </span>
+                                <span>${itemDetails.product_code}</span>
                             </label>
 
                             <label>
@@ -1557,7 +1791,7 @@ const generateProductColor = (data, colour_name) => {
     if(data.length > 0){
         data.forEach(itemDetails => {
             templateString += `
-                <i data-color-sizes="${JSON.stringify(itemDetails.color_products_sizes)}" class="${(itemDetails.colour_name == colour_name) ? 'update_sale_color active' : 'update_sale_color'}">${itemDetails.colour_name}<small>${itemDetails.color_products_sizes.length}</small></i>
+                <i data-color-sizes='${JSON.stringify(itemDetails.color_products_sizes)}' class="${(itemDetails.colour_name == colour_name) ? 'update_sale_color active' : 'update_sale_color'}">${itemDetails.colour_name}<small>${itemDetails.color_products_sizes.length}</small></i>
             `;
         });
     }
@@ -1565,34 +1799,30 @@ const generateProductColor = (data, colour_name) => {
 }
 const generateProductColorSizes = (productColors, colour_name, size_innitual) => {
     let data = productColors.filter(productColor => (productColor.colour_name == colour_name));
+    
     let templateString = '';
     if(data.length > 0){
         data = data[0].color_products_sizes;
         data.forEach(itemDetails => {
-            console.log(itemDetails)
+            // console.log(itemDetails)
             templateString += `
-                <i onclick="" class="${(itemDetails.size_innitual == size_innitual) ? 'update_sale_size active' : 'update_sale_size'}">${itemDetails.size_innitual}<small>${itemDetails.quantity}</small></i>
+                <i onclick="" data-size-info='${JSON.stringify(itemDetails)}' class="${(itemDetails.size_innitual == size_innitual) ? 'update_sale_size active' : 'update_sale_size'}">${itemDetails.size_innitual}<small>${itemDetails.availableQuantity}</small></i>
             `;
         });
     }
     return templateString;
 }
-const revealDetails = () => {
-    const sInvoiceDtlBtns = document.querySelectorAll('.showinvoicedetails-btn');
-    sInvoiceDtlBtns.forEach((sInvoiceDtlBtn, index) => sInvoiceDtlBtn.addEventListener('click', () => {
-        sInvoiceDtlBtns.forEach(sInvoiceDtlBtn => sInvoiceDtlBtn.closest('tr').classList.remove('active'));
-        if(sInvoiceDtlBtn.textContent == 'add'){
-            sInvoiceDtlBtn.closest('tr').style.top = `-${index * 3.07}rem`;
-            sInvoiceDtlBtn.closest('tr').classList.add('active');
-            sInvoiceDtlBtn.textContent = 'remove';
+const revealDetails = (sInvoiceDtlBtn, index) => {
+    if(sInvoiceDtlBtn.textContent == 'add'){
+        sInvoiceDtlBtn.closest('tr').style.top = `-${index * 3.07}rem`;
+        sInvoiceDtlBtn.closest('tr').classList.add('active');
+        sInvoiceDtlBtn.textContent = 'remove';
 
-        }else{
-            sInvoiceDtlBtn.closest('tr').style.top = '0rem';
-            sInvoiceDtlBtn.closest('tr').classList.remove('active');
-            sInvoiceDtlBtn.textContent = 'add';
-
-        }
-    }))
+    }else{
+        sInvoiceDtlBtn.closest('tr').style.top = '0rem';
+        sInvoiceDtlBtn.closest('tr').classList.remove('active');
+        sInvoiceDtlBtn.textContent = 'add';
+    }
 }
 
 const loadPageData = (data, identifier, limit) => {
@@ -1672,6 +1902,11 @@ function removeComma (num) {
     return nomalNumber;
 }
 document.addEventListener('DOMContentLoaded', () => {
+    // SET ACCOUNT PROFILE IMAGE AND USERNAME
+    let accountInfo = document.getElementById('user-account-information');
+    accountInfo.children[0].children[0].setAttribute('src', `./images/${site.session.image}`);
+    accountInfo.children[1].innerHTML = `<i>@</i>${site.session.username}`;
+
     // LOAD PRODUCT LIST
     setTimeout(dataRequest('Product', {'limit': 15,'action':'getLimitedProducts', 'page': page}, 1), 0);
 
@@ -1701,6 +1936,10 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(run({'reload': false, 'action':'getCustomers', 'name': 'customerList'}), 0);
     setTimeout(run({'reload': false, 'action':'getColors', 'name': 'colorList'}), 0);
     setTimeout(run({'reload': false, 'action':'getSizes', 'name': 'sizeList'}), 0);
+
+    setTimeout(run({'reload': false, 'action':'getPaymentTypes', 'name': 'paymentTypeList'}), 0);
+    setTimeout(run({'reload': false, 'action':'getDiscounts', 'name': 'discountList'}), 0);
+    setTimeout(run({'reload': false, 'action':'getCurrencys', 'name': 'currencyList'}), 0);
 
     // ON PAGE LOAD & RELOAD
     setTimeout(() => {
@@ -2329,7 +2568,7 @@ const updateOperation = (res, identifier, btn) => {
         }else if(details.response == 'success'){
             // UPDATE DETAILS IN LOCAL STORAGE LIST 
             let name = `${identifier}List`;
-            // site[name][btn.dataset.index] = details.info;
+            site[name][btn.dataset.index] = details.info;
             updateSiteData(site);
             document.getElementById(`${identifier}s_list`).innerHTML = '';
             renderPageData(site[name].slice(0, (0 + limit)), 0, identifier);

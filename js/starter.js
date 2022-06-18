@@ -8,9 +8,50 @@ var yyyy = today.getFullYear();
 
 today = mm + '/' + dd + '/' + yyyy;
 
+const deliverNotification = (msg, msgtype) => {
+    document.querySelector('.notification_messages').innerHTML = `${msg} <span class="material-symbols-outlined">close</span>`;
+
+    document.querySelector('.notification_messages').classList.forEach((nclass) => {
+        if(nclass !== 'notification_messages'){
+            document.querySelector('.notification_messages').classList.remove(nclass);
+        }
+    });
+    document.querySelector('.notification_messages').classList.add(msgtype);
+
+    document.querySelector('.notification_messages span').addEventListener('click', () => {
+        document.querySelector('.notification_messages').classList.remove(msgtype);
+    });
+    removeNotification();
+}
+const removeNotification = () => {
+    setTimeout(function(){
+        document.querySelector('.notification_messages').classList.forEach((nclass) => {
+            if(nclass !== 'notification_messages'){
+                document.querySelector('.notification_messages').classList.remove(nclass);
+            }
+        });
+
+    }, 8000);
+}
+
+const preloader = () => {
+
+    const preloader = document.createElement('div');
+    preloader.classList.add('preloader');
+    return preloader;
+}
+
+const removeElement =(element) => {
+    if(document.querySelector(element) != null){
+        document.querySelector(element).remove();
+    }
+}
+
 if(localStorage.getItem('warehouse.pos.lifestyleoutdoorgear')){
     if(JSON.parse(localStorage.getItem('warehouse.pos.lifestyleoutdoorgear')).session){
         window.location.href = './index.html';
+    }else{
+        deliverNotification('Thank you, signin please', 'success');
     }
 }
 
@@ -101,6 +142,9 @@ setTimeout(autorun({'reload': false, 'action':'getUserTypes', 'name': 'userTypeL
 setTimeout(autorun({'reload': false, 'action':'getCustomers', 'name': 'customerList'}), 0);
 setTimeout(autorun({'reload': false, 'action':'getColors', 'name': 'colorList'}), 0);
 setTimeout(autorun({'reload': false, 'action':'getSizes', 'name': 'sizeList'}), 0);
+setTimeout(autorun({'reload': false, 'action':'getPaymentTypes', 'name': 'paymentTypeList'}), 0);
+setTimeout(autorun({'reload': false, 'action':'getDiscounts', 'name': 'discountList'}), 0);
+setTimeout(autorun({'reload': false, 'action':'getCurrencys', 'name': 'currencyList'}), 0);
 
 const pswdField = document.getElementById('signinPassword');
 let pswdToggleBtn = document.getElementById('togglePass');
@@ -171,43 +215,4 @@ const run = (data) => {
 	});
 
 	return ajaxRequest;
-}
-
-const deliverNotification = (msg, msgtype) => {
-    document.querySelector('.notification_messages').innerHTML = `${msg} <span class="material-symbols-outlined">close</span>`;
-
-    document.querySelector('.notification_messages').classList.forEach((nclass) => {
-        if(nclass !== 'notification_messages'){
-            document.querySelector('.notification_messages').classList.remove(nclass);
-        }
-    });
-    document.querySelector('.notification_messages').classList.add(msgtype);
-
-    document.querySelector('.notification_messages span').addEventListener('click', () => {
-        document.querySelector('.notification_messages').classList.remove(msgtype);
-    });
-    removeNotification();
-}
-const removeNotification = () => {
-    setTimeout(function(){
-        document.querySelector('.notification_messages').classList.forEach((nclass) => {
-            if(nclass !== 'notification_messages'){
-                document.querySelector('.notification_messages').classList.remove(nclass);
-            }
-        });
-
-    }, 8000);
-}
-
-const preloader = () => {
-
-	const preloader = document.createElement('div');
-	preloader.classList.add('preloader');
-	return preloader;
-}
-
-const removeElement =(element) => {
-	if(document.querySelector(element) != null){
-	    document.querySelector(element).remove();
-	}
 }

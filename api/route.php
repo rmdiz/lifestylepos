@@ -16,7 +16,8 @@
 	$sizeController = new Sizes($Model);
 	$branchController = new Branches($Model);
 	$colorController = new Colors($Model);
-
+	$paymentTypeController = new Payment_types($Model);
+	$discountController = new Discounts($Model);
 
     $request = $_POST['action'];
 
@@ -28,6 +29,9 @@
         break;
 		case 'getCategories':
 			$category_list = $categoryController->getCategories();
+        break;
+		case 'getCurrencys':
+			$currency_list = $salecontroller->getCurrencys();
         break;
 		case 'getStatus':
 			$status_list = $statusController->getStatus();
@@ -43,6 +47,12 @@
         break;
 		case 'getUserTypes':
 			$userType_list = $accountController->getUserTypes();
+        break;
+		case 'getPaymentTypes':
+			$paymentType_list = $paymentTypeController->getPaymentTypes();
+        break;
+		case 'getDiscounts':
+			$discount_list = $discountController->getDiscounts();
         break;
 		case 'getCustomers':
 			$client_list = $accountController->getClients();
@@ -82,6 +92,9 @@
         break;
 		case 'getLimitedSuppliers':
 			$supplierList = $suppliercontroller->getLimitedSuppliers((int) $_POST["limit"], (int) $_POST["page"]);
+        break;
+		case 'updateSale': 
+			$slaeList = $salecontroller->updateSale($_POST);
         break;
 		case 'getAllInvoices': 
 			$slaeList = $salecontroller->getAllInvoices();

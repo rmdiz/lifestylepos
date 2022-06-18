@@ -6,7 +6,7 @@
 		public $conn;
 
 		private $host = "localhost";
-	    private $db_name = "lifestyleoutdoorgear_db";
+	    private $db_name = "db_lifestyleoutdoorgear";
 	    private $username = "root";
 	    private $password = "";
 

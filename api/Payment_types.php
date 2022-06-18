@@ -27,7 +27,8 @@ class Payment_types{
 			$res = 'Nothing found';
 		}
 
-		return $res;
+		echo json_encode($res);
 	}
+	
 }
 ?>
